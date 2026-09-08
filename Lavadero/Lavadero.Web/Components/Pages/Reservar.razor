@@ -1,0 +1,197 @@
+@page "/reservar"
+@rendermode InteractiveServer
+@inject IServicioService ServicioService
+@inject ITurnoService TurnoService
+@inject ReservaState ReservaState
+
+<PageTitle>Reservar turno | Lavadero</PageTitle>
+
+<PageHeader Titulo="Reservar turno"
+            Subtitulo="Completá tus datos, elegí el servicio y seleccioná una fecha disponible." />
+
+@if (_mensajeExito is not null)
+{
+    <AlertMessage Mensaje="@_mensajeExito" Tipo="success" OnCerrar="CerrarExito" />
+}
+
+@if (_mensajeError is not null)
+{
+    <AlertMessage Mensaje="@_mensajeError" Tipo="danger" OnCerrar="CerrarError" />
+}
+
+@if (_cargandoServicios)
+{
+    <LoadingSpinner Texto="Cargando formulario..." />
+}
+else
+{
+    <div class="row g-4">
+        <div class="col-12 col-lg-8">
+            <section class="form-card" aria-label="Formulario de reserva">
+                <EditForm Model="_modelo" OnValidSubmit="ReservarAsync">
+                    <DataAnnotationsValidator />
+                    <ValidationSummary class="text-danger mb-3" />
+
+                    <fieldset class="mb-4">
+                        <legend>Datos del cliente</legend>
+                        <div class="row g-3">
+                            <div class="col-12 col-md-7">
+                                <label class="form-label" for="nombre">Nombre completo</label>
+                                <InputText id="nombre" class="form-control" @bind-Value="_modelo.NombreCompleto" />
+                                <ValidationMessage For="() => _modelo.NombreCompleto" />
+                            </div>
+                            <div class="col-12 col-md-5">
+                                <label class="form-label" for="telefono">Teléfono</label>
+                                <InputText id="telefono" class="form-control" @bind-Value="_modelo.Telefono" />
+                                <ValidationMessage For="() => _modelo.Telefono" />
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <fieldset class="mb-4">
+                        <legend>Vehículo</legend>
+                        <div class="row g-3">
+                            <div class="col-12 col-md-6">
+                                <label class="form-label" for="marca">Marca</label>
+                                <InputText id="marca" class="form-control" @bind-Value="_modelo.Marca" />
+                                <ValidationMessage For="() => _modelo.Marca" />
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <label class="form-label" for="modelo">Modelo</label>
+                                <InputText id="modelo" class="form-control" @bind-Value="_modelo.Modelo" />
+                                <ValidationMessage For="() => _modelo.Modelo" />
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <fieldset class="mb-4">
+                        <legend>Turno</legend>
+                        <div class="row g-3">
+                            <div class="col-12 col-md-7">
+                                <label class="form-label" for="servicio">Servicio</label>
+                                <InputSelect id="servicio" class="form-select" @bind-Value="_modelo.ServicioId">
+                                    <option value="0">Seleccionar servicio...</option>
+                                    @foreach (var servicio in _servicios)
+                                    {
+                                        <option value="@servicio.Id">
+                                            @servicio.Nombre - @servicio.Precio.ToString("C0") (@servicio.DuracionMinutos min)
+                                        </option>
+                                    }
+                                </InputSelect>
+                                <ValidationMessage For="() => _modelo.ServicioId" />
+                            </div>
+                            <div class="col-12 col-md-5">
+                                <label class="form-label" for="fechaHora">Fecha y hora</label>
+                                <InputDate id="fechaHora"
+                                           class="form-control"
+                                           Type="InputDateType.DateTimeLocal"
+                                           min="@FechaMinima"
+                                           @bind-Value="_modelo.FechaHora" />
+                                <ValidationMessage For="() => _modelo.FechaHora" />
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label" for="observaciones">Observaciones <span class="text-secondary">(opcional)</span></label>
+                                <InputTextArea id="observaciones" class="form-control" rows="3" @bind-Value="_modelo.Observaciones" />
+                                <ValidationMessage For="() => _modelo.Observaciones" />
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <button type="submit" class="btn btn-primary" disabled="@_guardando">
+                        @(_guardando ? "Guardando..." : "Confirmar reserva")
+                    </button>
+                </EditForm>
+            </section>
+        </div>
+
+        <div class="col-12 col-lg-4">
+            <aside class="info-card">
+                <h2>Antes de reservar</h2>
+                <ul>
+                    <li>No necesitás crear una cuenta.</li>
+                    <li>El horario debe estar dentro de la atención del lavadero.</li>
+                    <li>El sistema evita turnos superpuestos.</li>
+                    <li>La reserva se crea inicialmente como pendiente.</li>
+                </ul>
+            </aside>
+        </div>
+    </div>
+}
+
+@code {
+    [SupplyParameterFromQuery(Name = "servicio")]
+    public int? ServicioDesdeQuery { get; set; }
+
+    private CrearReservaRequest _modelo = NuevoModelo();
+    private IReadOnlyList<ServicioDto> _servicios = Array.Empty<ServicioDto>();
+    private bool _cargandoServicios = true;
+    private bool _guardando;
+    private string? _mensajeExito;
+    private string? _mensajeError;
+
+    private string FechaMinima => DateTime.Now.ToString("yyyy-MM-ddTHH:mm");
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            _servicios = await ServicioService.ObtenerActivosAsync();
+
+            if (ServicioDesdeQuery is > 0 && _servicios.Any(x => x.Id == ServicioDesdeQuery.Value))
+                _modelo.ServicioId = ServicioDesdeQuery.Value;
+        }
+        catch
+        {
+            _mensajeError = "No se pudieron cargar los servicios disponibles.";
+        }
+        finally
+        {
+            _cargandoServicios = false;
+        }
+    }
+
+    private async Task ReservarAsync()
+    {
+        _guardando = true;
+        _mensajeError = null;
+        _mensajeExito = null;
+
+        try
+        {
+            var turno = await TurnoService.CrearReservaAsync(_modelo);
+            ReservaState.EstablecerUltimaReserva(turno);
+
+            _mensajeExito = $"Reserva creada correctamente. Turno #{turno.Id} para el {turno.FechaHora:dd/MM/yyyy HH:mm}.";
+            _modelo = NuevoModelo();
+        }
+        catch (Exception ex) when (ex is InvalidOperationException or KeyNotFoundException)
+        {
+            _mensajeError = ex.Message;
+        }
+        catch
+        {
+            _mensajeError = "No se pudo crear la reserva. Intentá nuevamente.";
+        }
+        finally
+        {
+            _guardando = false;
+        }
+    }
+
+    private static CrearReservaRequest NuevoModelo() => new()
+    {
+        FechaHora = ProximaMediaHora()
+    };
+
+    private static DateTime ProximaMediaHora()
+    {
+        var ahora = DateTime.Now.AddHours(1);
+        var minutos = ahora.Minute < 30 ? 30 : 0;
+        var hora = minutos == 0 ? ahora.AddHours(1).Hour : ahora.Hour;
+        var fecha = minutos == 0 && hora == 0 ? ahora.Date.AddDays(1) : ahora.Date;
+        return new DateTime(fecha.Year, fecha.Month, fecha.Day, hora, minutos, 0);
+    }
+
+    private void CerrarExito() => _mensajeExito = null;
+    private void CerrarError() => _mensajeError = null;
+}

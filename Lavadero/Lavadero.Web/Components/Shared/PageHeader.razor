@@ -1,0 +1,26 @@
+<header class="page-header mb-4">
+    <div>
+        <h1>@Titulo</h1>
+        @if (!string.IsNullOrWhiteSpace(Subtitulo))
+        {
+            <p>@Subtitulo</p>
+        }
+    </div>
+    @if (Acciones is not null)
+    {
+        <div class="page-actions">
+            @Acciones
+        </div>
+    }
+</header>
+
+@code {
+    [Parameter, EditorRequired]
+    public string Titulo { get; set; } = string.Empty;
+
+    [Parameter]
+    public string? Subtitulo { get; set; }
+
+    [Parameter]
+    public RenderFragment? Acciones { get; set; }
+}

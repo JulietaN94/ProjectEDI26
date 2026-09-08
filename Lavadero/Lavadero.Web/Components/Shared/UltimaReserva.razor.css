@@ -1,0 +1,22 @@
+.ultima-reserva {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    padding: .9rem 1rem;
+    border: 1px solid #cfe2ff;
+    border-radius: 12px;
+    background: #eef5ff;
+}
+
+.ultima-reserva strong,
+.ultima-reserva span {
+    display: block;
+}
+
+.ultima-reserva span {
+    margin-top: .15rem;
+    color: #526171;
+    font-size: .88rem;
+}

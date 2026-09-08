@@ -1,0 +1,298 @@
+@page "/admin/servicios"
+@rendermode InteractiveServer
+@inject IServicioService ServicioService
+
+<PageTitle>Servicios | Administración</PageTitle>
+
+<PageHeader Titulo="Servicios"
+            Subtitulo="Administrá los servicios que el cliente puede seleccionar al reservar." />
+
+<AlertMessage Mensaje="@_mensajeError" Tipo="danger" OnCerrar="CerrarError" />
+<AlertMessage Mensaje="@_mensajeExito" Tipo="success" OnCerrar="CerrarExito" />
+
+<div class="row g-4">
+    <div class="col-12 col-xl-7">
+        <section class="panel-card" aria-label="Listado de servicios">
+            <div class="row g-2 align-items-end mb-3">
+                <div class="col-12 col-md-7">
+                    <label class="form-label" for="buscar-servicio">Buscar</label>
+                    <input id="buscar-servicio"
+                           class="form-control"
+                           placeholder="Nombre o descripción"
+                           @bind="_busqueda"
+                           @bind:event="oninput" />
+                </div>
+                <div class="col-12 col-md-3">
+                    <label class="form-label" for="filtro-activo">Estado</label>
+                    <select id="filtro-activo" class="form-select" @bind="_activo">
+                        <option value="">Todos</option>
+                        <option value="true">Activos</option>
+                        <option value="false">Inactivos</option>
+                    </select>
+                </div>
+                <div class="col-12 col-md-2 d-grid">
+                    <button type="button" class="btn btn-outline-primary" @onclick="BuscarAsync">Buscar</button>
+                </div>
+            </div>
+
+            @if (_cargando)
+            {
+                <LoadingSpinner Texto="Cargando servicios..." />
+            }
+            else if (_resultado.Items.Count == 0)
+            {
+                <AlertMessage Mensaje="No se encontraron servicios." Tipo="info" />
+            }
+            else
+            {
+                <div class="table-responsive">
+                    <table class="table align-middle">
+                        <thead>
+                            <tr>
+                                <th scope="col">Servicio</th>
+                                <th scope="col">Precio</th>
+                                <th scope="col">Duración</th>
+                                <th scope="col">Estado</th>
+                                <th scope="col" class="text-end">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var servicio in _resultado.Items)
+                            {
+                                <tr @key="servicio.Id">
+                                    <td>
+                                        <strong>@servicio.Nombre</strong>
+                                        @if (!string.IsNullOrWhiteSpace(servicio.Descripcion))
+                                        {
+                                            <small class="d-block text-secondary">@servicio.Descripcion</small>
+                                        }
+                                    </td>
+                                    <td>@servicio.Precio.ToString("C0")</td>
+                                    <td>@servicio.DuracionMinutos min</td>
+                                    <td>
+                                        <span class="badge @(servicio.Activo ? "text-bg-success" : "text-bg-secondary")">
+                                            @(servicio.Activo ? "Activo" : "Inactivo")
+                                        </span>
+                                    </td>
+                                    <td class="text-end text-nowrap">
+                                        <button type="button" class="btn btn-sm btn-outline-primary" @onclick="() => Editar(servicio)">Editar</button>
+                                        <button type="button" class="btn btn-sm btn-outline-danger" @onclick="() => PedirEliminar(servicio)">Eliminar</button>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
+                <Paginacion PaginaActual="_resultado.Page"
+                             TotalPaginas="_resultado.TotalPages"
+                             OnCambio="CambiarPaginaAsync" />
+            }
+        </section>
+    </div>
+
+    <div class="col-12 col-xl-5">
+        <section class="panel-card sticky-form" aria-labelledby="titulo-form-servicio">
+            <h2 id="titulo-form-servicio">@(_editandoId.HasValue ? "Editar servicio" : "Nuevo servicio")</h2>
+
+            <EditForm Model="_formulario" OnValidSubmit="GuardarAsync">
+                <DataAnnotationsValidator />
+                <ValidationSummary class="text-danger mb-3" />
+
+                <div class="mb-3">
+                    <label class="form-label" for="nombre-servicio">Nombre</label>
+                    <InputText id="nombre-servicio" class="form-control" @bind-Value="_formulario.Nombre" />
+                    <ValidationMessage For="() => _formulario.Nombre" />
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label" for="descripcion-servicio">Descripción</label>
+                    <InputTextArea id="descripcion-servicio" class="form-control" rows="3" @bind-Value="_formulario.Descripcion" />
+                    <ValidationMessage For="() => _formulario.Descripcion" />
+                </div>
+
+                <div class="row g-3 mb-3">
+                    <div class="col-7">
+                        <label class="form-label" for="precio-servicio">Precio</label>
+                        <InputNumber id="precio-servicio" class="form-control" @bind-Value="_formulario.Precio" />
+                        <ValidationMessage For="() => _formulario.Precio" />
+                    </div>
+                    <div class="col-5">
+                        <label class="form-label" for="duracion-servicio">Minutos</label>
+                        <InputNumber id="duracion-servicio" class="form-control" @bind-Value="_formulario.DuracionMinutos" />
+                        <ValidationMessage For="() => _formulario.DuracionMinutos" />
+                    </div>
+                </div>
+
+                <div class="form-check mb-4">
+                    <InputCheckbox id="activo-servicio" class="form-check-input" @bind-Value="_formulario.Activo" />
+                    <label class="form-check-label" for="activo-servicio">Servicio activo</label>
+                </div>
+
+                <div class="d-flex flex-wrap gap-2">
+                    <button type="submit" class="btn btn-primary" disabled="@_guardando">
+                        @(_guardando ? "Guardando..." : _editandoId.HasValue ? "Guardar cambios" : "Crear servicio")
+                    </button>
+
+                    @if (_editandoId.HasValue)
+                    {
+                        <button type="button" class="btn btn-outline-secondary" @onclick="CancelarEdicion">Cancelar</button>
+                    }
+                </div>
+            </EditForm>
+        </section>
+    </div>
+</div>
+
+<ConfirmDialog Visible="@(_servicioAEliminar is not null)"
+               Titulo="Eliminar servicio"
+               Mensaje="@MensajeEliminar"
+               OnConfirmar="EliminarConfirmadoAsync"
+               OnCancelar="CancelarEliminar" />
+
+@code {
+    private PagedResult<ServicioDto> _resultado = new();
+    private GuardarServicioRequest _formulario = NuevoServicio();
+    private ServicioDto? _servicioAEliminar;
+    private int? _editandoId;
+    private string? _busqueda;
+    private bool? _activo;
+    private int _pagina = 1;
+    private const int TamanioPagina = 8;
+    private bool _cargando = true;
+    private bool _guardando;
+    private string? _mensajeError;
+    private string? _mensajeExito;
+
+    private string MensajeEliminar => _servicioAEliminar is null
+        ? string.Empty
+        : $"Se intentará eliminar '{_servicioAEliminar.Nombre}'. Esta acción solo será posible si no tiene turnos asociados.";
+
+    protected override Task OnInitializedAsync() => CargarAsync();
+
+    private async Task CargarAsync()
+    {
+        _cargando = true;
+
+        try
+        {
+            _resultado = await ServicioService.ObtenerPaginadosAsync(
+                _busqueda,
+                _activo,
+                _pagina,
+                TamanioPagina);
+        }
+        catch
+        {
+            _mensajeError = "No se pudieron cargar los servicios.";
+        }
+        finally
+        {
+            _cargando = false;
+        }
+    }
+
+    private async Task BuscarAsync()
+    {
+        _pagina = 1;
+        await CargarAsync();
+    }
+
+    private async Task CambiarPaginaAsync(int pagina)
+    {
+        _pagina = pagina;
+        await CargarAsync();
+    }
+
+    private void Editar(ServicioDto servicio)
+    {
+        _editandoId = servicio.Id;
+        _formulario = new GuardarServicioRequest
+        {
+            Nombre = servicio.Nombre,
+            Descripcion = servicio.Descripcion,
+            Precio = servicio.Precio,
+            DuracionMinutos = servicio.DuracionMinutos,
+            Activo = servicio.Activo
+        };
+    }
+
+    private void CancelarEdicion()
+    {
+        _editandoId = null;
+        _formulario = NuevoServicio();
+    }
+
+    private async Task GuardarAsync()
+    {
+        _guardando = true;
+        _mensajeError = null;
+        _mensajeExito = null;
+
+        try
+        {
+            if (_editandoId.HasValue)
+            {
+                await ServicioService.ActualizarAsync(_editandoId.Value, _formulario);
+                _mensajeExito = "Servicio actualizado correctamente.";
+            }
+            else
+            {
+                await ServicioService.CrearAsync(_formulario);
+                _mensajeExito = "Servicio creado correctamente.";
+            }
+
+            CancelarEdicion();
+            await CargarAsync();
+        }
+        catch (Exception ex) when (ex is InvalidOperationException or KeyNotFoundException)
+        {
+            _mensajeError = ex.Message;
+        }
+        catch
+        {
+            _mensajeError = "No se pudo guardar el servicio.";
+        }
+        finally
+        {
+            _guardando = false;
+        }
+    }
+
+    private void PedirEliminar(ServicioDto servicio) => _servicioAEliminar = servicio;
+
+    private void CancelarEliminar() => _servicioAEliminar = null;
+
+    private async Task EliminarConfirmadoAsync()
+    {
+        if (_servicioAEliminar is null)
+            return;
+
+        try
+        {
+            await ServicioService.EliminarAsync(_servicioAEliminar.Id);
+            _mensajeExito = "Servicio eliminado correctamente.";
+            _servicioAEliminar = null;
+            await CargarAsync();
+        }
+        catch (Exception ex) when (ex is InvalidOperationException or KeyNotFoundException)
+        {
+            _mensajeError = ex.Message;
+            _servicioAEliminar = null;
+        }
+        catch
+        {
+            _mensajeError = "No se pudo eliminar el servicio.";
+            _servicioAEliminar = null;
+        }
+    }
+
+    private static GuardarServicioRequest NuevoServicio() => new()
+    {
+        Activo = true,
+        DuracionMinutos = 30
+    };
+
+    private void CerrarError() => _mensajeError = null;
+    private void CerrarExito() => _mensajeExito = null;
+}

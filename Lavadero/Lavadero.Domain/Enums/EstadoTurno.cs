@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+namespace Lavadero.Domain.Enums;
 
-namespace Lavadero.Domain.Enums
+public enum EstadoTurno
 {
-    internal class EstadoTurno
-    {
-    }
+    Pendiente = 1,
+    Confirmado = 2,
+    Completado = 3,
+    Cancelado = 4
 }

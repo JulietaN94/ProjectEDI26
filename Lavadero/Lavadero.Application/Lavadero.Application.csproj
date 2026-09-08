@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Lavadero.Domain\Lavadero.Domain.csproj" />
+  </ItemGroup>
+
 </Project>

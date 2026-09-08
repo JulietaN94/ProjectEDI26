@@ -1,12 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+namespace Lavadero.Domain.Entities;
 
-namespace Lavadero.Domain.Entities
+public class HorarioAtencion
 {
-    internal class HorarioAtencion
-    {
-    }
+    public int Id { get; set; }
+
+    public DayOfWeek DiaSemana { get; set; }
+
+    public TimeSpan HoraApertura { get; set; }
+
+    public TimeSpan HoraCierre { get; set; }
+
+    public bool Activo { get; set; } = true;
 }

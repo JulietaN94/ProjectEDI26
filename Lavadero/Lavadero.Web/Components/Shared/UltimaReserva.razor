@@ -1,0 +1,27 @@
+@implements IDisposable
+@inject ReservaState ReservaState
+
+@if (ReservaState.UltimaReserva is { } turno)
+{
+    <aside class="ultima-reserva" aria-label="Última reserva realizada">
+        <div>
+            <strong>Última reserva</strong>
+            <span>@turno.FechaHora.ToString("dd/MM/yyyy HH:mm") · @turno.ServicioNombre</span>
+        </div>
+        <button type="button" class="btn btn-sm btn-outline-secondary" @onclick="ReservaState.Limpiar">
+            Ocultar
+        </button>
+    </aside>
+}
+
+@code {
+    protected override void OnInitialized()
+    {
+        ReservaState.OnChange += StateHasChanged;
+    }
+
+    public void Dispose()
+    {
+        ReservaState.OnChange -= StateHasChanged;
+    }
+}

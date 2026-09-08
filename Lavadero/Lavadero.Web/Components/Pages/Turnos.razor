@@ -1,0 +1,137 @@
+@page "/admin/turnos"
+@rendermode InteractiveServer
+@inject ITurnoService TurnoService
+
+<PageTitle>Turnos | Administración</PageTitle>
+
+<PageHeader Titulo="Turnos"
+            Subtitulo="Buscá reservas, filtrá por estado y actualizá el avance de cada turno." />
+
+<AlertMessage Mensaje="@_mensajeError" Tipo="danger" OnCerrar="CerrarError" />
+<AlertMessage Mensaje="@_mensajeExito" Tipo="success" OnCerrar="CerrarExito" />
+
+<section class="filter-card mb-4" aria-label="Filtros de turnos">
+    <div class="row g-2 align-items-end">
+        <div class="col-12 col-md-7">
+            <label class="form-label" for="buscar-turno">Buscar</label>
+            <input id="buscar-turno"
+                   class="form-control"
+                   placeholder="Cliente, teléfono, vehículo o servicio"
+                   @bind="_busqueda"
+                   @bind:event="oninput"
+                   @onkeydown="ManejarEnter" />
+        </div>
+        <div class="col-12 col-md-3">
+            <label class="form-label" for="estado-turno">Estado</label>
+            <select id="estado-turno" class="form-select" @bind="_estado">
+                <option value="">Todos</option>
+                @foreach (var estado in Enum.GetValues<EstadoTurno>())
+                {
+                    <option value="@estado">@estado</option>
+                }
+            </select>
+        </div>
+        <div class="col-12 col-md-2 d-grid">
+            <button type="button" class="btn btn-primary" @onclick="BuscarAsync">Buscar</button>
+        </div>
+    </div>
+</section>
+
+@if (_cargando)
+{
+    <LoadingSpinner Texto="Cargando turnos..." />
+}
+else if (_resultado.Items.Count == 0)
+{
+    <AlertMessage Mensaje="No se encontraron turnos con los filtros seleccionados." Tipo="info" />
+}
+else
+{
+    <div class="row g-3">
+        @foreach (var turno in _resultado.Items)
+        {
+            <div class="col-12 col-xl-6" @key="turno.Id">
+                <TurnoCard Turno="turno" OnCambiarEstado="estado => CambiarEstadoAsync(turno.Id, estado)" />
+            </div>
+        }
+    </div>
+
+    <Paginacion PaginaActual="_resultado.Page"
+                 TotalPaginas="_resultado.TotalPages"
+                 OnCambio="CambiarPaginaAsync" />
+}
+
+@code {
+    private PagedResult<TurnoDto> _resultado = new();
+    private string? _busqueda;
+    private EstadoTurno? _estado;
+    private int _pagina = 1;
+    private const int TamanioPagina = 6;
+    private bool _cargando = true;
+    private string? _mensajeError;
+    private string? _mensajeExito;
+
+    protected override Task OnInitializedAsync() => CargarAsync();
+
+    private async Task BuscarAsync()
+    {
+        _pagina = 1;
+        await CargarAsync();
+    }
+
+    private async Task CambiarPaginaAsync(int pagina)
+    {
+        _pagina = pagina;
+        await CargarAsync();
+    }
+
+    private async Task CargarAsync()
+    {
+        _cargando = true;
+        _mensajeError = null;
+
+        try
+        {
+            _resultado = await TurnoService.ObtenerPaginadosAsync(
+                _busqueda,
+                _estado,
+                _pagina,
+                TamanioPagina);
+        }
+        catch
+        {
+            _mensajeError = "No se pudieron cargar los turnos.";
+        }
+        finally
+        {
+            _cargando = false;
+        }
+    }
+
+    private async Task CambiarEstadoAsync(int turnoId, EstadoTurno estado)
+    {
+        try
+        {
+            await TurnoService.CambiarEstadoAsync(turnoId, estado);
+            _mensajeExito = $"El turno #{turnoId} cambió a {estado}.";
+            await CargarAsync();
+        }
+        catch (Exception ex) when (ex is InvalidOperationException or KeyNotFoundException)
+        {
+            _mensajeError = ex.Message;
+        }
+        catch
+        {
+            _mensajeError = "No se pudo actualizar el estado del turno.";
+        }
+    }
+
+    private async Task ManejarEnter(KeyboardEventArgs e)
+    {
+        if (e.Key == "Enter")
+            await BuscarAsync();
+    }
+
+    private void CerrarError() => _mensajeError = null;
+    private void CerrarExito() => _mensajeExito = null;
+}

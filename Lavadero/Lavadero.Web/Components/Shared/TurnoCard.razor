@@ -1,0 +1,64 @@
+<article class="turno-card">
+    <header class="turno-header">
+        <div>
+            <span class="turno-fecha">@Turno.FechaHora.ToString("dd/MM/yyyy HH:mm")</span>
+            <h3>@Turno.ClienteNombre</h3>
+        </div>
+        <EstadoTurnoBadge Estado="Turno.Estado" />
+    </header>
+
+    <dl class="turno-grid">
+        <div>
+            <dt>Teléfono</dt>
+            <dd>@Turno.ClienteTelefono</dd>
+        </div>
+        <div>
+            <dt>Vehículo</dt>
+            <dd>@Turno.AutoMarca @Turno.AutoModelo</dd>
+        </div>
+        <div>
+            <dt>Servicio</dt>
+            <dd>@Turno.ServicioNombre</dd>
+        </div>
+        <div>
+            <dt>Duración</dt>
+            <dd>@Turno.ServicioDuracionMinutos min</dd>
+        </div>
+    </dl>
+
+    @if (!string.IsNullOrWhiteSpace(Turno.Observaciones))
+    {
+        <p class="observaciones"><strong>Observaciones:</strong> @Turno.Observaciones</p>
+    }
+
+    @if (OnCambiarEstado.HasDelegate && Turno.Estado is EstadoTurno.Pendiente or EstadoTurno.Confirmado)
+    {
+        <footer class="turno-actions">
+            @if (Turno.Estado == EstadoTurno.Pendiente)
+            {
+                <button class="btn btn-sm btn-primary" @onclick="() => CambiarAsync(EstadoTurno.Confirmado)">
+                    Confirmar
+                </button>
+            }
+            @if (Turno.Estado == EstadoTurno.Confirmado)
+            {
+                <button class="btn btn-sm btn-success" @onclick="() => CambiarAsync(EstadoTurno.Completado)">
+                    Completar
+                </button>
+            }
+            <button class="btn btn-sm btn-outline-danger" @onclick="() => CambiarAsync(EstadoTurno.Cancelado)">
+                Cancelar
+            </button>
+        </footer>
+    }
+</article>
+
+@code {
+    [Parameter, EditorRequired]
+    public TurnoDto Turno { get; set; } = default!;
+
+    [Parameter]
+    public EventCallback<EstadoTurno> OnCambiarEstado { get; set; }
+
+    private Task CambiarAsync(EstadoTurno estado) => OnCambiarEstado.InvokeAsync(estado);
+}

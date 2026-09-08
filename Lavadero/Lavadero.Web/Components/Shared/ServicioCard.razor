@@ -1,0 +1,30 @@
+<article class="servicio-card h-100">
+    <div class="servicio-body">
+        <div class="d-flex justify-content-between align-items-start gap-2">
+            <h3>@Servicio.Nombre</h3>
+            <span class="badge text-bg-light">@Servicio.DuracionMinutos min</span>
+        </div>
+
+        <p>@(string.IsNullOrWhiteSpace(Servicio.Descripcion) ? "Servicio de lavado disponible." : Servicio.Descripcion)</p>
+
+        <div class="servicio-footer">
+            <strong>@Servicio.Precio.ToString("C0")</strong>
+            @if (OnReservar.HasDelegate)
+            {
+                <button type="button" class="btn btn-primary btn-sm" @onclick="ReservarAsync">
+                    Reservar
+                </button>
+            }
+        </div>
+    </div>
+</article>
+
+@code {
+    [Parameter, EditorRequired]
+    public ServicioDto Servicio { get; set; } = default!;
+
+    [Parameter]
+    public EventCallback<int> OnReservar { get; set; }
+
+    private Task ReservarAsync() => OnReservar.InvokeAsync(Servicio.Id);
+}

@@ -1,0 +1,30 @@
+@if (Visible)
+{
+    <div class="confirm-backdrop" role="presentation">
+        <section class="confirm-box" role="dialog" aria-modal="true" aria-labelledby="confirm-title">
+            <h2 id="confirm-title">@Titulo</h2>
+            <p>@Mensaje</p>
+            <div class="d-flex justify-content-end gap-2 mt-4">
+                <button type="button" class="btn btn-outline-secondary" @onclick="OnCancelar">Cancelar</button>
+                <button type="button" class="btn btn-danger" @onclick="OnConfirmar">Confirmar</button>
+            </div>
+        </section>
+    </div>
+}
+
+@code {
+    [Parameter]
+    public bool Visible { get; set; }
+
+    [Parameter]
+    public string Titulo { get; set; } = "Confirmar acción";
+
+    [Parameter]
+    public string Mensaje { get; set; } = "¿Desea continuar?";
+
+    [Parameter]
+    public EventCallback OnConfirmar { get; set; }
+
+    [Parameter]
+    public EventCallback OnCancelar { get; set; }
+}
