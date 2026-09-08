@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Lavadero.Domain")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4f131821d6b4f7eebd9198e5240796eed075bef6")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+83ffd73bd9666a2b74dafd001d01ee8bc659b180")]
 [assembly: System.Reflection.AssemblyProductAttribute("Lavadero.Domain")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Lavadero.Domain")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

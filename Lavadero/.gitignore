@@ -1,0 +1,36 @@
+# Visual Studio / .NET
+.vs/
+**/.vs/
+[Bb]in/
+[Oo]bj/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Build / publish
+[Dd]ebug/
+[Rr]elease/
+publish/
+artifacts/
+
+# NuGet
+*.nupkg
+*.snupkg
+packages/
+
+# Logs
+*.log
+logs/
+
+# Local / sensitive configuration
+secrets.json
+appsettings.Local.json
+*.pfx
+*.p12
+
+# OS / editors
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

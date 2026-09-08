@@ -1,34 +1,34 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\July\\Desktop\\EDI_DISE\u00D1OWEB2026\\Proyecto\\ProjectEDI26\\Lavadero\\",
+  "WorkspaceRootPath": "E:\\CursadaProgramacion\\ProjectEDI26\\Lavadero\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{6AE7E768-1376-4924-AA56-03B866FCEBB5}|Lavadero.Domain\\Lavadero.Domain.csproj|c:\\users\\july\\desktop\\edi_dise\u00F1oweb2026\\proyecto\\projectedi26\\lavadero\\lavadero.domain\\enums\\estadoturno.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{6AE7E768-1376-4924-AA56-03B866FCEBB5}|Lavadero.Domain\\Lavadero.Domain.csproj|solutionrelative:lavadero.domain\\enums\\estadoturno.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{29EC75E0-C0BB-89E3-29AC-0582C713E498}|Lavadero.Domain\\Lavadero.Domain.csproj|e:\\cursadaprogramacion\\projectedi26\\lavadero\\lavadero.domain\\enums\\estadoturno.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{29EC75E0-C0BB-89E3-29AC-0582C713E498}|Lavadero.Domain\\Lavadero.Domain.csproj|solutionrelative:lavadero.domain\\enums\\estadoturno.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{6AE7E768-1376-4924-AA56-03B866FCEBB5}|Lavadero.Domain\\Lavadero.Domain.csproj|c:\\users\\july\\desktop\\edi_dise\u00F1oweb2026\\proyecto\\projectedi26\\lavadero\\lavadero.domain\\entities\\horarioatencion.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{6AE7E768-1376-4924-AA56-03B866FCEBB5}|Lavadero.Domain\\Lavadero.Domain.csproj|solutionrelative:lavadero.domain\\entities\\horarioatencion.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{29EC75E0-C0BB-89E3-29AC-0582C713E498}|Lavadero.Domain\\Lavadero.Domain.csproj|e:\\cursadaprogramacion\\projectedi26\\lavadero\\lavadero.domain\\entities\\horarioatencion.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{29EC75E0-C0BB-89E3-29AC-0582C713E498}|Lavadero.Domain\\Lavadero.Domain.csproj|solutionrelative:lavadero.domain\\entities\\horarioatencion.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{6AE7E768-1376-4924-AA56-03B866FCEBB5}|Lavadero.Domain\\Lavadero.Domain.csproj|c:\\users\\july\\desktop\\edi_dise\u00F1oweb2026\\proyecto\\projectedi26\\lavadero\\lavadero.domain\\entities\\usuarioadministrador.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{6AE7E768-1376-4924-AA56-03B866FCEBB5}|Lavadero.Domain\\Lavadero.Domain.csproj|solutionrelative:lavadero.domain\\entities\\usuarioadministrador.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{29EC75E0-C0BB-89E3-29AC-0582C713E498}|Lavadero.Domain\\Lavadero.Domain.csproj|e:\\cursadaprogramacion\\projectedi26\\lavadero\\lavadero.domain\\entities\\usuarioadministrador.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{29EC75E0-C0BB-89E3-29AC-0582C713E498}|Lavadero.Domain\\Lavadero.Domain.csproj|solutionrelative:lavadero.domain\\entities\\usuarioadministrador.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{6AE7E768-1376-4924-AA56-03B866FCEBB5}|Lavadero.Domain\\Lavadero.Domain.csproj|c:\\users\\july\\desktop\\edi_dise\u00F1oweb2026\\proyecto\\projectedi26\\lavadero\\lavadero.domain\\entities\\turno.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{6AE7E768-1376-4924-AA56-03B866FCEBB5}|Lavadero.Domain\\Lavadero.Domain.csproj|solutionrelative:lavadero.domain\\entities\\turno.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{29EC75E0-C0BB-89E3-29AC-0582C713E498}|Lavadero.Domain\\Lavadero.Domain.csproj|e:\\cursadaprogramacion\\projectedi26\\lavadero\\lavadero.domain\\entities\\turno.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{29EC75E0-C0BB-89E3-29AC-0582C713E498}|Lavadero.Domain\\Lavadero.Domain.csproj|solutionrelative:lavadero.domain\\entities\\turno.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{6AE7E768-1376-4924-AA56-03B866FCEBB5}|Lavadero.Domain\\Lavadero.Domain.csproj|c:\\users\\july\\desktop\\edi_dise\u00F1oweb2026\\proyecto\\projectedi26\\lavadero\\lavadero.domain\\entities\\servicio.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{6AE7E768-1376-4924-AA56-03B866FCEBB5}|Lavadero.Domain\\Lavadero.Domain.csproj|solutionrelative:lavadero.domain\\entities\\servicio.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{29EC75E0-C0BB-89E3-29AC-0582C713E498}|Lavadero.Domain\\Lavadero.Domain.csproj|e:\\cursadaprogramacion\\projectedi26\\lavadero\\lavadero.domain\\entities\\servicio.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{29EC75E0-C0BB-89E3-29AC-0582C713E498}|Lavadero.Domain\\Lavadero.Domain.csproj|solutionrelative:lavadero.domain\\entities\\servicio.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{6AE7E768-1376-4924-AA56-03B866FCEBB5}|Lavadero.Domain\\Lavadero.Domain.csproj|c:\\users\\july\\desktop\\edi_dise\u00F1oweb2026\\proyecto\\projectedi26\\lavadero\\lavadero.domain\\entities\\auto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{6AE7E768-1376-4924-AA56-03B866FCEBB5}|Lavadero.Domain\\Lavadero.Domain.csproj|solutionrelative:lavadero.domain\\entities\\auto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{29EC75E0-C0BB-89E3-29AC-0582C713E498}|Lavadero.Domain\\Lavadero.Domain.csproj|e:\\cursadaprogramacion\\projectedi26\\lavadero\\lavadero.domain\\entities\\auto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{29EC75E0-C0BB-89E3-29AC-0582C713E498}|Lavadero.Domain\\Lavadero.Domain.csproj|solutionrelative:lavadero.domain\\entities\\auto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{6AE7E768-1376-4924-AA56-03B866FCEBB5}|Lavadero.Domain\\Lavadero.Domain.csproj|c:\\users\\july\\desktop\\edi_dise\u00F1oweb2026\\proyecto\\projectedi26\\lavadero\\lavadero.domain\\entities\\cliente.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{6AE7E768-1376-4924-AA56-03B866FCEBB5}|Lavadero.Domain\\Lavadero.Domain.csproj|solutionrelative:lavadero.domain\\entities\\cliente.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{29EC75E0-C0BB-89E3-29AC-0582C713E498}|Lavadero.Domain\\Lavadero.Domain.csproj|e:\\cursadaprogramacion\\projectedi26\\lavadero\\lavadero.domain\\entities\\cliente.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{29EC75E0-C0BB-89E3-29AC-0582C713E498}|Lavadero.Domain\\Lavadero.Domain.csproj|solutionrelative:lavadero.domain\\entities\\cliente.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -44,9 +44,9 @@
               "$type": "Document",
               "DocumentIndex": 0,
               "Title": "EstadoTurno.cs",
-              "DocumentMoniker": "C:\\Users\\July\\Desktop\\EDI_DISE\u00D1OWEB2026\\Proyecto\\ProjectEDI26\\Lavadero\\Lavadero.Domain\\Enums\\EstadoTurno.cs",
+              "DocumentMoniker": "E:\\CursadaProgramacion\\ProjectEDI26\\Lavadero\\Lavadero.Domain\\Enums\\EstadoTurno.cs",
               "RelativeDocumentMoniker": "Lavadero.Domain\\Enums\\EstadoTurno.cs",
-              "ToolTip": "C:\\Users\\July\\Desktop\\EDI_DISE\u00D1OWEB2026\\Proyecto\\ProjectEDI26\\Lavadero\\Lavadero.Domain\\Enums\\EstadoTurno.cs",
+              "ToolTip": "E:\\CursadaProgramacion\\ProjectEDI26\\Lavadero\\Lavadero.Domain\\Enums\\EstadoTurno.cs",
               "RelativeToolTip": "Lavadero.Domain\\Enums\\EstadoTurno.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -57,79 +57,73 @@
               "$type": "Document",
               "DocumentIndex": 1,
               "Title": "HorarioAtencion.cs",
-              "DocumentMoniker": "C:\\Users\\July\\Desktop\\EDI_DISE\u00D1OWEB2026\\Proyecto\\ProjectEDI26\\Lavadero\\Lavadero.Domain\\Entities\\HorarioAtencion.cs",
+              "DocumentMoniker": "E:\\CursadaProgramacion\\ProjectEDI26\\Lavadero\\Lavadero.Domain\\Entities\\HorarioAtencion.cs",
               "RelativeDocumentMoniker": "Lavadero.Domain\\Entities\\HorarioAtencion.cs",
-              "ToolTip": "C:\\Users\\July\\Desktop\\EDI_DISE\u00D1OWEB2026\\Proyecto\\ProjectEDI26\\Lavadero\\Lavadero.Domain\\Entities\\HorarioAtencion.cs",
+              "ToolTip": "E:\\CursadaProgramacion\\ProjectEDI26\\Lavadero\\Lavadero.Domain\\Entities\\HorarioAtencion.cs",
               "RelativeToolTip": "Lavadero.Domain\\Entities\\HorarioAtencion.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-08-31T22:48:44.93Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-08-31T22:48:44.93Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
               "Title": "UsuarioAdministrador.cs",
-              "DocumentMoniker": "C:\\Users\\July\\Desktop\\EDI_DISE\u00D1OWEB2026\\Proyecto\\ProjectEDI26\\Lavadero\\Lavadero.Domain\\Entities\\UsuarioAdministrador.cs",
+              "DocumentMoniker": "E:\\CursadaProgramacion\\ProjectEDI26\\Lavadero\\Lavadero.Domain\\Entities\\UsuarioAdministrador.cs",
               "RelativeDocumentMoniker": "Lavadero.Domain\\Entities\\UsuarioAdministrador.cs",
-              "ToolTip": "C:\\Users\\July\\Desktop\\EDI_DISE\u00D1OWEB2026\\Proyecto\\ProjectEDI26\\Lavadero\\Lavadero.Domain\\Entities\\UsuarioAdministrador.cs",
+              "ToolTip": "E:\\CursadaProgramacion\\ProjectEDI26\\Lavadero\\Lavadero.Domain\\Entities\\UsuarioAdministrador.cs",
               "RelativeToolTip": "Lavadero.Domain\\Entities\\UsuarioAdministrador.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-08-31T22:48:35.888Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-08-31T22:48:35.888Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 3,
               "Title": "Turno.cs",
-              "DocumentMoniker": "C:\\Users\\July\\Desktop\\EDI_DISE\u00D1OWEB2026\\Proyecto\\ProjectEDI26\\Lavadero\\Lavadero.Domain\\Entities\\Turno.cs",
+              "DocumentMoniker": "E:\\CursadaProgramacion\\ProjectEDI26\\Lavadero\\Lavadero.Domain\\Entities\\Turno.cs",
               "RelativeDocumentMoniker": "Lavadero.Domain\\Entities\\Turno.cs",
-              "ToolTip": "C:\\Users\\July\\Desktop\\EDI_DISE\u00D1OWEB2026\\Proyecto\\ProjectEDI26\\Lavadero\\Lavadero.Domain\\Entities\\Turno.cs",
+              "ToolTip": "E:\\CursadaProgramacion\\ProjectEDI26\\Lavadero\\Lavadero.Domain\\Entities\\Turno.cs",
               "RelativeToolTip": "Lavadero.Domain\\Entities\\Turno.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-08-31T22:48:26.21Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-08-31T22:48:26.21Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 4,
               "Title": "Servicio.cs",
-              "DocumentMoniker": "C:\\Users\\July\\Desktop\\EDI_DISE\u00D1OWEB2026\\Proyecto\\ProjectEDI26\\Lavadero\\Lavadero.Domain\\Entities\\Servicio.cs",
+              "DocumentMoniker": "E:\\CursadaProgramacion\\ProjectEDI26\\Lavadero\\Lavadero.Domain\\Entities\\Servicio.cs",
               "RelativeDocumentMoniker": "Lavadero.Domain\\Entities\\Servicio.cs",
-              "ToolTip": "C:\\Users\\July\\Desktop\\EDI_DISE\u00D1OWEB2026\\Proyecto\\ProjectEDI26\\Lavadero\\Lavadero.Domain\\Entities\\Servicio.cs",
+              "ToolTip": "E:\\CursadaProgramacion\\ProjectEDI26\\Lavadero\\Lavadero.Domain\\Entities\\Servicio.cs",
               "RelativeToolTip": "Lavadero.Domain\\Entities\\Servicio.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-08-31T22:48:13.647Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-08-31T22:48:13.647Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 5,
               "Title": "Auto.cs",
-              "DocumentMoniker": "C:\\Users\\July\\Desktop\\EDI_DISE\u00D1OWEB2026\\Proyecto\\ProjectEDI26\\Lavadero\\Lavadero.Domain\\Entities\\Auto.cs",
+              "DocumentMoniker": "E:\\CursadaProgramacion\\ProjectEDI26\\Lavadero\\Lavadero.Domain\\Entities\\Auto.cs",
               "RelativeDocumentMoniker": "Lavadero.Domain\\Entities\\Auto.cs",
-              "ToolTip": "C:\\Users\\July\\Desktop\\EDI_DISE\u00D1OWEB2026\\Proyecto\\ProjectEDI26\\Lavadero\\Lavadero.Domain\\Entities\\Auto.cs",
+              "ToolTip": "E:\\CursadaProgramacion\\ProjectEDI26\\Lavadero\\Lavadero.Domain\\Entities\\Auto.cs",
               "RelativeToolTip": "Lavadero.Domain\\Entities\\Auto.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-08-31T22:47:58.762Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-08-31T22:47:58.762Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 6,
               "Title": "Cliente.cs",
-              "DocumentMoniker": "C:\\Users\\July\\Desktop\\EDI_DISE\u00D1OWEB2026\\Proyecto\\ProjectEDI26\\Lavadero\\Lavadero.Domain\\Entities\\Cliente.cs",
+              "DocumentMoniker": "E:\\CursadaProgramacion\\ProjectEDI26\\Lavadero\\Lavadero.Domain\\Entities\\Cliente.cs",
               "RelativeDocumentMoniker": "Lavadero.Domain\\Entities\\Cliente.cs",
-              "ToolTip": "C:\\Users\\July\\Desktop\\EDI_DISE\u00D1OWEB2026\\Proyecto\\ProjectEDI26\\Lavadero\\Lavadero.Domain\\Entities\\Cliente.cs",
+              "ToolTip": "E:\\CursadaProgramacion\\ProjectEDI26\\Lavadero\\Lavadero.Domain\\Entities\\Cliente.cs",
               "RelativeToolTip": "Lavadero.Domain\\Entities\\Cliente.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-08-31T22:47:47.368Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-08-31T22:47:47.368Z"
             }
           ]
         }
