@@ -13,6 +13,9 @@ public sealed class CrearReservaRequest
 
     [Required(ErrorMessage = "El teléfono es obligatorio.")]
     [MaxLength(30, ErrorMessage = "El teléfono no puede superar los 30 caracteres.")]
+    [RegularExpression(
+        @"^[0-9+\-\s()]+$",
+        ErrorMessage = "El teléfono solo puede contener números, espacios y los símbolos +, -, ( y ).")]
     public string Telefono { get; set; } = string.Empty;
 
     [Required(ErrorMessage = "La marca del auto es obligatoria.")]

@@ -1,0 +1,60 @@
+@inject IConfiguracionLavaderoService ConfiguracionService
+
+<a class="brand"
+   href="/"
+   aria-label="Ir al inicio">
+
+    @if (_tieneLogo)
+    {
+        <img class="brand-logo"
+             src="@LogoUrl"
+             alt="Logo de @_nombre" />
+    }
+    else
+    {
+        <span class="brand-mark"
+              aria-hidden="true">
+            @Inicial
+        </span>
+    }
+
+    <span class="brand-copy">
+        <strong>@_nombre</strong>
+        <small>Turnos online</small>
+    </span>
+</a>
+
+@code {
+    private string _nombre = "Lavadero";
+    private bool _tieneLogo;
+
+    private string Inicial =>
+        string.IsNullOrWhiteSpace(_nombre)
+            ? "L"
+            : _nombre[..1].ToUpperInvariant();
+
+    private string LogoUrl =>
+        $"/branding/logo?v={Uri.EscapeDataString(_nombre)}";
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            var config =
+                await ConfiguracionService.ObtenerAsync();
+
+            _nombre =
+                string.IsNullOrWhiteSpace(config.Nombre)
+                    ? "Lavadero"
+                    : config.Nombre;
+
+            _tieneLogo =
+                config.TieneLogo;
+        }
+        catch
+        {
+            _nombre = "Lavadero";
+            _tieneLogo = false;
+        }
+    }
+}

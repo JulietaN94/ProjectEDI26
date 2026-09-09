@@ -1,0 +1,7 @@
+.filter-card,
+.panel-card {
+    padding: 1.25rem;
+    border: 1px solid var(--app-border);
+    border-radius: var(--app-radius);
+    background: white;
+}

@@ -23,6 +23,9 @@ public sealed class TurnoConfiguration : IEntityTypeConfiguration<Turno>
             .HasMaxLength(20)
             .IsRequired();
 
+        builder.Property(x => x.PrecioServicio)
+            .HasPrecision(18, 2);
+
         builder.Property(x => x.Observaciones)
             .HasMaxLength(500);
 

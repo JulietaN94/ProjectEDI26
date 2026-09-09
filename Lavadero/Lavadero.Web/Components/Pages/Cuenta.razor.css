@@ -1,0 +1,35 @@
+.panel-card {
+    padding: 1.4rem;
+    border: 1px solid var(--app-border);
+    border-radius: var(--app-radius);
+    background: var(--app-surface);
+    box-shadow: var(--app-shadow-sm);
+}
+
+/*
+    El campo Usuario está deshabilitado porque no debe editarse.
+    Bootstrap aplica un fondo claro propio a los inputs disabled.
+    Usamos las variables del tema para que también se adapte al modo oscuro.
+*/
+.form-control:disabled,
+.form-control[readonly] {
+    border-color: var(--app-border);
+    background-color: var(--app-surface-alt);
+    color: var(--app-muted);
+    opacity: 1;
+    -webkit-text-fill-color: var(--app-muted);
+}
+
+/*
+    En modo oscuro lo mantenemos claramente diferenciado de un input editable,
+    pero sin perder contraste.
+*/
+:global(html[data-theme="dark"]) .form-control:disabled,
+:global(html[data-theme="dark"]) .form-control[readonly],
+:global(body.dark-mode) .form-control:disabled,
+:global(body.dark-mode) .form-control[readonly] {
+    border-color: var(--app-border);
+    background-color: var(--app-surface-alt);
+    color: var(--app-text-soft);
+    -webkit-text-fill-color: var(--app-text-soft);
+}

@@ -1,5 +1,6 @@
 @page "/admin/servicios"
 @rendermode InteractiveServer
+@attribute [Authorize(Roles = "Administrador")]
 @inject IServicioService ServicioService
 
 <PageTitle>Servicios | Administración</PageTitle>
@@ -24,7 +25,9 @@
                 </div>
                 <div class="col-12 col-md-3">
                     <label class="form-label" for="filtro-activo">Estado</label>
-                    <select id="filtro-activo" class="form-select" @bind="_activo">
+                    <select id="filtro-activo"
+                            class="form-select"
+                            @bind="_filtroEstado">
                         <option value="">Todos</option>
                         <option value="true">Activos</option>
                         <option value="false">Inactivos</option>
@@ -114,12 +117,21 @@
                 <div class="row g-3 mb-3">
                     <div class="col-7">
                         <label class="form-label" for="precio-servicio">Precio</label>
-                        <InputNumber id="precio-servicio" class="form-control" @bind-Value="_formulario.Precio" />
+                        <InputNumber id="precio-servicio"
+                                     class="form-control"
+                                     min="0"
+                                     max="999999999.99"
+                                     step="0.01"
+                                     @bind-Value="_formulario.Precio" />
                         <ValidationMessage For="() => _formulario.Precio" />
                     </div>
                     <div class="col-5">
                         <label class="form-label" for="duracion-servicio">Minutos</label>
-                        <InputNumber id="duracion-servicio" class="form-control" @bind-Value="_formulario.DuracionMinutos" />
+                        <InputNumber id="duracion-servicio"
+                                     class="form-control"
+                                     min="1"
+                                     max="480"
+                                     @bind-Value="_formulario.DuracionMinutos" />
                         <ValidationMessage For="() => _formulario.DuracionMinutos" />
                     </div>
                 </div>
@@ -156,7 +168,7 @@
     private ServicioDto? _servicioAEliminar;
     private int? _editandoId;
     private string? _busqueda;
-    private bool? _activo;
+    private string _filtroEstado = string.Empty;
     private int _pagina = 1;
     private const int TamanioPagina = 8;
     private bool _cargando = true;
@@ -176,9 +188,17 @@
 
         try
         {
+            bool? activo =
+                _filtroEstado switch
+                {
+                    "true" => true,
+                    "false" => false,
+                    _ => null
+                };
+
             _resultado = await ServicioService.ObtenerPaginadosAsync(
                 _busqueda,
-                _activo,
+                activo,
                 _pagina,
                 TamanioPagina);
         }

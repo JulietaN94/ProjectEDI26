@@ -1,0 +1,109 @@
+@page "/admin"
+@rendermode InteractiveServer
+@attribute [Authorize(Roles = "Administrador")]
+@inject IDashboardAdminService DashboardService
+
+<PageTitle>Panel | Administración</PageTitle>
+
+<PageHeader Titulo="Panel"
+            Subtitulo="Resumen diario de la actividad del lavadero." />
+
+@if (_cargando)
+{
+    <LoadingSpinner Texto="Cargando panel..." />
+}
+else if (_error is not null)
+{
+    <AlertMessage Mensaje="@_error"
+                  Tipo="danger" />
+}
+else if (_resumen is not null)
+{
+    <section class="stats-grid mb-4"
+             aria-label="Indicadores del día">
+
+        <article class="stat-card">
+            <span>Turnos hoy</span>
+            <strong>@_resumen.TurnosHoy</strong>
+        </article>
+
+        <article class="stat-card">
+            <span>Pendientes</span>
+            <strong>@_resumen.PendientesHoy</strong>
+        </article>
+
+        <article class="stat-card">
+            <span>Confirmados</span>
+            <strong>@_resumen.ConfirmadosHoy</strong>
+        </article>
+
+        <article class="stat-card">
+            <span>Completados</span>
+            <strong>@_resumen.CompletadosHoy</strong>
+        </article>
+
+        <article class="stat-card stat-income">
+            <span>Ingresos de hoy</span>
+            <strong>@_resumen.IngresosHoy.ToString("C0")</strong>
+        </article>
+    </section>
+
+    <section aria-labelledby="proximos-turnos">
+        <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+            <div>
+                <h2 id="proximos-turnos" class="h4 mb-1">
+                    Próximos turnos
+                </h2>
+                <p class="text-secondary mb-0">
+                    Las próximas reservas pendientes o confirmadas.
+                </p>
+            </div>
+
+            <a class="btn btn-outline-primary"
+               href="/admin/turnos">
+                Ver todos
+            </a>
+        </div>
+
+        @if (_resumen.ProximosTurnos.Count == 0)
+        {
+            <AlertMessage Mensaje="No hay próximos turnos."
+                          Tipo="info" />
+        }
+        else
+        {
+            <div class="row g-3">
+                @foreach (var turno in _resumen.ProximosTurnos)
+                {
+                    <div class="col-12 col-xl-6"
+                         @key="turno.Id">
+                        <TurnoCard Turno="turno" />
+                    </div>
+                }
+            </div>
+        }
+    </section>
+}
+
+@code {
+    private DashboardAdminDto? _resumen;
+    private bool _cargando = true;
+    private string? _error;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            _resumen = await DashboardService
+                .ObtenerResumenAsync();
+        }
+        catch
+        {
+            _error = "No se pudo cargar el panel administrativo.";
+        }
+        finally
+        {
+            _cargando = false;
+        }
+    }
+}

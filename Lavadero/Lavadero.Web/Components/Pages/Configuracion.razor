@@ -1,0 +1,275 @@
+@page "/admin/configuracion"
+@rendermode InteractiveServer
+@attribute [Authorize(Roles = "Administrador")]
+@inject IConfiguracionLavaderoService ConfiguracionService
+
+<PageTitle>Configuración | Administración</PageTitle>
+
+<PageHeader Titulo="Configuración"
+            Subtitulo="Administrá los datos generales y la imagen del lavadero." />
+
+<AlertMessage Mensaje="@_mensajeError"
+              Tipo="danger"
+              OnCerrar="CerrarError" />
+
+<AlertMessage Mensaje="@_mensajeExito"
+              Tipo="success"
+              OnCerrar="CerrarExito" />
+
+@if (_cargando)
+{
+    <LoadingSpinner Texto="Cargando configuración..." />
+}
+else
+{
+    <div class="row g-4">
+        <div class="col-12 col-xl-7">
+            <section class="panel-card mb-4">
+                <h2 class="h5 mb-3">Imagen del lavadero</h2>
+
+                <div class="logo-editor">
+                    <div class="logo-preview">
+                        @if (_tieneLogo)
+                        {
+                            <img src="@LogoUrl"
+                                 alt="Logo actual del lavadero" />
+                        }
+                        else
+                        {
+                            <span aria-hidden="true">
+                                @InicialLavadero
+                            </span>
+                        }
+                    </div>
+
+                    <div class="logo-controls">
+                        <p class="text-secondary mb-1">
+                            PNG, JPG o WEBP. Máximo 500 KB.
+                        </p>
+
+                        <form method="post"
+                              action="/branding/logo/upload"
+                              enctype="multipart/form-data"
+                              class="logo-upload-form">
+
+                            <AntiforgeryToken />
+
+                            <input type="file"
+                                   name="logo"
+                                   class="form-control"
+                                   accept="image/png,image/jpeg,image/webp"
+                                   required />
+
+                            <button type="submit"
+                                    class="btn btn-primary">
+                                Subir imagen
+                            </button>
+                        </form>
+
+                        @if (_tieneLogo)
+                        {
+                            <form method="post"
+                                  action="/branding/logo/delete">
+                                <AntiforgeryToken />
+
+                                <button type="submit"
+                                        class="btn btn-sm btn-outline-danger">
+                                    Quitar imagen
+                                </button>
+                            </form>
+                        }
+                    </div>
+                </div>
+            </section>
+
+            <section class="panel-card">
+                <EditForm Model="_formulario"
+                          OnValidSubmit="GuardarAsync">
+
+                    <DataAnnotationsValidator />
+
+                    <div class="mb-3">
+                        <label class="form-label"
+                               for="config-nombre">
+                            Nombre del lavadero
+                        </label>
+
+                        <InputText id="config-nombre"
+                                   class="form-control"
+                                   @bind-Value="_formulario.Nombre" />
+
+                        <ValidationMessage For="() => _formulario.Nombre" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label"
+                               for="config-telefono">
+                            Teléfono
+                        </label>
+
+                        <InputText id="config-telefono"
+                                   class="form-control"
+                                   inputmode="tel"
+                                   maxlength="30"
+                                   pattern="[0-9+\-\s()]+"
+                                   @bind-Value="_formulario.Telefono" />
+
+                        <ValidationMessage For="() => _formulario.Telefono" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label"
+                               for="config-whatsapp">
+                            WhatsApp
+                        </label>
+
+                        <InputText id="config-whatsapp"
+                                   class="form-control"
+                                   inputmode="tel"
+                                   maxlength="30"
+                                   pattern="[0-9+\-\s()]+"
+                                   placeholder="Ej.: 5491112345678"
+                                   @bind-Value="_formulario.WhatsApp" />
+
+                        <ValidationMessage For="() => _formulario.WhatsApp" />
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label"
+                               for="config-direccion">
+                            Dirección
+                        </label>
+
+                        <InputText id="config-direccion"
+                                   class="form-control"
+                                   @bind-Value="_formulario.Direccion" />
+                    </div>
+
+                    <button type="submit"
+                            class="btn btn-primary"
+                            disabled="@_guardando">
+                        @(_guardando
+                            ? "Guardando..."
+                            : "Guardar configuración")
+                    </button>
+                </EditForm>
+            </section>
+        </div>
+    </div>
+}
+
+@code {
+    [SupplyParameterFromQuery(Name = "logo")]
+    public string? ResultadoLogo { get; set; }
+
+    private GuardarConfiguracionLavaderoRequest _formulario =
+        new();
+
+    private bool _cargando = true;
+    private bool _guardando;
+    private bool _tieneLogo;
+
+    private string? _mensajeError;
+    private string? _mensajeExito;
+
+    private long _logoVersion =
+        DateTime.UtcNow.Ticks;
+
+    private string LogoUrl =>
+        $"/branding/logo?v={_logoVersion}";
+
+    private string InicialLavadero =>
+        string.IsNullOrWhiteSpace(_formulario.Nombre)
+            ? "L"
+            : _formulario.Nombre[..1].ToUpperInvariant();
+
+    protected override async Task OnInitializedAsync()
+    {
+        AplicarResultadoLogo();
+
+        try
+        {
+            var configuracion =
+                await ConfiguracionService.ObtenerAsync();
+
+            _formulario =
+                new GuardarConfiguracionLavaderoRequest
+                {
+                    Nombre = configuracion.Nombre,
+                    Telefono = configuracion.Telefono,
+                    Direccion = configuracion.Direccion,
+                    WhatsApp = configuracion.WhatsApp
+                };
+
+            _tieneLogo =
+                configuracion.TieneLogo;
+        }
+        catch
+        {
+            _mensajeError =
+                "No se pudo cargar la configuración.";
+        }
+        finally
+        {
+            _cargando = false;
+        }
+    }
+
+    private void AplicarResultadoLogo()
+    {
+        _mensajeExito =
+            ResultadoLogo switch
+            {
+                "ok" => "Imagen actualizada correctamente.",
+                "deleted" => "Imagen eliminada correctamente.",
+                _ => null
+            };
+
+        _mensajeError =
+            ResultadoLogo switch
+            {
+                "invalid" =>
+                    "La imagen no es válida. Usá PNG, JPG o WEBP de hasta 500 KB.",
+
+                "error" =>
+                    "Ocurrió un error al procesar la imagen. Revisá la consola de Visual Studio para ver el detalle.",
+
+                _ => _mensajeError
+            };
+    }
+
+    private async Task GuardarAsync()
+    {
+        _guardando = true;
+        _mensajeError = null;
+        _mensajeExito = null;
+
+        try
+        {
+            var actualizada =
+                await ConfiguracionService
+                    .ActualizarAsync(_formulario);
+
+            _tieneLogo =
+                actualizada.TieneLogo;
+
+            _mensajeExito =
+                "Configuración actualizada correctamente.";
+        }
+        catch
+        {
+            _mensajeError =
+                "No se pudo guardar la configuración.";
+        }
+        finally
+        {
+            _guardando = false;
+        }
+    }
+
+    private void CerrarError() =>
+        _mensajeError = null;
+
+    private void CerrarExito() =>
+        _mensajeExito = null;
+}

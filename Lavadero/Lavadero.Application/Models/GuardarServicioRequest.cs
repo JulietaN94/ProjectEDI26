@@ -14,7 +14,11 @@ public sealed class GuardarServicioRequest
     [MaxLength(300, ErrorMessage = "La descripción no puede superar los 300 caracteres.")]
     public string? Descripcion { get; set; }
 
-    [Range(typeof(decimal), "0", "999999999.99", ErrorMessage = "El precio debe ser mayor o igual a cero.")]
+    [Range(
+        typeof(decimal),
+        "0",
+        "999999999.99",
+        ErrorMessage = "El precio debe estar entre $0 y $999.999.999,99.")]
     public decimal Precio { get; set; }
 
     [Range(1, 480, ErrorMessage = "La duración debe estar entre 1 y 480 minutos.")]

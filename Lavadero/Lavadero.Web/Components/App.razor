@@ -5,15 +5,70 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <base href="/" />
+
+    @*
+        El tema se aplica antes de cargar los CSS.
+        Al usar navegación normal entre páginas, este código se ejecuta
+        en cada carga y recupera siempre el valor persistido.
+    *@
+    <script>
+        (() => {
+            const clave = "lavadero-theme";
+
+            let tema = localStorage.getItem(clave);
+
+            if (tema !== "dark" && tema !== "light") {
+                tema = window.matchMedia?.("(prefers-color-scheme: dark)").matches
+                    ? "dark"
+                    : "light";
+            }
+
+            document.documentElement.dataset.theme = tema;
+        })();
+    </script>
+
     <link rel="stylesheet" href="bootstrap/bootstrap.min.css" />
     <link rel="stylesheet" href="app.css" />
     <link rel="stylesheet" href="Lavadero.Web.styles.css" />
-    <link rel="icon" type="image/png" href="favicon.png" />
+
+    @*
+        Volvemos a usar el favicon dinámico del logo guardado en SQL Server.
+        El parámetro v evita que el navegador conserve para siempre
+        una versión anterior del favicon.
+    *@
+    <link rel="icon"
+          href="@($"/branding/favicon?v={DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()}")" />
+
+    <link rel="shortcut icon"
+          href="@($"/branding/favicon?v={DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()}")" />
+
     <HeadOutlet />
 </head>
 
-<body>
+@*
+    Deshabilitamos la navegación mejorada para los enlaces de la aplicación.
+
+    El modo oscuro modifica dinámicamente <html> y <body>. La navegación
+    mejorada de Blazor puede reemplazar partes del DOM con el HTML recibido
+    del servidor y deshacer esos cambios. Con navegación normal, App.razor
+    vuelve a ejecutarse y recupera el tema desde localStorage antes del CSS.
+*@
+<body data-enhance-nav="false">
+    <script>
+        (() => {
+            const tema =
+                document.documentElement.dataset.theme ?? "light";
+
+            document.body.dataset.theme = tema;
+
+            document.body.classList.toggle(
+                "dark-mode",
+                tema === "dark");
+        })();
+    </script>
+
     <Routes />
+
     <script src="_framework/blazor.web.js"></script>
 </body>
 

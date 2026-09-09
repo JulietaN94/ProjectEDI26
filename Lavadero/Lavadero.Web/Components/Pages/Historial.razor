@@ -1,0 +1,267 @@
+@page "/admin/historial"
+@rendermode InteractiveServer
+@attribute [Authorize(Roles = "Administrador")]
+@inject ITurnoService TurnoService
+
+<PageTitle>Historial | Administración</PageTitle>
+
+<PageHeader Titulo="Historial"
+            Subtitulo="Consultá turnos anteriores por cliente, fecha y estado." />
+
+<AlertMessage Mensaje="@_mensajeError"
+              Tipo="danger"
+              OnCerrar="CerrarError" />
+
+<section class="filter-card mb-4"
+         aria-label="Filtros del historial">
+    <div class="row g-2 align-items-end">
+        <div class="col-12 col-lg-4">
+            <label class="form-label"
+                   for="historial-buscar">
+                Buscar
+            </label>
+
+            <input id="historial-buscar"
+                   class="form-control"
+                   placeholder="Cliente, teléfono, vehículo o servicio"
+                   @bind="_busqueda"
+                   @bind:event="oninput" />
+        </div>
+
+        <div class="col-6 col-lg-2">
+            <label class="form-label"
+                   for="historial-desde">
+                Desde
+            </label>
+
+            <input id="historial-desde"
+                   type="date"
+                   class="form-control"
+                   min="@FechaMinimaHistorial"
+                   max="@FechaMaximaHistorial"
+                   @bind="_desde" />
+        </div>
+
+        <div class="col-6 col-lg-2">
+            <label class="form-label"
+                   for="historial-hasta">
+                Hasta
+            </label>
+
+            <input id="historial-hasta"
+                   type="date"
+                   class="form-control"
+                   min="@FechaMinimaHistorial"
+                   max="@FechaMaximaHistorial"
+                   @bind="_hasta" />
+        </div>
+
+        <div class="col-12 col-lg-2">
+            <label class="form-label"
+                   for="historial-estado">
+                Estado
+            </label>
+
+            <select id="historial-estado"
+                    class="form-select"
+                    @bind="_estado">
+                <option value="">Todos</option>
+
+                @foreach (var estado in Enum.GetValues<EstadoTurno>())
+                {
+                    <option value="@estado">
+                        @estado
+                    </option>
+                }
+            </select>
+        </div>
+
+        <div class="col-12 col-lg-2 d-grid">
+            <button type="button"
+                    class="btn btn-primary"
+                    @onclick="BuscarAsync">
+                Buscar
+            </button>
+        </div>
+    </div>
+</section>
+
+@if (_cargando)
+{
+    <LoadingSpinner Texto="Cargando historial..." />
+}
+else if (_resultado.Items.Count == 0)
+{
+    <AlertMessage Mensaje="No se encontraron turnos históricos con esos filtros."
+                  Tipo="info" />
+}
+else
+{
+    <section class="panel-card">
+        <div class="table-responsive">
+            <table class="table align-middle">
+                <thead>
+                    <tr>
+                        <th scope="col">Fecha</th>
+                        <th scope="col">Cliente</th>
+                        <th scope="col">Vehículo</th>
+                        <th scope="col">Servicio</th>
+                        <th scope="col">Precio</th>
+                        <th scope="col">Estado</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @foreach (var turno in _resultado.Items)
+                    {
+                        <tr @key="turno.Id">
+                            <td class="text-nowrap">
+                                @turno.FechaHora.ToString("dd/MM/yyyy HH:mm")
+                            </td>
+
+                            <td>
+                                <strong>@turno.ClienteNombre</strong>
+                                <small class="d-block text-secondary">
+                                    @turno.ClienteTelefono
+                                </small>
+                            </td>
+
+                            <td>
+                                @turno.AutoMarca @turno.AutoModelo
+                            </td>
+
+                            <td>
+                                @turno.ServicioNombre
+                            </td>
+
+                            <td class="text-nowrap">
+                                @turno.ServicioPrecio.ToString("C0")
+                            </td>
+
+                            <td>
+                                <EstadoTurnoBadge Estado="turno.Estado" />
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <Paginacion PaginaActual="_resultado.Page"
+                     TotalPaginas="_resultado.TotalPages"
+                     OnCambio="CambiarPaginaAsync" />
+    </section>
+}
+
+@code {
+    private PagedResult<TurnoDto> _resultado = new();
+    private string? _busqueda;
+    private DateTime? _desde;
+    private DateTime? _hasta;
+    private EstadoTurno? _estado;
+    private int _pagina = 1;
+    private const int TamanioPagina = 10;
+    private bool _cargando = true;
+    private string? _mensajeError;
+    private DateTime _primeraFechaRegistro = DateTime.Today;
+
+    private string FechaMinimaHistorial =>
+        _primeraFechaRegistro.ToString("yyyy-MM-dd");
+
+    private string FechaMaximaHistorial =>
+        DateTime.Today.ToString("yyyy-MM-dd");
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            var primeraFecha =
+                await TurnoService.ObtenerPrimeraFechaRegistroAsync();
+
+            _primeraFechaRegistro =
+                (primeraFecha ?? DateTime.Today).Date;
+        }
+        catch
+        {
+            _primeraFechaRegistro =
+                DateTime.Today;
+        }
+
+        await CargarAsync();
+    }
+
+    private async Task BuscarAsync()
+    {
+        _mensajeError = null;
+
+        if (_desde.HasValue &&
+            _desde.Value.Date < _primeraFechaRegistro)
+        {
+            _desde = _primeraFechaRegistro;
+        }
+
+        if (_desde.HasValue &&
+            _desde.Value.Date > DateTime.Today)
+        {
+            _desde = DateTime.Today;
+        }
+
+        if (_hasta.HasValue &&
+            _hasta.Value.Date < _primeraFechaRegistro)
+        {
+            _hasta = _primeraFechaRegistro;
+        }
+
+        if (_hasta.HasValue &&
+            _hasta.Value.Date > DateTime.Today)
+        {
+            _hasta = DateTime.Today;
+        }
+
+        if (_desde.HasValue &&
+            _hasta.HasValue &&
+            _desde.Value.Date > _hasta.Value.Date)
+        {
+            _mensajeError =
+                "La fecha 'Desde' no puede ser posterior a la fecha 'Hasta'.";
+            return;
+        }
+
+        _pagina = 1;
+        await CargarAsync();
+    }
+
+    private async Task CambiarPaginaAsync(int pagina)
+    {
+        _pagina = pagina;
+        await CargarAsync();
+    }
+
+    private async Task CargarAsync()
+    {
+        _cargando = true;
+        _mensajeError = null;
+
+        try
+        {
+            _resultado = await TurnoService.ObtenerHistorialAsync(
+                _busqueda,
+                _desde,
+                _hasta,
+                _estado,
+                _pagina,
+                TamanioPagina);
+        }
+        catch
+        {
+            _mensajeError =
+                "No se pudo cargar el historial de turnos.";
+        }
+        finally
+        {
+            _cargando = false;
+        }
+    }
+
+    private void CerrarError() => _mensajeError = null;
+}

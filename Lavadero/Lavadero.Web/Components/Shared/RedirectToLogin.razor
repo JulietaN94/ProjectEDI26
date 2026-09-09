@@ -1,0 +1,32 @@
+@inject NavigationManager Navigation
+@inject AuthenticationStateProvider AuthenticationStateProvider
+
+<p class="text-secondary">Redirigiendo...</p>
+
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+        var estado = await AuthenticationStateProvider
+            .GetAuthenticationStateAsync();
+
+        if (estado.User.Identity?.IsAuthenticated == true)
+        {
+            Navigation.NavigateTo(
+                "/acceso-denegado",
+                forceLoad: true);
+
+            return;
+        }
+
+        var relativa = Navigation.ToBaseRelativePath(
+            Navigation.Uri);
+
+        var destinoActual = string.IsNullOrWhiteSpace(relativa)
+            ? "/"
+            : "/" + relativa;
+
+        Navigation.NavigateTo(
+            $"/login?returnUrl={Uri.EscapeDataString(destinoActual)}",
+            forceLoad: true);
+    }
+}

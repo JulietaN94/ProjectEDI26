@@ -15,6 +15,12 @@ public class Turno
 
     public EstadoTurno Estado { get; set; } = EstadoTurno.Pendiente;
 
+    /// <summary>
+    /// Precio del servicio al momento de crear la reserva.
+    /// Permite conservar un historial correcto aunque luego cambie el precio del servicio.
+    /// </summary>
+    public decimal PrecioServicio { get; set; }
+
     [MaxLength(500)]
     public string? Observaciones { get; set; }
 

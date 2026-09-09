@@ -1,18 +1,40 @@
 .page-shell {
-    min-height: 100vh;
+    height: 100vh;
     display: flex;
-    background: #f4f6f8;
+    overflow: hidden;
+    background: var(--app-bg);
+    color: var(--app-text);
 }
 
 .sidebar {
     width: 260px;
+    height: 100vh;
     flex-shrink: 0;
-    background: #172033;
+    overflow-y: auto;
+    overflow-x: hidden;
+    background: var(--app-sidebar);
+
+    /*
+        El sidebar tiene su propio alto de viewport.
+        El scroll del contenido principal no lo mueve.
+    */
+    scrollbar-width: thin;
 }
 
 .main-area {
     min-width: 0;
+    min-height: 0;
+    height: 100vh;
+    display: flex;
     flex: 1;
+    flex-direction: column;
+
+    /*
+        Solo esta zona se desplaza verticalmente.
+        El menú lateral permanece independiente.
+    */
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
 .topbar {
@@ -20,32 +42,58 @@
     position: sticky;
     top: 0;
     z-index: 20;
+    flex-shrink: 0;
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 1rem;
-    background: rgba(255, 255, 255, .96);
-    border-bottom: 1px solid #e3e7ec;
+    background: var(--app-topbar);
+    border-bottom: 1px solid var(--app-border);
+    backdrop-filter: blur(10px);
+}
+
+.topbar-copy {
+    min-width: 0;
+}
+
+.topbar-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: .6rem;
 }
 
 .topbar-title {
     font-weight: 700;
-    color: #172033;
+    color: var(--app-text);
 }
 
 .topbar-subtitle {
     margin-left: .75rem;
-    color: #6c757d;
+    color: var(--app-muted);
     font-size: .9rem;
 }
 
 .content-wrapper {
+    flex: 1 0 auto;
     padding: 1.5rem;
 }
 
 .content-container {
     width: min(1180px, 100%);
     margin: 0 auto;
+}
+
+.app-footer {
+    min-height: 58px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    border-top: 1px solid var(--app-border);
+    color: var(--app-muted);
+    font-size: .82rem;
 }
 
 #blazor-error-ui {
@@ -69,13 +117,28 @@
     font-size: 1.4rem;
 }
 
+/*
+    En móviles volvemos al scroll normal de la página.
+    Dejar un menú lateral fijo ocuparía demasiado espacio.
+*/
 @media (max-width: 767.98px) {
     .page-shell {
+        min-height: 100vh;
+        height: auto;
         display: block;
+        overflow: visible;
     }
 
     .sidebar {
         width: 100%;
+        height: auto;
+        overflow: visible;
+    }
+
+    .main-area {
+        min-height: 100vh;
+        height: auto;
+        overflow: visible;
     }
 
     .content-wrapper {
@@ -83,6 +146,29 @@
     }
 
     .topbar {
+        min-height: 60px;
         position: static;
+    }
+
+    .topbar-subtitle {
+        display: none;
+    }
+
+    .app-footer {
+        align-items: flex-start;
+        flex-direction: column;
+        padding-top: .9rem;
+        padding-bottom: .9rem;
+    }
+}
+
+@media (max-width: 419.98px) {
+    .topbar-copy {
+        display: none;
+    }
+
+    .topbar-actions {
+        width: 100%;
+        justify-content: space-between;
     }
 }

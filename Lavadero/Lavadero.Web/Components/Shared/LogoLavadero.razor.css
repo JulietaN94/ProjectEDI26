@@ -1,0 +1,51 @@
+.brand {
+    display: flex;
+    min-width: 0;
+    align-items: center;
+    gap: .75rem;
+    color: white;
+    text-decoration: none;
+}
+
+.brand:hover {
+    color: white;
+}
+
+.brand-logo,
+.brand-mark {
+    width: 42px;
+    height: 42px;
+    flex: 0 0 42px;
+    border-radius: 10px;
+}
+
+.brand-logo {
+    object-fit: cover;
+    background: white;
+}
+
+.brand-mark {
+    display: inline-grid;
+    place-items: center;
+    background: white;
+    color: #172033;
+    font-weight: 800;
+}
+
+.brand-copy {
+    min-width: 0;
+}
+
+.brand strong,
+.brand small {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.brand small {
+    margin-top: .05rem;
+    color: #aeb8ca;
+    font-size: .72rem;
+}

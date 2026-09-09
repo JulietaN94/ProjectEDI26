@@ -12,18 +12,18 @@ public static class DependencyInjection
         this IServiceCollection services,
         string connectionString)
     {
-        // Entity Framework Core
         services.AddDbContextFactory<LavaderoDbContext>(options =>
             options.UseSqlServer(
                 connectionString,
                 sql => sql.MigrationsAssembly(
                     typeof(LavaderoDbContext).Assembly.FullName)));
 
-        // Servicios de la aplicación
         services.AddScoped<IClienteService, ClienteService>();
         services.AddScoped<IServicioService, ServicioService>();
         services.AddScoped<ITurnoService, TurnoService>();
         services.AddScoped<IHorarioAtencionService, HorarioAtencionService>();
+        services.AddScoped<IConfiguracionLavaderoService, ConfiguracionLavaderoService>();
+        services.AddScoped<IDashboardAdminService, DashboardAdminService>();
 
         return services;
     }

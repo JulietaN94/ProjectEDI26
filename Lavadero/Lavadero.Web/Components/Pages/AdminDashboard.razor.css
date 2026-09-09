@@ -1,0 +1,56 @@
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 1rem;
+}
+
+.stat-card {
+    min-height: 122px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 1.2rem;
+    border: 1px solid var(--app-border);
+    border-radius: var(--app-radius);
+    background: white;
+}
+
+.stat-card span {
+    color: var(--app-muted);
+    font-size: .86rem;
+    font-weight: 600;
+}
+
+.stat-card strong {
+    font-size: 1.85rem;
+}
+
+.stat-income {
+    grid-column: span 1;
+}
+
+@media (max-width: 1199.98px) {
+    .stats-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 767.98px) {
+    .stats-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .stat-income {
+        grid-column: 1 / -1;
+    }
+}
+
+@media (max-width: 479.98px) {
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .stat-income {
+        grid-column: auto;
+    }
+}

@@ -1,35 +1,243 @@
-<header class="brand-row px-3">
-    <a class="brand" href="/" aria-label="Ir al inicio">
-        <span class="brand-mark" aria-hidden="true">L</span>
-        <span>
-            <strong>Lavadero</strong>
-            <small>Turnos online</small>
-        </span>
-    </a>
+<input id="lavadero-mobile-nav-toggle"
+       type="checkbox"
+       class="d-none" />
 
-    <input type="checkbox" title="Abrir o cerrar menú" class="navbar-toggler" aria-label="Abrir o cerrar menú" />
+<header class="brand-row px-3">
+    <LogoLavadero />
+
+    <label for="lavadero-mobile-nav-toggle"
+           class="mobile-menu-toggle d-md-none"
+           role="button"
+           aria-label="Abrir o cerrar menú"
+           title="Abrir o cerrar menú">
+
+        <span class="menu-icon-open"
+              aria-hidden="true">☰</span>
+
+        <span class="menu-icon-close"
+              aria-hidden="true">×</span>
+    </label>
 </header>
 
 <div class="nav-scrollable">
-    <nav class="nav flex-column px-2 pb-3" aria-label="Secciones de la aplicación">
+    <nav class="lavadero-nav nav flex-column px-2 pb-3"
+         aria-label="Secciones de la aplicación">
+
         <span class="nav-section">Cliente</span>
 
-        <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+        <NavLink class="nav-link"
+                 href=""
+                 Match="NavLinkMatch.All">
             Inicio
         </NavLink>
 
-        <NavLink class="nav-link" href="reservar">
+        <NavLink class="nav-link"
+                 href="reservar">
             Reservar turno
         </NavLink>
 
-        <span class="nav-section mt-3">Administración</span>
+        <AuthorizeView>
+            <Authorized Context="auth">
+                @if (auth.User.IsInRole("Administrador"))
+                {
+                    <span class="nav-section mt-3">
+                        Administración
+                    </span>
 
-        <NavLink class="nav-link" href="admin/turnos">
-            Turnos
-        </NavLink>
+                    <NavLink class="nav-link"
+                             href="admin"
+                             Match="NavLinkMatch.All">
+                        Panel
+                    </NavLink>
 
-        <NavLink class="nav-link" href="admin/servicios">
-            Servicios
-        </NavLink>
+                    <NavLink class="nav-link"
+                             href="admin/turnos">
+                        Turnos
+                    </NavLink>
+
+                    <NavLink class="nav-link"
+                             href="admin/historial">
+                        Historial
+                    </NavLink>
+
+                    <NavLink class="nav-link"
+                             href="admin/servicios">
+                        Servicios
+                    </NavLink>
+
+                    <NavLink class="nav-link"
+                             href="admin/horarios">
+                        Horarios
+                    </NavLink>
+
+                    <NavLink class="nav-link"
+                             href="admin/configuracion">
+                        Configuración
+                    </NavLink>
+
+                    <NavLink class="nav-link"
+                             href="admin/cuenta">
+                        Mi cuenta
+                    </NavLink>
+
+                    <div class="admin-user px-3 mt-3">
+                        <small>Sesión iniciada</small>
+                        <strong>
+                            @(auth.User.Identity?.Name ?? "Administrador")
+                        </strong>
+                    </div>
+
+                    <form method="post"
+                          action="/account/logout"
+                          class="px-2 mt-2">
+                        <AntiforgeryToken />
+
+                        <button type="submit"
+                                class="btn btn-sm btn-outline-light w-100">
+                            Cerrar sesión
+                        </button>
+                    </form>
+                }
+            </Authorized>
+
+            <NotAuthorized>
+                <span class="nav-section mt-3">
+                    Administración
+                </span>
+
+                <a class="nav-link"
+                   href="/login">
+                    Ingresar
+                </a>
+            </NotAuthorized>
+        </AuthorizeView>
     </nav>
 </div>
+
+@*
+    IMPORTANTE:
+    Estos estilos están acá intencionalmente.
+    Los intentos anteriores dependían de CSS Isolation de NavMenu.razor.css
+    y en tu ejecución esas clases nuevas no se estaban aplicando.
+    Así eliminamos esa dependencia para el comportamiento crítico del menú.
+*@
+<style>
+    .brand-row {
+        min-height: 64px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        position: relative;
+        border-bottom: 1px solid rgba(255, 255, 255, .08);
+    }
+
+    .nav-scrollable {
+        display: block;
+        padding-top: .75rem;
+    }
+
+    .lavadero-nav .nav-section {
+        display: block;
+        padding: .75rem .75rem .4rem;
+        color: #93a0b7;
+        font-size: .72rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: .08em;
+    }
+
+    .lavadero-nav .nav-link {
+        margin: .15rem 0;
+        padding: .7rem .8rem;
+        border-radius: 8px;
+        color: #d7deea;
+        text-decoration: none;
+    }
+
+    .lavadero-nav .nav-link:hover {
+        color: white;
+        background: rgba(255, 255, 255, .08);
+    }
+
+    .lavadero-nav .nav-link.active {
+        color: white;
+        background: rgba(255, 255, 255, .15);
+        font-weight: 600;
+    }
+
+    .admin-user {
+        display: grid;
+        gap: .1rem;
+        color: white;
+    }
+
+    .admin-user small {
+        color: #93a0b7;
+    }
+
+    .admin-user strong {
+        overflow: hidden;
+        font-size: .85rem;
+        text-overflow: ellipsis;
+    }
+
+    .mobile-menu-toggle {
+        width: 44px;
+        height: 40px;
+        flex: 0 0 44px;
+        align-items: center;
+        justify-content: center;
+        margin-left: 1rem;
+        border: 1px solid rgba(255, 255, 255, .38);
+        border-radius: 10px;
+        background: transparent;
+        color: white;
+        cursor: pointer;
+        font-size: 1.65rem;
+        line-height: 1;
+        user-select: none;
+    }
+
+    .menu-icon-close {
+        display: none;
+        font-size: 2rem;
+        line-height: .8;
+    }
+
+    @@media (max-width: 767.98px) {
+        .brand-row {
+            min-height: 60px;
+            padding-right: 1rem !important;
+        }
+
+        .mobile-menu-toggle {
+            display: flex !important;
+        }
+
+        #lavadero-mobile-nav-toggle:not(:checked) ~ .nav-scrollable {
+            display: none !important;
+        }
+
+        #lavadero-mobile-nav-toggle:checked ~ .nav-scrollable {
+            display: block !important;
+        }
+
+        #lavadero-mobile-nav-toggle:checked ~ .brand-row .menu-icon-open {
+            display: none;
+        }
+
+        #lavadero-mobile-nav-toggle:checked ~ .brand-row .menu-icon-close {
+            display: inline;
+        }
+    }
+
+    @@media (min-width: 768px) {
+        .mobile-menu-toggle {
+            display: none !important;
+        }
+
+        .nav-scrollable {
+            display: block !important;
+        }
+    }
+</style>

@@ -1,0 +1,315 @@
+@page "/admin/cuenta"
+@rendermode InteractiveServer
+@attribute [Authorize(Roles = "Administrador")]
+@inject UserManager<ApplicationUser> UserManager
+@inject AuthenticationStateProvider AuthenticationStateProvider
+
+<PageTitle>Mi cuenta | Administración</PageTitle>
+
+<PageHeader Titulo="Mi cuenta"
+            Subtitulo="Actualizá el nombre visible o cambiá tu contraseña." />
+
+<AlertMessage Mensaje="@_mensajeError"
+              Tipo="danger"
+              OnCerrar="CerrarError" />
+
+<AlertMessage Mensaje="@_mensajeExito"
+              Tipo="success"
+              OnCerrar="CerrarExito" />
+
+@if (_cargando)
+{
+    <LoadingSpinner Texto="Cargando cuenta..." />
+}
+else if (_usuario is not null)
+{
+    <div class="row g-4">
+        <div class="col-12 col-lg-6">
+            <section class="panel-card">
+                <h2 class="h5 mb-3">Datos del usuario</h2>
+
+                <EditForm Model="_perfil"
+                          OnValidSubmit="GuardarPerfilAsync">
+
+                    <DataAnnotationsValidator />
+
+                    <div class="mb-3">
+                        <label class="form-label">
+                            Usuario
+                        </label>
+
+                        <input class="form-control"
+                               value="@_usuario.UserName"
+                               disabled />
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label"
+                               for="cuenta-nombre">
+                            Nombre completo
+                        </label>
+
+                        <InputText id="cuenta-nombre"
+                                   class="form-control"
+                                   @bind-Value="_perfil.NombreCompleto" />
+
+                        <ValidationMessage For="() => _perfil.NombreCompleto" />
+                    </div>
+
+                    <button type="submit"
+                            class="btn btn-primary"
+                            disabled="@_guardandoPerfil">
+                        @(_guardandoPerfil ? "Guardando..." : "Guardar perfil")
+                    </button>
+                </EditForm>
+            </section>
+        </div>
+
+        <div class="col-12 col-lg-6">
+            <section class="panel-card">
+                <h2 class="h5 mb-3">Cambiar contraseña</h2>
+
+                <EditForm Model="_password"
+                          OnValidSubmit="CambiarPasswordAsync">
+
+                    <DataAnnotationsValidator />
+
+                    <div class="mb-3">
+                        <label class="form-label"
+                               for="password-actual">
+                            Contraseña actual
+                        </label>
+
+                        <InputText id="password-actual"
+                                   type="password"
+                                   class="form-control"
+                                   autocomplete="current-password"
+                                   @bind-Value="_password.PasswordActual" />
+
+                        <ValidationMessage For="() => _password.PasswordActual" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label"
+                               for="password-nueva">
+                            Nueva contraseña
+                        </label>
+
+                        <InputText id="password-nueva"
+                                   type="password"
+                                   class="form-control"
+                                   autocomplete="new-password"
+                                   @bind-Value="_password.NuevaPassword" />
+
+                        <ValidationMessage For="() => _password.NuevaPassword" />
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label"
+                               for="password-confirmacion">
+                            Repetir nueva contraseña
+                        </label>
+
+                        <InputText id="password-confirmacion"
+                                   type="password"
+                                   class="form-control"
+                                   autocomplete="new-password"
+                                   @bind-Value="_password.Confirmacion" />
+
+                        <ValidationMessage For="() => _password.Confirmacion" />
+                    </div>
+
+                    <button type="submit"
+                            class="btn btn-outline-primary"
+                            disabled="@_cambiandoPassword">
+                        @(_cambiandoPassword ? "Actualizando..." : "Cambiar contraseña")
+                    </button>
+                </EditForm>
+            </section>
+        </div>
+    </div>
+}
+
+@code {
+    private ApplicationUser? _usuario;
+    private PerfilModel _perfil = new();
+    private PasswordModel _password = new();
+    private bool _cargando = true;
+    private bool _guardandoPerfil;
+    private bool _cambiandoPassword;
+    private string? _mensajeError;
+    private string? _mensajeExito;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            var estado = await AuthenticationStateProvider
+                .GetAuthenticationStateAsync();
+
+            _usuario = await UserManager
+                .GetUserAsync(estado.User);
+
+            if (_usuario is null)
+            {
+                _mensajeError =
+                    "No se pudo obtener el usuario autenticado.";
+
+                return;
+            }
+
+            _perfil = new PerfilModel
+            {
+                NombreCompleto = _usuario.NombreCompleto
+            };
+        }
+        catch
+        {
+            _mensajeError =
+                "No se pudo cargar la cuenta.";
+        }
+        finally
+        {
+            _cargando = false;
+        }
+    }
+
+    private async Task GuardarPerfilAsync()
+    {
+        if (_usuario is null)
+            return;
+
+        _guardandoPerfil = true;
+        _mensajeError = null;
+        _mensajeExito = null;
+
+        try
+        {
+            _usuario.NombreCompleto =
+                _perfil.NombreCompleto.Trim();
+
+            var resultado = await UserManager
+                .UpdateAsync(_usuario);
+
+            if (!resultado.Succeeded)
+            {
+                _mensajeError =
+                    TraducirErroresIdentity(resultado.Errors);
+
+                return;
+            }
+
+            _mensajeExito =
+                "Perfil actualizado correctamente.";
+        }
+        finally
+        {
+            _guardandoPerfil = false;
+        }
+    }
+
+    private async Task CambiarPasswordAsync()
+    {
+        if (_usuario is null)
+            return;
+
+        _cambiandoPassword = true;
+        _mensajeError = null;
+        _mensajeExito = null;
+
+        try
+        {
+            var resultado = await UserManager
+                .ChangePasswordAsync(
+                    _usuario,
+                    _password.PasswordActual,
+                    _password.NuevaPassword);
+
+            if (!resultado.Succeeded)
+            {
+                _mensajeError =
+                    TraducirErroresIdentity(resultado.Errors);
+
+                return;
+            }
+
+            _password = new PasswordModel();
+            _mensajeExito =
+                "Contraseña actualizada correctamente.";
+        }
+        finally
+        {
+            _cambiandoPassword = false;
+        }
+    }
+
+    private static string TraducirErroresIdentity(
+        IEnumerable<IdentityError> errores) =>
+        string.Join(
+            " ",
+            errores.Select(TraducirErrorIdentity));
+
+    private static string TraducirErrorIdentity(
+        IdentityError error) =>
+        error.Code switch
+        {
+            "PasswordMismatch" =>
+                "La contraseña actual es incorrecta.",
+
+            "PasswordTooShort" =>
+                "La nueva contraseña debe tener al menos 8 caracteres.",
+
+            "PasswordRequiresDigit" =>
+                "La nueva contraseña debe incluir al menos un número.",
+
+            "PasswordRequiresUpper" =>
+                "La nueva contraseña debe incluir al menos una letra mayúscula.",
+
+            "PasswordRequiresLower" =>
+                "La nueva contraseña debe incluir al menos una letra minúscula.",
+
+            "PasswordRequiresNonAlphanumeric" =>
+                "La nueva contraseña debe incluir al menos un carácter especial.",
+
+            "DuplicateUserName" =>
+                "El nombre de usuario ya está en uso.",
+
+            "DuplicateEmail" =>
+                "El correo electrónico ya está en uso.",
+
+            "InvalidUserName" =>
+                "El nombre de usuario no es válido.",
+
+            "InvalidEmail" =>
+                "El correo electrónico no es válido.",
+
+            _ =>
+                "No se pudo realizar la operación. Revisá los datos ingresados."
+        };
+
+    private void CerrarError() =>
+        _mensajeError = null;
+
+    private void CerrarExito() =>
+        _mensajeExito = null;
+
+    private sealed class PerfilModel
+    {
+        [Required(ErrorMessage = "El nombre completo es obligatorio.")]
+        [MaxLength(100)]
+        public string NombreCompleto { get; set; } = string.Empty;
+    }
+
+    private sealed class PasswordModel
+    {
+        [Required(ErrorMessage = "Ingresá tu contraseña actual.")]
+        public string PasswordActual { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "Ingresá una nueva contraseña.")]
+        [MinLength(8, ErrorMessage = "La contraseña debe tener al menos 8 caracteres.")]
+        public string NuevaPassword { get; set; } = string.Empty;
+
+        [Compare(nameof(NuevaPassword), ErrorMessage = "Las contraseñas no coinciden.")]
+        public string Confirmacion { get; set; } = string.Empty;
+    }
+}

@@ -1,0 +1,25 @@
+.login-shell {
+    min-height: calc(100vh - 140px);
+    display: grid;
+    place-items: center;
+    padding: 2rem 0;
+}
+
+.login-card {
+    width: min(100%, 440px);
+    padding: 2rem;
+    border: 1px solid var(--app-border);
+    border-radius: var(--app-radius);
+    background: var(--app-surface);
+    box-shadow: var(--app-shadow-sm);
+}
+
+.eyebrow {
+    display: block;
+    margin-bottom: .4rem;
+    color: var(--app-primary);
+    font-size: .78rem;
+    font-weight: 800;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+}

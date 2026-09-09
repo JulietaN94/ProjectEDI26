@@ -1,0 +1,32 @@
+.theme-toggle {
+    min-height: 38px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: .45rem;
+    padding: .45rem .7rem;
+    border: 1px solid var(--app-border);
+    border-radius: 9px;
+    background: var(--app-surface);
+    color: var(--app-text);
+    font-size: .88rem;
+    font-weight: 600;
+    transition:
+        background-color .15s ease,
+        border-color .15s ease,
+        transform .15s ease;
+}
+
+.theme-toggle:hover:not(:disabled) {
+    transform: translateY(-1px);
+    background: var(--app-surface-alt);
+}
+
+.theme-toggle:disabled {
+    opacity: .6;
+}
+
+.theme-toggle > span:first-child {
+    font-size: 1.05rem;
+    line-height: 1;
+}

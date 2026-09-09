@@ -2,22 +2,24 @@
 @rendermode InteractiveServer
 @inject IServicioService ServicioService
 @inject ITurnoService TurnoService
+@inject IHorarioAtencionService HorarioAtencionService
+@inject IConfiguracionLavaderoService ConfiguracionService
 @inject ReservaState ReservaState
 
 <PageTitle>Reservar turno | Lavadero</PageTitle>
 
 <PageHeader Titulo="Reservar turno"
-            Subtitulo="Completá tus datos, elegí el servicio y seleccioná una fecha disponible." />
+            Subtitulo="Elegí el servicio, el día y uno de los horarios realmente disponibles." />
 
-@if (_mensajeExito is not null)
+@if (_turnoCreado is not null)
 {
-    <AlertMessage Mensaje="@_mensajeExito" Tipo="success" OnCerrar="CerrarExito" />
+    <ReservaConfirmacion Turno="_turnoCreado"
+                         WhatsApp="_whatsAppLavadero" />
 }
 
-@if (_mensajeError is not null)
-{
-    <AlertMessage Mensaje="@_mensajeError" Tipo="danger" OnCerrar="CerrarError" />
-}
+<AlertMessage Mensaje="@_mensajeError"
+              Tipo="danger"
+              OnCerrar="CerrarError" />
 
 @if (_cargandoServicios)
 {
@@ -26,93 +28,263 @@
 else
 {
     <div class="row g-4">
-        <div class="col-12 col-lg-8">
-            <section class="form-card" aria-label="Formulario de reserva">
-                <EditForm Model="_modelo" OnValidSubmit="ReservarAsync">
+        <div class="col-12 col-xl-8">
+            <section class="form-card"
+                     aria-label="Formulario de reserva">
+
+                <EditForm Model="_modelo"
+                          OnValidSubmit="ReservarAsync">
+
                     <DataAnnotationsValidator />
                     <ValidationSummary class="text-danger mb-3" />
 
                     <fieldset class="mb-4">
-                        <legend>Datos del cliente</legend>
+                        <legend>1. Elegí el servicio</legend>
+
+                        <label class="form-label"
+                               for="servicio">
+                            Servicio
+                        </label>
+
+                        <InputSelect id="servicio"
+                                     class="form-select"
+                                     @bind-Value="_modelo.ServicioId"
+                                     @bind-Value:after="ServicioCambiadoAsync">
+
+                            <option value="0">
+                                Seleccionar servicio...
+                            </option>
+
+                            @foreach (var servicio in _servicios)
+                            {
+                                <option value="@servicio.Id">
+                                    @servicio.Nombre -
+                                    @servicio.Precio.ToString("C0")
+                                    (@servicio.DuracionMinutos min)
+                                </option>
+                            }
+                        </InputSelect>
+
+                        <ValidationMessage For="() => _modelo.ServicioId" />
+                    </fieldset>
+
+                    @if (_modelo.ServicioId > 0)
+                    {
+                        <fieldset class="mb-4">
+                            <legend>2. Elegí el día</legend>
+
+                            <div class="month-heading">
+                                <div>
+                                    <strong>@NombreMes(DateTime.Today)</strong>
+                                    <span>
+                                        Solo podés reservar hasta el
+                                        @UltimoDiaMes.ToString("dd/MM/yyyy").
+                                    </span>
+                                </div>
+
+                                <span class="month-badge">
+                                    @DiasDisponibles.Count días
+                                </span>
+                            </div>
+
+                            @if (DiasDisponibles.Count == 0)
+                            {
+                                <div class="alert alert-info mb-0"
+                                     role="status">
+                                    No hay días de atención habilitados para lo que queda del mes.
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="days-grid"
+                                     role="group"
+                                     aria-label="Días disponibles del mes actual">
+
+                                    @foreach (var fecha in DiasDisponibles)
+                                    {
+                                        var seleccionada =
+                                            _fechaSeleccionada?.Date == fecha.Date;
+
+                                        <button type="button"
+                                                class="day-card @(seleccionada ? "selected" : "")"
+                                                aria-pressed="@seleccionada"
+                                                @onclick="() => SeleccionarFechaAsync(fecha)">
+                                            <span>@NombreDiaCorto(fecha.DayOfWeek)</span>
+                                            <strong>@fecha.Day</strong>
+                                            <small>@NombreMesCorto(fecha)</small>
+                                        </button>
+                                    }
+                                </div>
+                            }
+                        </fieldset>
+                    }
+
+                    @if (_fechaSeleccionada.HasValue)
+                    {
+                        <fieldset class="mb-4">
+                            <legend>3. Elegí el horario</legend>
+
+                            <div class="selected-date">
+                                @NombreDiaCompleto(_fechaSeleccionada.Value.DayOfWeek),
+                                @_fechaSeleccionada.Value.ToString("dd/MM/yyyy")
+                            </div>
+
+                            @if (_cargandoHorarios)
+                            {
+                                <LoadingSpinner Texto="Buscando horarios..." />
+                            }
+                            else if (_horariosDisponibles.Count == 0)
+                            {
+                                <div class="alert alert-info mb-0"
+                                     role="status">
+                                    No quedan horarios disponibles para ese día.
+                                    Elegí otra fecha.
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="time-grid"
+                                     role="group"
+                                     aria-label="Horarios disponibles">
+
+                                    @foreach (var hora in _horariosDisponibles)
+                                    {
+                                        var seleccionada =
+                                            _horaSeleccionada == hora;
+
+                                        <button type="button"
+                                                class="time-slot @(seleccionada ? "selected" : "")"
+                                                aria-pressed="@seleccionada"
+                                                @onclick="() => SeleccionarHora(hora)">
+                                            @DateTime.Today.Add(hora).ToString("HH:mm")
+                                        </button>
+                                    }
+                                </div>
+                            }
+                        </fieldset>
+                    }
+
+                    <fieldset class="mb-4">
+                        <legend>4. Tus datos</legend>
+
                         <div class="row g-3">
                             <div class="col-12 col-md-7">
-                                <label class="form-label" for="nombre">Nombre completo</label>
-                                <InputText id="nombre" class="form-control" @bind-Value="_modelo.NombreCompleto" />
+                                <label class="form-label"
+                                       for="nombre">
+                                    Nombre completo
+                                </label>
+
+                                <InputText id="nombre"
+                                           class="form-control"
+                                           autocomplete="name"
+                                           @bind-Value="_modelo.NombreCompleto" />
+
                                 <ValidationMessage For="() => _modelo.NombreCompleto" />
                             </div>
+
                             <div class="col-12 col-md-5">
-                                <label class="form-label" for="telefono">Teléfono</label>
-                                <InputText id="telefono" class="form-control" @bind-Value="_modelo.Telefono" />
+                                <label class="form-label"
+                                       for="telefono">
+                                    Teléfono
+                                </label>
+
+                                <InputText id="telefono"
+                                           class="form-control"
+                                           inputmode="tel"
+                                           autocomplete="tel"
+                                           maxlength="30"
+                                           pattern="[0-9+\-\s()]+"
+                                           @bind-Value="_modelo.Telefono" />
+
                                 <ValidationMessage For="() => _modelo.Telefono" />
                             </div>
                         </div>
                     </fieldset>
 
                     <fieldset class="mb-4">
-                        <legend>Vehículo</legend>
+                        <legend>5. Vehículo</legend>
+
                         <div class="row g-3">
                             <div class="col-12 col-md-6">
-                                <label class="form-label" for="marca">Marca</label>
-                                <InputText id="marca" class="form-control" @bind-Value="_modelo.Marca" />
+                                <label class="form-label"
+                                       for="marca">
+                                    Marca
+                                </label>
+
+                                <InputText id="marca"
+                                           class="form-control"
+                                           @bind-Value="_modelo.Marca" />
+
                                 <ValidationMessage For="() => _modelo.Marca" />
                             </div>
+
                             <div class="col-12 col-md-6">
-                                <label class="form-label" for="modelo">Modelo</label>
-                                <InputText id="modelo" class="form-control" @bind-Value="_modelo.Modelo" />
+                                <label class="form-label"
+                                       for="modelo">
+                                    Modelo
+                                </label>
+
+                                <InputText id="modelo"
+                                           class="form-control"
+                                           @bind-Value="_modelo.Modelo" />
+
                                 <ValidationMessage For="() => _modelo.Modelo" />
                             </div>
-                        </div>
-                    </fieldset>
 
-                    <fieldset class="mb-4">
-                        <legend>Turno</legend>
-                        <div class="row g-3">
-                            <div class="col-12 col-md-7">
-                                <label class="form-label" for="servicio">Servicio</label>
-                                <InputSelect id="servicio" class="form-select" @bind-Value="_modelo.ServicioId">
-                                    <option value="0">Seleccionar servicio...</option>
-                                    @foreach (var servicio in _servicios)
-                                    {
-                                        <option value="@servicio.Id">
-                                            @servicio.Nombre - @servicio.Precio.ToString("C0") (@servicio.DuracionMinutos min)
-                                        </option>
-                                    }
-                                </InputSelect>
-                                <ValidationMessage For="() => _modelo.ServicioId" />
-                            </div>
-                            <div class="col-12 col-md-5">
-                                <label class="form-label" for="fechaHora">Fecha y hora</label>
-                                <InputDate id="fechaHora"
-                                           class="form-control"
-                                           Type="InputDateType.DateTimeLocal"
-                                           min="@FechaMinima"
-                                           @bind-Value="_modelo.FechaHora" />
-                                <ValidationMessage For="() => _modelo.FechaHora" />
-                            </div>
                             <div class="col-12">
-                                <label class="form-label" for="observaciones">Observaciones <span class="text-secondary">(opcional)</span></label>
-                                <InputTextArea id="observaciones" class="form-control" rows="3" @bind-Value="_modelo.Observaciones" />
+                                <label class="form-label"
+                                       for="observaciones">
+                                    Observaciones
+                                    <span class="text-secondary">
+                                        (opcional)
+                                    </span>
+                                </label>
+
+                                <InputTextArea id="observaciones"
+                                               class="form-control"
+                                               rows="3"
+                                               @bind-Value="_modelo.Observaciones" />
+
                                 <ValidationMessage For="() => _modelo.Observaciones" />
                             </div>
                         </div>
                     </fieldset>
 
-                    <button type="submit" class="btn btn-primary" disabled="@_guardando">
-                        @(_guardando ? "Guardando..." : "Confirmar reserva")
+                    <button type="submit"
+                            class="btn btn-primary btn-lg"
+                            disabled="@(_guardando || !_fechaSeleccionada.HasValue || !_horaSeleccionada.HasValue)">
+                        @(_guardando
+                            ? "Guardando..."
+                            : "Confirmar reserva")
                     </button>
                 </EditForm>
             </section>
         </div>
 
-        <div class="col-12 col-lg-4">
+        <div class="col-12 col-xl-4">
             <aside class="info-card">
-                <h2>Antes de reservar</h2>
+                <h2>Reserva simple</h2>
+
                 <ul>
-                    <li>No necesitás crear una cuenta.</li>
-                    <li>El horario debe estar dentro de la atención del lavadero.</li>
-                    <li>El sistema evita turnos superpuestos.</li>
-                    <li>La reserva se crea inicialmente como pendiente.</li>
+                    <li>Solo se muestran días desde hoy hasta fin de mes.</li>
+                    <li>No se puede elegir el mes anterior ni el siguiente.</li>
+                    <li>Solo aparecen horarios libres.</li>
+                    <li>Los turnos cancelados vuelven a liberar su horario.</li>
+                    <li>La duración del servicio se tiene en cuenta automáticamente.</li>
                 </ul>
+
+                @if (_fechaSeleccionada.HasValue &&
+                     _horaSeleccionada.HasValue)
+                {
+                    <div class="reservation-summary">
+                        <span>Tu selección</span>
+                        <strong>
+                            @_fechaSeleccionada.Value.ToString("dd/MM/yyyy")
+                            a las
+                            @DateTime.Today.Add(_horaSeleccionada.Value).ToString("HH:mm")
+                        </strong>
+                    </div>
+                }
             </aside>
         </div>
     </div>
@@ -122,27 +294,100 @@ else
     [SupplyParameterFromQuery(Name = "servicio")]
     public int? ServicioDesdeQuery { get; set; }
 
-    private CrearReservaRequest _modelo = NuevoModelo();
-    private IReadOnlyList<ServicioDto> _servicios = Array.Empty<ServicioDto>();
+    private CrearReservaRequest _modelo = new();
+
+    private IReadOnlyList<ServicioDto> _servicios =
+        Array.Empty<ServicioDto>();
+
+    private IReadOnlyList<TimeSpan> _horariosDisponibles =
+        Array.Empty<TimeSpan>();
+
+    private HashSet<DayOfWeek> _diasAbiertos = new();
+
+    private DateTime? _fechaSeleccionada;
+    private TimeSpan? _horaSeleccionada;
+    private TurnoDto? _turnoCreado;
+    private string? _whatsAppLavadero;
     private bool _cargandoServicios = true;
+    private bool _cargandoHorarios;
     private bool _guardando;
-    private string? _mensajeExito;
     private string? _mensajeError;
 
-    private string FechaMinima => DateTime.Now.ToString("yyyy-MM-ddTHH:mm");
+    private DateTime UltimoDiaMes =>
+        new(
+            DateTime.Today.Year,
+            DateTime.Today.Month,
+            DateTime.DaysInMonth(
+                DateTime.Today.Year,
+                DateTime.Today.Month));
+
+    private IReadOnlyList<DateTime> DiasDisponibles
+    {
+        get
+        {
+            var hoy = DateTime.Today;
+            var ultimo = UltimoDiaMes;
+
+            return Enumerable
+                .Range(
+                    0,
+                    (ultimo - hoy).Days + 1)
+                .Select(
+                    i => hoy.AddDays(i))
+                .Where(fecha =>
+                    _diasAbiertos.Contains(
+                        fecha.DayOfWeek))
+                .ToList();
+        }
+    }
 
     protected override async Task OnInitializedAsync()
     {
         try
         {
-            _servicios = await ServicioService.ObtenerActivosAsync();
+            var serviciosTask =
+                ServicioService.ObtenerActivosAsync();
 
-            if (ServicioDesdeQuery is > 0 && _servicios.Any(x => x.Id == ServicioDesdeQuery.Value))
-                _modelo.ServicioId = ServicioDesdeQuery.Value;
+            var configuracionTask =
+                ConfiguracionService.ObtenerAsync();
+
+            var horariosTask =
+                HorarioAtencionService.ObtenerTodosAsync();
+
+            await Task.WhenAll(
+                serviciosTask,
+                configuracionTask,
+                horariosTask);
+
+            _servicios =
+                await serviciosTask;
+
+            var horarios =
+                await horariosTask;
+
+            _diasAbiertos = horarios
+                .Where(x => x.Activo)
+                .Select(x => x.DiaSemana)
+                .ToHashSet();
+
+            var configuracion =
+                await configuracionTask;
+
+            _whatsAppLavadero =
+                configuracion.WhatsApp;
+
+            if (ServicioDesdeQuery is > 0 &&
+                _servicios.Any(
+                    x => x.Id == ServicioDesdeQuery.Value))
+            {
+                _modelo.ServicioId =
+                    ServicioDesdeQuery.Value;
+            }
         }
         catch
         {
-            _mensajeError = "No se pudieron cargar los servicios disponibles.";
+            _mensajeError =
+                "No se pudieron cargar los datos necesarios para reservar.";
         }
         finally
         {
@@ -150,27 +395,119 @@ else
         }
     }
 
-    private async Task ReservarAsync()
+    private Task ServicioCambiadoAsync()
     {
-        _guardando = true;
+        _fechaSeleccionada = null;
+        _horaSeleccionada = null;
+        _horariosDisponibles =
+            Array.Empty<TimeSpan>();
+
+        return Task.CompletedTask;
+    }
+
+    private async Task SeleccionarFechaAsync(
+        DateTime fecha)
+    {
+        _fechaSeleccionada = fecha.Date;
+        _horaSeleccionada = null;
+        _modelo.FechaHora = default;
         _mensajeError = null;
-        _mensajeExito = null;
+
+        await CargarHorariosAsync();
+    }
+
+    private async Task CargarHorariosAsync()
+    {
+        if (!_fechaSeleccionada.HasValue ||
+            _modelo.ServicioId <= 0)
+        {
+            _horariosDisponibles =
+                Array.Empty<TimeSpan>();
+            return;
+        }
+
+        _cargandoHorarios = true;
 
         try
         {
-            var turno = await TurnoService.CrearReservaAsync(_modelo);
-            ReservaState.EstablecerUltimaReserva(turno);
-
-            _mensajeExito = $"Reserva creada correctamente. Turno #{turno.Id} para el {turno.FechaHora:dd/MM/yyyy HH:mm}.";
-            _modelo = NuevoModelo();
-        }
-        catch (Exception ex) when (ex is InvalidOperationException or KeyNotFoundException)
-        {
-            _mensajeError = ex.Message;
+            _horariosDisponibles =
+                await TurnoService
+                    .ObtenerHorariosDisponiblesAsync(
+                        _modelo.ServicioId,
+                        _fechaSeleccionada.Value);
         }
         catch
         {
-            _mensajeError = "No se pudo crear la reserva. Intentá nuevamente.";
+            _horariosDisponibles =
+                Array.Empty<TimeSpan>();
+
+            _mensajeError =
+                "No se pudieron consultar los horarios disponibles.";
+        }
+        finally
+        {
+            _cargandoHorarios = false;
+        }
+    }
+
+    private void SeleccionarHora(
+        TimeSpan hora)
+    {
+        if (!_fechaSeleccionada.HasValue)
+            return;
+
+        _horaSeleccionada = hora;
+
+        _modelo.FechaHora =
+            _fechaSeleccionada.Value.Date.Add(hora);
+    }
+
+    private async Task ReservarAsync()
+    {
+        _mensajeError = null;
+
+        if (!_fechaSeleccionada.HasValue ||
+            !_horaSeleccionada.HasValue)
+        {
+            _mensajeError =
+                "Seleccioná un día y un horario disponible.";
+            return;
+        }
+
+        _guardando = true;
+        _turnoCreado = null;
+
+        try
+        {
+            var turno =
+                await TurnoService
+                    .CrearReservaAsync(_modelo);
+
+            ReservaState
+                .EstablecerUltimaReserva(turno);
+
+            _turnoCreado = turno;
+
+            _modelo = new CrearReservaRequest();
+            _fechaSeleccionada = null;
+            _horaSeleccionada = null;
+            _horariosDisponibles =
+                Array.Empty<TimeSpan>();
+        }
+        catch (Exception ex)
+            when (ex is InvalidOperationException
+                     or KeyNotFoundException)
+        {
+            _mensajeError = ex.Message;
+
+            // Si alguien ocupó el horario mientras el usuario
+            // estaba completando el formulario, refrescamos la grilla.
+            await CargarHorariosAsync();
+        }
+        catch
+        {
+            _mensajeError =
+                "No se pudo crear la reserva. Intentá nuevamente.";
         }
         finally
         {
@@ -178,20 +515,72 @@ else
         }
     }
 
-    private static CrearReservaRequest NuevoModelo() => new()
-    {
-        FechaHora = ProximaMediaHora()
-    };
+    private static string NombreDiaCorto(
+        DayOfWeek dia) =>
+        dia switch
+        {
+            DayOfWeek.Monday => "Lun",
+            DayOfWeek.Tuesday => "Mar",
+            DayOfWeek.Wednesday => "Mié",
+            DayOfWeek.Thursday => "Jue",
+            DayOfWeek.Friday => "Vie",
+            DayOfWeek.Saturday => "Sáb",
+            DayOfWeek.Sunday => "Dom",
+            _ => ""
+        };
 
-    private static DateTime ProximaMediaHora()
-    {
-        var ahora = DateTime.Now.AddHours(1);
-        var minutos = ahora.Minute < 30 ? 30 : 0;
-        var hora = minutos == 0 ? ahora.AddHours(1).Hour : ahora.Hour;
-        var fecha = minutos == 0 && hora == 0 ? ahora.Date.AddDays(1) : ahora.Date;
-        return new DateTime(fecha.Year, fecha.Month, fecha.Day, hora, minutos, 0);
-    }
+    private static string NombreDiaCompleto(
+        DayOfWeek dia) =>
+        dia switch
+        {
+            DayOfWeek.Monday => "Lunes",
+            DayOfWeek.Tuesday => "Martes",
+            DayOfWeek.Wednesday => "Miércoles",
+            DayOfWeek.Thursday => "Jueves",
+            DayOfWeek.Friday => "Viernes",
+            DayOfWeek.Saturday => "Sábado",
+            DayOfWeek.Sunday => "Domingo",
+            _ => ""
+        };
 
-    private void CerrarExito() => _mensajeExito = null;
-    private void CerrarError() => _mensajeError = null;
+    private static string NombreMes(
+        DateTime fecha) =>
+        fecha.Month switch
+        {
+            1 => $"Enero {fecha.Year}",
+            2 => $"Febrero {fecha.Year}",
+            3 => $"Marzo {fecha.Year}",
+            4 => $"Abril {fecha.Year}",
+            5 => $"Mayo {fecha.Year}",
+            6 => $"Junio {fecha.Year}",
+            7 => $"Julio {fecha.Year}",
+            8 => $"Agosto {fecha.Year}",
+            9 => $"Septiembre {fecha.Year}",
+            10 => $"Octubre {fecha.Year}",
+            11 => $"Noviembre {fecha.Year}",
+            12 => $"Diciembre {fecha.Year}",
+            _ => fecha.ToString("MMMM yyyy")
+        };
+
+    private static string NombreMesCorto(
+        DateTime fecha) =>
+        fecha.Month switch
+        {
+            1 => "Ene",
+            2 => "Feb",
+            3 => "Mar",
+            4 => "Abr",
+            5 => "May",
+            6 => "Jun",
+            7 => "Jul",
+            8 => "Ago",
+            9 => "Sep",
+            10 => "Oct",
+            11 => "Nov",
+            12 => "Dic",
+            _ => ""
+        };
+
+    private void CerrarError() =>
+        _mensajeError = null;
 }

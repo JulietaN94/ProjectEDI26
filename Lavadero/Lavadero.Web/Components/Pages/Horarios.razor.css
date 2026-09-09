@@ -1,0 +1,86 @@
+.schedule-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+}
+
+.schedule-card {
+    padding: 1.25rem;
+    border: 1px solid var(--app-border);
+    border-radius: var(--app-radius);
+    background: var(--app-surface);
+    color: var(--app-text);
+    box-shadow: var(--app-shadow-sm);
+}
+
+.schedule-card header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.schedule-card h2,
+.schedule-card .form-check-label {
+    color: var(--app-text);
+}
+
+.schedule-card .form-label {
+    color: var(--app-text-soft);
+}
+
+/*
+    Inputs de horario activos.
+    Usamos las variables globales del tema en vez de dejar que
+    el navegador/Bootstrap fuerce un fondo claro.
+*/
+.schedule-card input[type="time"] {
+    border-color: var(--app-border);
+    background-color: var(--app-input-bg);
+    color: var(--app-text);
+    color-scheme: inherit;
+}
+
+/*
+    ESTE era el problema principal:
+    Bootstrap/navegador aplica un fondo claro a controles disabled.
+    En modo oscuro quedaban blancos.
+
+    Los mantenemos deshabilitados visualmente, pero usando los colores
+    del tema actual.
+*/
+.schedule-card input[type="time"]:disabled {
+    border-color: var(--app-border);
+    background-color: var(--app-surface-alt);
+    color: var(--app-muted);
+    opacity: 1;
+    -webkit-text-fill-color: var(--app-muted);
+}
+
+/*
+    Chrome/Brave pueden aplicar opacidad propia al contenido del time input.
+    Esto mantiene el texto legible sin hacerlo parecer editable.
+*/
+.schedule-card input[type="time"]:disabled::-webkit-datetime-edit,
+.schedule-card input[type="time"]:disabled::-webkit-datetime-edit-fields-wrapper,
+.schedule-card input[type="time"]:disabled::-webkit-datetime-edit-hour-field,
+.schedule-card input[type="time"]:disabled::-webkit-datetime-edit-minute-field,
+.schedule-card input[type="time"]:disabled::-webkit-datetime-edit-ampm-field {
+    color: var(--app-muted);
+    -webkit-text-fill-color: var(--app-muted);
+}
+
+/*
+    El botón mantiene contraste en ambos temas.
+*/
+.schedule-card .btn-outline-primary:disabled {
+    border-color: var(--app-border);
+    color: var(--app-muted);
+    opacity: .7;
+}
+
+@media (max-width: 767.98px) {
+    .schedule-grid {
+        grid-template-columns: 1fr;
+    }
+}

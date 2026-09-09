@@ -1,8 +1,9 @@
 .form-card,
 .info-card {
-    border: 1px solid #e3e7ec;
-    border-radius: 14px;
-    background: white;
+    border: 1px solid var(--app-border);
+    border-radius: var(--app-radius);
+    background: var(--app-surface);
+    box-shadow: var(--app-shadow-sm);
 }
 
 .form-card {
@@ -17,14 +18,123 @@
 
 legend {
     margin-bottom: .9rem;
-    color: #172033;
+    color: var(--app-text);
     font-size: 1rem;
     font-weight: 700;
 }
 
 fieldset + fieldset {
     padding-top: 1.25rem;
-    border-top: 1px solid #eef1f4;
+    border-top: 1px solid var(--app-border);
+}
+
+.month-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.month-heading strong,
+.month-heading span {
+    display: block;
+}
+
+.month-heading strong {
+    color: var(--app-text);
+    font-size: 1.05rem;
+}
+
+.month-heading > div > span {
+    margin-top: .15rem;
+    color: var(--app-muted);
+    font-size: .82rem;
+}
+
+.month-badge {
+    flex: 0 0 auto;
+    padding: .35rem .65rem;
+    border-radius: 999px;
+    background: var(--app-surface-alt);
+    color: var(--app-muted);
+    font-size: .78rem;
+    font-weight: 700;
+}
+
+.days-grid {
+    display: grid;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    gap: .55rem;
+}
+
+.day-card {
+    min-height: 82px;
+    display: grid;
+    place-items: center;
+    gap: .08rem;
+    padding: .5rem;
+    border: 1px solid var(--app-border);
+    border-radius: 12px;
+    background: var(--app-surface);
+    color: var(--app-text);
+    transition:
+        transform .15s ease,
+        border-color .15s ease,
+        background-color .15s ease;
+}
+
+.day-card:hover {
+    transform: translateY(-2px);
+    border-color: #86b7fe;
+}
+
+.day-card.selected {
+    border-color: var(--app-primary);
+    background: rgba(13, 110, 253, .1);
+    box-shadow: 0 0 0 2px rgba(13, 110, 253, .1);
+}
+
+.day-card span,
+.day-card small {
+    color: var(--app-muted);
+    font-size: .72rem;
+}
+
+.day-card strong {
+    font-size: 1.35rem;
+    line-height: 1;
+}
+
+.selected-date {
+    margin-bottom: .85rem;
+    color: var(--app-muted);
+    font-size: .9rem;
+}
+
+.time-grid {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: .55rem;
+}
+
+.time-slot {
+    min-height: 44px;
+    border: 1px solid var(--app-border);
+    border-radius: 10px;
+    background: var(--app-surface);
+    color: var(--app-text);
+    font-weight: 700;
+}
+
+.time-slot:hover {
+    border-color: #86b7fe;
+}
+
+.time-slot.selected {
+    border-color: var(--app-primary);
+    background: var(--app-primary);
+    color: white;
 }
 
 .info-card h2 {
@@ -34,15 +144,58 @@ fieldset + fieldset {
 .info-card ul {
     margin: .85rem 0 0;
     padding-left: 1.2rem;
-    color: #667085;
+    color: var(--app-muted);
 }
 
 .info-card li + li {
     margin-top: .55rem;
 }
 
+.reservation-summary {
+    display: grid;
+    gap: .2rem;
+    margin-top: 1rem;
+    padding: .85rem;
+    border-radius: 10px;
+    background: var(--app-surface-alt);
+}
+
+.reservation-summary span {
+    color: var(--app-muted);
+    font-size: .76rem;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.reservation-summary strong {
+    color: var(--app-text);
+}
+
 @media (max-width: 991.98px) {
     .info-card {
         position: static;
+    }
+
+    .days-grid {
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+    }
+
+    .time-grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 575.98px) {
+    .month-heading {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .days-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .time-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
     }
 }

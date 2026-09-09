@@ -1,0 +1,219 @@
+@page "/admin/horarios"
+@rendermode InteractiveServer
+@attribute [Authorize(Roles = "Administrador")]
+@inject IHorarioAtencionService HorarioService
+
+<PageTitle>Horarios | Administración</PageTitle>
+
+<PageHeader Titulo="Horarios de atención"
+            Subtitulo="Definí qué días abre el lavadero y en qué horarios." />
+
+<AlertMessage Mensaje="@_mensajeError"
+              Tipo="danger"
+              OnCerrar="CerrarError" />
+
+<AlertMessage Mensaje="@_mensajeExito"
+              Tipo="success"
+              OnCerrar="CerrarExito" />
+
+@if (_cargando)
+{
+    <LoadingSpinner Texto="Cargando horarios..." />
+}
+else
+{
+    <div class="schedule-grid">
+        @foreach (var horario in _horarios)
+        {
+            <article class="schedule-card"
+                     @key="horario.Id">
+
+                <header>
+                    <div>
+                        <span class="text-secondary small">
+                            Día
+                        </span>
+                        <h2 class="h5 mb-0">
+                            @NombreDia(horario.DiaSemana)
+                        </h2>
+                    </div>
+
+                    <div class="form-check form-switch">
+                        <input class="form-check-input"
+                               type="checkbox"
+                               role="switch"
+                               id="@($"activo-{horario.Id}")"
+                               @bind="horario.Activo" />
+
+                        <label class="form-check-label"
+                               for="@($"activo-{horario.Id}")">
+                            @(horario.Activo ? "Abierto" : "Cerrado")
+                        </label>
+                    </div>
+                </header>
+
+                <div class="row g-2 mt-2">
+                    <div class="col-6">
+                        <label class="form-label"
+                               for="@($"apertura-{horario.Id}")">
+                            Apertura
+                        </label>
+
+                        <input id="@($"apertura-{horario.Id}")"
+                               type="time"
+                               class="form-control"
+                               disabled="@(!horario.Activo)"
+                               @bind="horario.HoraApertura" />
+                    </div>
+
+                    <div class="col-6">
+                        <label class="form-label"
+                               for="@($"cierre-{horario.Id}")">
+                            Cierre
+                        </label>
+
+                        <input id="@($"cierre-{horario.Id}")"
+                               type="time"
+                               class="form-control"
+                               disabled="@(!horario.Activo)"
+                               @bind="horario.HoraCierre" />
+                    </div>
+                </div>
+
+                <div class="d-grid mt-3">
+                    <button type="button"
+                            class="btn btn-outline-primary"
+                            disabled="@horario.Guardando"
+                            @onclick="() => GuardarAsync(horario)">
+                        @(horario.Guardando ? "Guardando..." : "Guardar día")
+                    </button>
+                </div>
+            </article>
+        }
+    </div>
+}
+
+@code {
+    private List<HorarioEdicion> _horarios = new();
+    private bool _cargando = true;
+    private string? _mensajeError;
+    private string? _mensajeExito;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await CargarAsync();
+    }
+
+    private async Task CargarAsync()
+    {
+        _cargando = true;
+
+        try
+        {
+            var horarios = await HorarioService.ObtenerTodosAsync();
+
+            _horarios = horarios
+                .Select(x => new HorarioEdicion
+                {
+                    Id = x.Id,
+                    DiaSemana = x.DiaSemana,
+                    HoraApertura = TimeOnly.FromTimeSpan(x.HoraApertura),
+                    HoraCierre = TimeOnly.FromTimeSpan(x.HoraCierre),
+                    Activo = x.Activo
+                })
+                .ToList();
+        }
+        catch
+        {
+            _mensajeError = "No se pudieron cargar los horarios.";
+        }
+        finally
+        {
+            _cargando = false;
+        }
+    }
+
+    private async Task GuardarAsync(HorarioEdicion horario)
+    {
+        _mensajeError = null;
+        _mensajeExito = null;
+
+        if (horario.Activo &&
+            (horario.HoraApertura is null || horario.HoraCierre is null))
+        {
+            _mensajeError =
+                "Ingresá una hora de apertura y cierre válidas.";
+            return;
+        }
+
+        var horaApertura = horario.Activo
+            ? horario.HoraApertura!.Value.ToTimeSpan()
+            : TimeSpan.Zero;
+
+        var horaCierre = horario.Activo
+            ? horario.HoraCierre!.Value.ToTimeSpan()
+            : TimeSpan.Zero;
+
+        horario.Guardando = true;
+
+        try
+        {
+            await HorarioService.ActualizarAsync(
+                horario.Id,
+                new GuardarHorarioAtencionRequest
+                {
+                    HoraApertura = horaApertura,
+                    HoraCierre = horaCierre,
+                    Activo = horario.Activo
+                });
+
+            _mensajeExito =
+                $"Horario de {NombreDia(horario.DiaSemana)} actualizado.";
+        }
+        catch (Exception ex)
+            when (ex is InvalidOperationException
+                     or KeyNotFoundException)
+        {
+            _mensajeError = ex.Message;
+        }
+        catch
+        {
+            _mensajeError = "No se pudo actualizar el horario.";
+        }
+        finally
+        {
+            horario.Guardando = false;
+        }
+    }
+
+    private static string NombreDia(DayOfWeek dia) =>
+        dia switch
+        {
+            DayOfWeek.Monday => "Lunes",
+            DayOfWeek.Tuesday => "Martes",
+            DayOfWeek.Wednesday => "Miércoles",
+            DayOfWeek.Thursday => "Jueves",
+            DayOfWeek.Friday => "Viernes",
+            DayOfWeek.Saturday => "Sábado",
+            DayOfWeek.Sunday => "Domingo",
+            _ => dia.ToString()
+        };
+
+    private void CerrarError() => _mensajeError = null;
+    private void CerrarExito() => _mensajeExito = null;
+
+    private sealed class HorarioEdicion
+    {
+        public int Id { get; set; }
+
+        public DayOfWeek DiaSemana { get; set; }
+
+        public TimeOnly? HoraApertura { get; set; }
+
+        public TimeOnly? HoraCierre { get; set; }
+
+        public bool Activo { get; set; }
+
+        public bool Guardando { get; set; }
+    }
+}

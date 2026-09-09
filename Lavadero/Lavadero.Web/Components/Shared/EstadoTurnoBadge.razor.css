@@ -1,0 +1,43 @@
+.estado-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 26px;
+    padding: .22rem .55rem;
+    border: 1px solid transparent;
+    border-radius: 999px;
+    font-size: .74rem;
+    font-weight: 800;
+    line-height: 1;
+    white-space: nowrap;
+}
+
+.estado-pendiente {
+    border-color: #ffecb5;
+    background: #fff3cd;
+    color: #664d03;
+}
+
+.estado-confirmado {
+    border-color: #b6d4fe;
+    background: #cfe2ff;
+    color: #084298;
+}
+
+.estado-completado {
+    border-color: #badbcc;
+    background: #d1e7dd;
+    color: #0f5132;
+}
+
+.estado-cancelado {
+    border-color: #f5c2c7;
+    background: #f8d7da;
+    color: #842029;
+}
+
+.estado-neutro {
+    border-color: var(--app-border);
+    background: var(--app-surface-alt);
+    color: var(--app-text);
+}

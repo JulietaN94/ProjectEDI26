@@ -1,15 +1,28 @@
-<span class="badge @ClaseCss">@Estado</span>
+<span class="estado-badge @ClaseEstado">
+    @Texto
+</span>
 
 @code {
-    [Parameter]
+    [Parameter, EditorRequired]
     public EstadoTurno Estado { get; set; }
 
-    private string ClaseCss => Estado switch
-    {
-        EstadoTurno.Pendiente => "text-bg-warning",
-        EstadoTurno.Confirmado => "text-bg-primary",
-        EstadoTurno.Completado => "text-bg-success",
-        EstadoTurno.Cancelado => "text-bg-secondary",
-        _ => "text-bg-light"
-    };
+    private string Texto =>
+        Estado switch
+        {
+            EstadoTurno.Pendiente => "Pendiente",
+            EstadoTurno.Confirmado => "Confirmado",
+            EstadoTurno.Completado => "Completado",
+            EstadoTurno.Cancelado => "Cancelado",
+            _ => Estado.ToString()
+        };
+
+    private string ClaseEstado =>
+        Estado switch
+        {
+            EstadoTurno.Pendiente => "estado-pendiente",
+            EstadoTurno.Confirmado => "estado-confirmado",
+            EstadoTurno.Completado => "estado-completado",
+            EstadoTurno.Cancelado => "estado-cancelado",
+            _ => "estado-neutro"
+        };
 }

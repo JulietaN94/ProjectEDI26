@@ -1,0 +1,92 @@
+@rendermode InteractiveServer
+@inject IJSRuntime JS
+@implements IAsyncDisposable
+
+<button type="button"
+        class="theme-toggle"
+        title="@Titulo"
+        aria-label="@Titulo"
+        disabled="@(!_listo)"
+        @onclick="CambiarTemaAsync">
+    <span aria-hidden="true">@Icono</span>
+    <span class="theme-label d-none d-lg-inline">
+        @Texto
+    </span>
+</button>
+
+@code {
+    private IJSObjectReference? _modulo;
+    private bool _listo;
+    private string _tema = "light";
+
+    private bool EsOscuro =>
+        _tema == "dark";
+
+    private string Icono =>
+        EsOscuro ? "☀" : "☾";
+
+    private string Texto =>
+        EsOscuro
+            ? "Modo claro"
+            : "Modo oscuro";
+
+    private string Titulo =>
+        EsOscuro
+            ? "Cambiar a modo claro"
+            : "Cambiar a modo oscuro";
+
+    protected override async Task OnAfterRenderAsync(
+        bool firstRender)
+    {
+        if (!firstRender)
+            return;
+
+        try
+        {
+            _modulo =
+                await JS.InvokeAsync<IJSObjectReference>(
+                    "import",
+                    "./js/lavaderoInterop.js");
+
+            _tema =
+                await _modulo.InvokeAsync<string>(
+                    "inicializarTema");
+
+            _listo = true;
+            StateHasChanged();
+        }
+        catch
+        {
+            _listo = false;
+        }
+    }
+
+    private async Task CambiarTemaAsync()
+    {
+        if (_modulo is null)
+            return;
+
+        _tema =
+            EsOscuro
+                ? "light"
+                : "dark";
+
+        await _modulo.InvokeVoidAsync(
+            "establecerTema",
+            _tema);
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        if (_modulo is null)
+            return;
+
+        try
+        {
+            await _modulo.DisposeAsync();
+        }
+        catch (JSDisconnectedException)
+        {
+        }
+    }
+}

@@ -1,0 +1,94 @@
+.reserva-confirmacion {
+    margin-bottom: 1.25rem;
+    padding: clamp(1rem, 3vw, 1.5rem);
+    border: 1px solid #a9dfbf;
+    border-radius: var(--app-radius);
+    background: var(--app-success-soft);
+}
+
+.confirmacion-header {
+    display: flex;
+    align-items: center;
+    gap: .9rem;
+}
+
+.confirmacion-icon {
+    width: 42px;
+    height: 42px;
+    flex: 0 0 42px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: #198754;
+    color: white;
+    font-size: 1.25rem;
+    font-weight: 800;
+}
+
+.eyebrow {
+    display: block;
+    margin-bottom: .12rem;
+    color: #157347;
+    font-size: .75rem;
+    font-weight: 800;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+}
+
+h2 {
+    margin: 0;
+    color: var(--app-text);
+    font-size: 1.2rem;
+}
+
+.confirmacion-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: .75rem 1rem;
+    margin: 1rem 0;
+}
+
+dt {
+    color: var(--app-muted);
+    font-size: .75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+dd {
+    margin: .15rem 0 0;
+    color: var(--app-text);
+}
+
+.confirmacion-ayuda {
+    margin: 0;
+    color: var(--app-muted);
+    font-size: .9rem;
+}
+
+.confirmacion-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .6rem;
+    margin-top: 1rem;
+}
+
+.confirmacion-mensaje {
+    display: block;
+    margin-top: .65rem;
+    color: var(--app-muted);
+}
+
+@media (max-width: 575.98px) {
+    .confirmacion-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .confirmacion-actions {
+        display: grid;
+    }
+
+    .confirmacion-actions .btn {
+        width: 100%;
+    }
+}

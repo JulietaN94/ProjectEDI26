@@ -1,0 +1,170 @@
+@inject IJSRuntime JS
+@implements IAsyncDisposable
+
+<article class="reserva-confirmacion"
+         aria-live="polite">
+    <header class="confirmacion-header">
+        <span class="confirmacion-icon"
+              aria-hidden="true">✓</span>
+
+        <div>
+            <span class="eyebrow">Reserva registrada</span>
+            <h2>Turno #@Turno.Id</h2>
+        </div>
+    </header>
+
+    <dl class="confirmacion-grid">
+        <div>
+            <dt>Fecha</dt>
+            <dd>@Turno.FechaHora.ToString("dd/MM/yyyy HH:mm")</dd>
+        </div>
+
+        <div>
+            <dt>Servicio</dt>
+            <dd>@Turno.ServicioNombre</dd>
+        </div>
+
+        <div>
+            <dt>Vehículo</dt>
+            <dd>@Turno.AutoMarca @Turno.AutoModelo</dd>
+        </div>
+
+        <div>
+            <dt>Estado</dt>
+            <dd>
+                <EstadoTurnoBadge Estado="Turno.Estado" />
+            </dd>
+        </div>
+    </dl>
+
+    <p class="confirmacion-ayuda">
+        Guardá los datos del turno. Si el lavadero tiene WhatsApp
+        configurado, también podés enviar la reserva por ese medio.
+    </p>
+
+    <footer class="confirmacion-actions">
+        <button type="button"
+                class="btn btn-outline-secondary"
+                @onclick="CopiarAsync">
+            Copiar datos
+        </button>
+
+        @if (TieneWhatsApp)
+        {
+            <a class="btn btn-success"
+               href="@UrlWhatsApp"
+               target="_blank"
+               rel="noopener noreferrer">
+                Enviar por WhatsApp
+            </a>
+        }
+    </footer>
+
+    @if (!string.IsNullOrWhiteSpace(_mensaje))
+    {
+        <small class="confirmacion-mensaje"
+               role="status">
+            @_mensaje
+        </small>
+    }
+</article>
+
+@code {
+    [Parameter, EditorRequired]
+    public TurnoDto Turno { get; set; } = default!;
+
+    [Parameter]
+    public string? WhatsApp { get; set; }
+
+    private IJSObjectReference? _modulo;
+    private string? _mensaje;
+
+    private string TextoReserva =>
+        $"Hola, quiero confirmar mi reserva de turno #{Turno.Id}. " +
+        $"Fecha: {Turno.FechaHora:dd/MM/yyyy HH:mm}. " +
+        $"Cliente: {Turno.ClienteNombre}. " +
+        $"Vehículo: {Turno.AutoMarca} {Turno.AutoModelo}. " +
+        $"Servicio: {Turno.ServicioNombre}.";
+
+    private string NumeroWhatsApp =>
+        string.IsNullOrWhiteSpace(WhatsApp)
+            ? string.Empty
+            : new string(
+                WhatsApp
+                    .Where(char.IsDigit)
+                    .ToArray());
+
+    private bool TieneWhatsApp =>
+        !string.IsNullOrWhiteSpace(NumeroWhatsApp);
+
+    private string UrlWhatsApp =>
+        $"https://wa.me/{NumeroWhatsApp}" +
+        $"?text={Uri.EscapeDataString(TextoReserva)}";
+
+    protected override async Task OnAfterRenderAsync(
+        bool firstRender)
+    {
+        if (!firstRender)
+            return;
+
+        try
+        {
+            _modulo =
+                await JS.InvokeAsync<IJSObjectReference>(
+                    "import",
+                    "./js/lavaderoInterop.js");
+        }
+        catch
+        {
+            // El botón Copiar vuelve a intentar cargar el módulo.
+        }
+    }
+
+    private async Task<IJSObjectReference>
+        ObtenerModuloAsync()
+    {
+        _modulo ??=
+            await JS.InvokeAsync<IJSObjectReference>(
+                "import",
+                "./js/lavaderoInterop.js");
+
+        return _modulo;
+    }
+
+    private async Task CopiarAsync()
+    {
+        _mensaje = null;
+
+        try
+        {
+            var modulo =
+                await ObtenerModuloAsync();
+
+            await modulo.InvokeVoidAsync(
+                "copiarAlPortapapeles",
+                TextoReserva);
+
+            _mensaje =
+                "Datos del turno copiados.";
+        }
+        catch
+        {
+            _mensaje =
+                "No se pudieron copiar los datos.";
+        }
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        if (_modulo is null)
+            return;
+
+        try
+        {
+            await _modulo.DisposeAsync();
+        }
+        catch (JSDisconnectedException)
+        {
+        }
+    }
+}

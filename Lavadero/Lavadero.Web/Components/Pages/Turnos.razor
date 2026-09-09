@@ -1,5 +1,6 @@
 @page "/admin/turnos"
 @rendermode InteractiveServer
+@attribute [Authorize(Roles = "Administrador")]
 @inject ITurnoService TurnoService
 
 <PageTitle>Turnos | Administración</PageTitle>

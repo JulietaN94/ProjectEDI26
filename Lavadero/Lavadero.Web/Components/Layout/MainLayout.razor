@@ -1,29 +1,52 @@
 @inherits LayoutComponentBase
 
 <div class="page-shell">
-    <aside class="sidebar" aria-label="Navegación principal">
+    <aside class="sidebar"
+           aria-label="Navegación principal">
         <NavMenu />
     </aside>
 
     <div class="main-area">
         <header class="topbar px-3 px-lg-4">
-            <div>
+            <div class="topbar-copy">
                 <span class="topbar-title">Lavadero</span>
-                <span class="topbar-subtitle d-none d-md-inline">Gestión de turnos</span>
+                <span class="topbar-subtitle d-none d-md-inline">
+                    Gestión de turnos
+                </span>
             </div>
-            <a class="btn btn-sm btn-primary" href="/reservar">Reservar turno</a>
+
+            <div class="topbar-actions">
+                <ThemeToggle />
+
+                <a class="btn btn-sm btn-primary"
+                   href="/reservar">
+                    Reservar turno
+                </a>
+            </div>
         </header>
 
-        <main class="content-wrapper" id="contenido-principal">
+        <main class="content-wrapper"
+              id="contenido-principal">
             <article class="content-container">
                 @Body
             </article>
         </main>
+
+        <footer class="app-footer px-3 px-lg-4">
+            <span>
+                Lavadero &copy; @DateTime.Now.Year
+            </span>
+            <span>
+                Sistema de gestión de turnos
+            </span>
+        </footer>
     </div>
 </div>
 
 <div id="blazor-error-ui">
     Ocurrió un error inesperado.
     <a href="" class="reload">Recargar</a>
-    <button type="button" class="dismiss" aria-label="Cerrar">×</button>
+    <button type="button"
+            class="dismiss"
+            aria-label="Cerrar">×</button>
 </div>

@@ -7,24 +7,58 @@
 
 <UltimaReserva />
 
-<section class="hero mb-5" aria-labelledby="titulo-inicio">
+<section class="hero mb-5"
+         aria-labelledby="titulo-inicio">
     <div class="hero-copy">
         <span class="eyebrow">Reserva online</span>
-        <h1 id="titulo-inicio">Tu auto limpio, sin perder tiempo esperando.</h1>
-        <p>Elegí el servicio, seleccioná una fecha y reservá tu turno con los datos mínimos.</p>
+
+        <h1 id="titulo-inicio">
+            Tu auto limpio, sin perder tiempo esperando.
+        </h1>
+
+        <p>
+            Elegí el servicio, seleccioná una fecha y reservá
+            tu turno con los datos mínimos.
+        </p>
+
         <div class="d-flex flex-wrap gap-2 mt-4">
-            <a class="btn btn-primary btn-lg" href="/reservar">Reservar turno</a>
-            <a class="btn btn-outline-secondary btn-lg" href="#servicios">Ver servicios</a>
+            <a class="btn btn-primary btn-lg"
+               href="/reservar">
+                Reservar turno
+            </a>
+
+            @*
+                Antes era:
+                <a href="#servicios">Ver servicios</a>
+
+                Ese cambio de fragmento modificaba la URL y, con la
+                navegación que venimos usando para conservar el tema,
+                podía provocar que se re-renderizara la página y se
+                perdiera visualmente el modo oscuro.
+
+                Ahora NO hay navegación. El navegador solamente desplaza
+                el contenedor actual hasta la sección Servicios.
+            *@
+            <button type="button"
+                    class="btn btn-outline-secondary btn-lg"
+                    onclick="document.getElementById('servicios')?.scrollIntoView({ behavior: 'smooth', block: 'start' });">
+                Ver servicios
+            </button>
         </div>
     </div>
-    <aside class="hero-summary" aria-label="Cómo reservar">
+
+    <aside class="hero-summary"
+           aria-label="Cómo reservar">
         <span>1</span><p>Elegí un servicio</p>
         <span>2</span><p>Indicá tus datos y vehículo</p>
         <span>3</span><p>Seleccioná fecha y horario</p>
     </aside>
 </section>
 
-<section id="servicios" aria-labelledby="titulo-servicios">
+<section id="servicios"
+         style="scroll-margin-top: 90px;"
+         aria-labelledby="titulo-servicios">
+
     <PageHeader Titulo="Servicios disponibles"
                 Subtitulo="Estos servicios son administrados por el lavadero y se cargan desde la base de datos." />
 
@@ -34,11 +68,13 @@
     }
     else if (_error is not null)
     {
-        <AlertMessage Mensaje="@_error" Tipo="danger" />
+        <AlertMessage Mensaje="@_error"
+                      Tipo="danger" />
     }
     else if (_servicios.Count == 0)
     {
-        <AlertMessage Mensaje="No hay servicios disponibles en este momento." Tipo="info" />
+        <AlertMessage Mensaje="No hay servicios disponibles en este momento."
+                      Tipo="info" />
     }
     else
     {
@@ -46,7 +82,8 @@
             @foreach (var servicio in _servicios)
             {
                 <div class="col-12 col-md-6 col-xl-4">
-                    <ServicioCard Servicio="servicio" OnReservar="IrAReservar" />
+                    <ServicioCard Servicio="servicio"
+                                  OnReservar="IrAReservar" />
                 </div>
             }
         </div>
@@ -54,7 +91,9 @@
 </section>
 
 @code {
-    private IReadOnlyList<ServicioDto> _servicios = Array.Empty<ServicioDto>();
+    private IReadOnlyList<ServicioDto> _servicios =
+        Array.Empty<ServicioDto>();
+
     private bool _cargando = true;
     private string? _error;
 
@@ -62,11 +101,14 @@
     {
         try
         {
-            _servicios = await ServicioService.ObtenerActivosAsync();
+            _servicios =
+                await ServicioService.ObtenerActivosAsync();
         }
         catch
         {
-            _error = "No se pudieron cargar los servicios. Intentá nuevamente más tarde.";
+            _error =
+                "No se pudieron cargar los servicios. " +
+                "Intentá nuevamente más tarde.";
         }
         finally
         {
@@ -76,6 +118,7 @@
 
     private void IrAReservar(int servicioId)
     {
-        Navigation.NavigateTo($"/reservar?servicio={servicioId}");
+        Navigation.NavigateTo(
+            $"/reservar?servicio={servicioId}");
     }
 }

@@ -44,5 +44,15 @@ internal static class DatabaseSeeder
             new HorarioAtencion { Id = 5, DiaSemana = DayOfWeek.Friday, HoraApertura = new TimeSpan(8, 0, 0), HoraCierre = new TimeSpan(18, 0, 0), Activo = true },
             new HorarioAtencion { Id = 6, DiaSemana = DayOfWeek.Saturday, HoraApertura = new TimeSpan(8, 0, 0), HoraCierre = new TimeSpan(14, 0, 0), Activo = true },
             new HorarioAtencion { Id = 7, DiaSemana = DayOfWeek.Sunday, HoraApertura = TimeSpan.Zero, HoraCierre = TimeSpan.Zero, Activo = false });
+
+        modelBuilder.Entity<ConfiguracionLavadero>().HasData(
+            new ConfiguracionLavadero
+            {
+                Id = 1,
+                Nombre = "Mi Lavadero",
+                Telefono = null,
+                Direccion = null,
+                WhatsApp = null
+            });
     }
 }
