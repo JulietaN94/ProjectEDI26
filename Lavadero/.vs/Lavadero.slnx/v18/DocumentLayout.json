@@ -3,12 +3,20 @@
   "WorkspaceRootPath": "E:\\CursadaProgramacion\\ProjectEDI26\\Lavadero\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{9BC0A65A-104D-1CD5-F1F2-9BDAC566189C}|Lavadero.Infrastructure\\Lavadero.Infrastructure.csproj|e:\\cursadaprogramacion\\projectedi26\\lavadero\\lavadero.infrastructure\\migrations\\20260910045934_agregartokencancelacionturnos.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9BC0A65A-104D-1CD5-F1F2-9BDAC566189C}|Lavadero.Infrastructure\\Lavadero.Infrastructure.csproj|solutionrelative:lavadero.infrastructure\\migrations\\20260910045934_agregartokencancelacionturnos.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{8DA34574-A1B2-6FA2-2787-F83710C2FDDA}|Lavadero.Web\\Lavadero.Web.csproj|e:\\cursadaprogramacion\\projectedi26\\lavadero\\lavadero.web\\components\\app.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{8DA34574-A1B2-6FA2-2787-F83710C2FDDA}|Lavadero.Web\\Lavadero.Web.csproj|solutionrelative:lavadero.web\\components\\app.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{8DA34574-A1B2-6FA2-2787-F83710C2FDDA}|Lavadero.Web\\Lavadero.Web.csproj|e:\\cursadaprogramacion\\projectedi26\\lavadero\\lavadero.web\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{8DA34574-A1B2-6FA2-2787-F83710C2FDDA}|Lavadero.Web\\Lavadero.Web.csproj|solutionrelative:lavadero.web\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9BC0A65A-104D-1CD5-F1F2-9BDAC566189C}|Lavadero.Infrastructure\\Lavadero.Infrastructure.csproj|e:\\cursadaprogramacion\\projectedi26\\lavadero\\lavadero.infrastructure\\migrations\\20260910044429_agregarconfirmacionturnos.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9BC0A65A-104D-1CD5-F1F2-9BDAC566189C}|Lavadero.Infrastructure\\Lavadero.Infrastructure.csproj|solutionrelative:lavadero.infrastructure\\migrations\\20260910044429_agregarconfirmacionturnos.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -23,6 +31,31 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "20260910045934_AgregarTokenCancelacionTurnos.cs",
+              "DocumentMoniker": "E:\\CursadaProgramacion\\ProjectEDI26\\Lavadero\\Lavadero.Infrastructure\\Migrations\\20260910045934_AgregarTokenCancelacionTurnos.cs",
+              "RelativeDocumentMoniker": "Lavadero.Infrastructure\\Migrations\\20260910045934_AgregarTokenCancelacionTurnos.cs",
+              "ToolTip": "E:\\CursadaProgramacion\\ProjectEDI26\\Lavadero\\Lavadero.Infrastructure\\Migrations\\20260910045934_AgregarTokenCancelacionTurnos.cs",
+              "RelativeToolTip": "Lavadero.Infrastructure\\Migrations\\20260910045934_AgregarTokenCancelacionTurnos.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-09-10T04:59:34.779Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "20260910044429_AgregarConfirmacionTurnos.cs",
+              "DocumentMoniker": "E:\\CursadaProgramacion\\ProjectEDI26\\Lavadero\\Lavadero.Infrastructure\\Migrations\\20260910044429_AgregarConfirmacionTurnos.cs",
+              "RelativeDocumentMoniker": "Lavadero.Infrastructure\\Migrations\\20260910044429_AgregarConfirmacionTurnos.cs",
+              "ToolTip": "E:\\CursadaProgramacion\\ProjectEDI26\\Lavadero\\Lavadero.Infrastructure\\Migrations\\20260910044429_AgregarConfirmacionTurnos.cs",
+              "RelativeToolTip": "Lavadero.Infrastructure\\Migrations\\20260910044429_AgregarConfirmacionTurnos.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-09-10T04:44:29.509Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
               "Title": "App.razor",
               "DocumentMoniker": "E:\\CursadaProgramacion\\ProjectEDI26\\Lavadero\\Lavadero.Web\\Components\\App.razor",
               "RelativeDocumentMoniker": "Lavadero.Web\\Components\\App.razor",
@@ -30,12 +63,11 @@
               "RelativeToolTip": "Lavadero.Web\\Components\\App.razor",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAACwAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-09-09T03:46:59.511Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-09-09T03:46:59.511Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "Program.cs",
               "DocumentMoniker": "E:\\CursadaProgramacion\\ProjectEDI26\\Lavadero\\Lavadero.Web\\Program.cs",
               "RelativeDocumentMoniker": "Lavadero.Web\\Program.cs",
