@@ -1,0 +1,78 @@
+name: Lavadero CI
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+    paths:
+      - "Lavadero/**"
+      - ".github/workflows/lavadero-ci.yml"
+
+  pull_request:
+    branches:
+      - main
+      - develop
+    paths:
+      - "Lavadero/**"
+      - ".github/workflows/lavadero-ci.yml"
+
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: lavadero-ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  DOTNET_VERSION: "8.0.x"
+  WEB_PROJECT: "Lavadero/Lavadero.Web/Lavadero.Web.csproj"
+  PUBLISH_DIR: "${{ github.workspace }}/artifacts/lavadero"
+
+jobs:
+  build:
+    name: Build and publish
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      - name: Setup .NET 8
+        uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+
+      - name: Show .NET information
+        run: dotnet --info
+
+      - name: Restore
+        run: dotnet restore "${{ env.WEB_PROJECT }}"
+
+      - name: Build Release
+        run: >
+          dotnet build
+          "${{ env.WEB_PROJECT }}"
+          --configuration Release
+          --no-restore
+
+      # El usuario decidió no incorporar tests automatizados en esta etapa.
+      # El pipeline valida igualmente que el proyecto restaure, compile
+      # y pueda generar un paquete publicable.
+      - name: Publish Release
+        run: >
+          dotnet publish
+          "${{ env.WEB_PROJECT }}"
+          --configuration Release
+          --no-restore
+          --output "${{ env.PUBLISH_DIR }}"
+
+      - name: Upload publish artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: lavadero-publish-${{ github.sha }}
+          path: ${{ env.PUBLISH_DIR }}
+          if-no-files-found: error
+          retention-days: 7
