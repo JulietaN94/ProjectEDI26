@@ -295,7 +295,13 @@ namespace Lavadero.Infrastructure.Migrations
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
 
+                    b.Property<DateTime?>("FechaConfirmacion")
+                        .HasColumnType("datetime2");
+
                     b.Property<DateTime>("FechaCreacion")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("FechaExpiracionConfirmacion")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime>("FechaHora")
@@ -312,6 +318,14 @@ namespace Lavadero.Infrastructure.Migrations
                     b.Property<int>("ServicioId")
                         .HasColumnType("int");
 
+                    b.Property<string>("TokenCancelacion")
+                        .HasMaxLength(64)
+                        .HasColumnType("nvarchar(64)");
+
+                    b.Property<string>("TokenConfirmacion")
+                        .HasMaxLength(64)
+                        .HasColumnType("nvarchar(64)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("AutoId");
@@ -321,6 +335,14 @@ namespace Lavadero.Infrastructure.Migrations
                     b.HasIndex("FechaHora");
 
                     b.HasIndex("ServicioId");
+
+                    b.HasIndex("TokenCancelacion")
+                        .IsUnique()
+                        .HasFilter("[TokenCancelacion] IS NOT NULL");
+
+                    b.HasIndex("TokenConfirmacion")
+                        .IsUnique()
+                        .HasFilter("[TokenConfirmacion] IS NOT NULL");
 
                     b.ToTable("Turnos", (string)null);
                 });

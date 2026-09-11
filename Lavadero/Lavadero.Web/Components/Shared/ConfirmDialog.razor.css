@@ -5,24 +5,27 @@
     display: grid;
     place-items: center;
     padding: 1rem;
-    background: rgba(17, 24, 39, .55);
+    background: rgba(0, 0, 0, .58);
+    backdrop-filter: blur(2px);
 }
 
 .confirm-box {
     width: min(460px, 100%);
     padding: 1.5rem;
+    border: 1px solid var(--app-border);
     border-radius: 14px;
-    background: white;
+    background: var(--app-surface);
+    color: var(--app-text);
     box-shadow: 0 20px 55px rgba(0, 0, 0, .25);
 }
 
 h2 {
     margin: 0;
-    color: #172033;
+    color: var(--app-text);
     font-size: 1.25rem;
 }
 
 p {
     margin: .75rem 0 0;
-    color: #667085;
+    color: var(--app-muted);
 }
