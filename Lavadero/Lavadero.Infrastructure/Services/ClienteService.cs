@@ -30,15 +30,31 @@ public sealed class ClienteService : IClienteService
             .FirstOrDefaultAsync();
     }
 
-    public async Task<ClienteDto?> ObtenerPorTelefonoAsync(string telefono)
+    public async Task<ClienteDto?> ObtenerPorTelefonoAsync(
+        string telefono)
     {
-        var telefonoNormalizado = telefono.Trim();
+        var telefonoNormalizado =
+            NormalizarTelefono(telefono);
 
-        await using var context = await _factory.CreateDbContextAsync();
+        if (string.IsNullOrEmpty(
+                telefonoNormalizado))
+        {
+            return null;
+        }
+
+        await using var context =
+            await _factory.CreateDbContextAsync();
 
         return await context.Clientes
             .AsNoTracking()
-            .Where(x => x.Telefono == telefonoNormalizado)
+            .Where(x =>
+                x.Telefono
+                    .Replace("+", "")
+                    .Replace("-", "")
+                    .Replace(" ", "")
+                    .Replace("(", "")
+                    .Replace(")", "") ==
+                telefonoNormalizado)
             .Select(x => new ClienteDto(
                 x.Id,
                 x.NombreCompleto,
@@ -88,6 +104,15 @@ public sealed class ClienteService : IClienteService
             TotalItems = total
         };
     }
+
+    private static string NormalizarTelefono(
+        string? telefono) =>
+        string.IsNullOrWhiteSpace(telefono)
+            ? string.Empty
+            : new string(
+                telefono
+                    .Where(char.IsDigit)
+                    .ToArray());
 
     private static void ValidarPaginacion(ref int pagina, ref int tamanioPagina)
     {
