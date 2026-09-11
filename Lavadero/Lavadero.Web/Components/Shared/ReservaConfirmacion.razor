@@ -1,4 +1,6 @@
 @inject IJSRuntime JS
+@inject ITurnoService TurnoService
+@inject NavigationManager Navigation
 @implements IAsyncDisposable
 
 <article class="reserva-confirmacion"
@@ -37,15 +39,92 @@
         </div>
     </dl>
 
+    @if (_cargandoEnlace)
+    {
+        <div class="confirmacion-link-card">
+            <span class="link-label">Enlace de confirmación</span>
+            <small class="text-secondary">
+                Generando enlace...
+            </small>
+        </div>
+    }
+    else if (!string.IsNullOrWhiteSpace(_enlaceConfirmacion))
+    {
+        <div class="confirmacion-link-card">
+            <span class="link-label">
+                Enlace de confirmación
+            </span>
+
+            <p class="link-help">
+                Este es el enlace que más adelante enviaremos automáticamente
+                por WhatsApp. Por ahora podés copiarlo para probar la confirmación.
+            </p>
+
+            <div class="confirmacion-link-row">
+                <input class="form-control"
+                       value="@_enlaceConfirmacion"
+                       readonly
+                       aria-label="Enlace de confirmación del turno" />
+
+                <button type="button"
+                        class="btn btn-outline-primary"
+                        @onclick="CopiarEnlaceAsync">
+                    Copiar enlace
+                </button>
+            </div>
+
+            <a class="btn btn-link px-0 mt-1"
+               href="@_enlaceConfirmacion"
+               target="_blank"
+               rel="noopener noreferrer">
+                Abrir enlace de confirmación
+            </a>
+        </div>
+    }
+
+
+    @if (!string.IsNullOrWhiteSpace(_enlaceCancelacion))
+    {
+        <div class="confirmacion-link-card cancelacion-link-card">
+            <span class="link-label">
+                Enlace de cancelación
+            </span>
+
+            <p class="link-help">
+                Este enlace permite cancelar la reserva antes del horario del turno.
+            </p>
+
+            <div class="confirmacion-link-row">
+                <input class="form-control"
+                       value="@_enlaceCancelacion"
+                       readonly
+                       aria-label="Enlace de cancelación del turno" />
+
+                <button type="button"
+                        class="btn btn-outline-danger"
+                        @onclick="CopiarEnlaceCancelacionAsync">
+                    Copiar enlace
+                </button>
+            </div>
+
+            <a class="btn btn-link text-danger px-0 mt-1"
+               href="@_enlaceCancelacion"
+               target="_blank"
+               rel="noopener noreferrer">
+                Abrir enlace de cancelación
+            </a>
+        </div>
+    }
+
     <p class="confirmacion-ayuda">
-        Guardá los datos del turno. Si el lavadero tiene WhatsApp
-        configurado, también podés enviar la reserva por ese medio.
+        Guardá los datos del turno. La reserva permanece pendiente
+        hasta que sea confirmada.
     </p>
 
     <footer class="confirmacion-actions">
         <button type="button"
                 class="btn btn-outline-secondary"
-                @onclick="CopiarAsync">
+                @onclick="CopiarDatosAsync">
             Copiar datos
         </button>
 
@@ -78,6 +157,10 @@
 
     private IJSObjectReference? _modulo;
     private string? _mensaje;
+    private string? _enlaceConfirmacion;
+    private string? _enlaceCancelacion;
+    private bool _cargandoEnlace = true;
+    private int? _turnoIdEnlacesCargados;
 
     private string TextoReserva =>
         $"Hola, quiero confirmar mi reserva de turno #{Turno.Id}. " +
@@ -101,6 +184,31 @@
         $"https://wa.me/{NumeroWhatsApp}" +
         $"?text={Uri.EscapeDataString(TextoReserva)}";
 
+    protected override async Task OnParametersSetAsync()
+    {
+        /*
+         * OnInitializedAsync solo se ejecutaba una vez.
+         * Si el usuario hacía otra reserva sin abandonar /reservar,
+         * el componente podía conservar los links del turno anterior.
+         *
+         * Ahora recargamos los links cada vez que cambia Turno.Id.
+         */
+        if (Turno.Id <= 0 ||
+            _turnoIdEnlacesCargados == Turno.Id)
+        {
+            return;
+        }
+
+        _turnoIdEnlacesCargados =
+            Turno.Id;
+
+        _mensaje = null;
+        _enlaceConfirmacion = null;
+        _enlaceCancelacion = null;
+
+        await CargarEnlacesAsync();
+    }
+
     protected override async Task OnAfterRenderAsync(
         bool firstRender)
     {
@@ -116,7 +224,54 @@
         }
         catch
         {
-            // El botón Copiar vuelve a intentar cargar el módulo.
+            // Los botones de copiar vuelven a intentar cargar el módulo.
+        }
+    }
+
+    private async Task CargarEnlacesAsync()
+    {
+        _cargandoEnlace = true;
+
+        try
+        {
+            var tokenConfirmacionTask =
+                TurnoService.ObtenerTokenConfirmacionAsync(Turno.Id);
+
+            var tokenCancelacionTask =
+                TurnoService.ObtenerTokenCancelacionAsync(Turno.Id);
+
+            await Task.WhenAll(
+                tokenConfirmacionTask,
+                tokenCancelacionTask);
+
+            var tokenConfirmacion =
+                await tokenConfirmacionTask;
+
+            var tokenCancelacion =
+                await tokenCancelacionTask;
+
+            _enlaceConfirmacion =
+                string.IsNullOrWhiteSpace(tokenConfirmacion)
+                    ? null
+                    : Navigation.ToAbsoluteUri(
+                        $"/confirmar-turno/{tokenConfirmacion}")
+                        .ToString();
+
+            _enlaceCancelacion =
+                string.IsNullOrWhiteSpace(tokenCancelacion)
+                    ? null
+                    : Navigation.ToAbsoluteUri(
+                        $"/cancelar-turno/{tokenCancelacion}")
+                        .ToString();
+        }
+        catch
+        {
+            _enlaceConfirmacion = null;
+            _enlaceCancelacion = null;
+        }
+        finally
+        {
+            _cargandoEnlace = false;
         }
     }
 
@@ -131,7 +286,36 @@
         return _modulo;
     }
 
-    private async Task CopiarAsync()
+    private async Task CopiarDatosAsync()
+    {
+        await CopiarAsync(
+            TextoReserva,
+            "Datos del turno copiados.");
+    }
+
+    private async Task CopiarEnlaceAsync()
+    {
+        if (string.IsNullOrWhiteSpace(_enlaceConfirmacion))
+            return;
+
+        await CopiarAsync(
+            _enlaceConfirmacion,
+            "Enlace de confirmación copiado.");
+    }
+
+    private async Task CopiarEnlaceCancelacionAsync()
+    {
+        if (string.IsNullOrWhiteSpace(_enlaceCancelacion))
+            return;
+
+        await CopiarAsync(
+            _enlaceCancelacion,
+            "Enlace de cancelación copiado.");
+    }
+
+    private async Task CopiarAsync(
+        string texto,
+        string mensajeExito)
     {
         _mensaje = null;
 
@@ -142,15 +326,14 @@
 
             await modulo.InvokeVoidAsync(
                 "copiarAlPortapapeles",
-                TextoReserva);
+                texto);
 
-            _mensaje =
-                "Datos del turno copiados.";
+            _mensaje = mensajeExito;
         }
         catch
         {
             _mensaje =
-                "No se pudieron copiar los datos.";
+                "No se pudo copiar al portapapeles.";
         }
     }
 
@@ -164,6 +347,9 @@
             await _modulo.DisposeAsync();
         }
         catch (JSDisconnectedException)
+        {
+        }
+        catch (ObjectDisposedException)
         {
         }
     }

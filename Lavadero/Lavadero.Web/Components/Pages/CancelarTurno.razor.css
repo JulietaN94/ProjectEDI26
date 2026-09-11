@@ -1,0 +1,120 @@
+.cancel-page {
+    min-height: calc(100vh - 180px);
+    display: grid;
+    place-items: center;
+    padding: 1rem 0 2rem;
+}
+
+.cancel-card {
+    width: min(680px, 100%);
+    padding: clamp(1.25rem, 4vw, 2rem);
+    border: 1px solid var(--app-border);
+    border-radius: 18px;
+    background: var(--app-surface);
+    color: var(--app-text);
+    box-shadow: var(--app-shadow-sm);
+}
+
+.status-icon {
+    width: 58px;
+    height: 58px;
+    display: grid;
+    place-items: center;
+    margin-bottom: 1rem;
+    border-radius: 50%;
+    font-size: 1.65rem;
+    font-weight: 800;
+}
+
+.status-icon.success {
+    background: #d1e7dd;
+    color: #0f5132;
+}
+
+.status-icon.warning {
+    background: #fff3cd;
+    color: #664d03;
+}
+
+.status-icon.error {
+    background: #f8d7da;
+    color: #842029;
+}
+
+.status-icon.neutral {
+    background: var(--app-surface-alt);
+    color: var(--app-text);
+}
+
+.eyebrow {
+    display: block;
+    margin-bottom: .35rem;
+    color: var(--app-muted);
+    font-size: .75rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+}
+
+h1 {
+    margin-bottom: .6rem;
+    color: var(--app-text);
+    font-size: clamp(1.75rem, 4vw, 2.4rem);
+}
+
+.lead-text {
+    margin-bottom: 1.5rem;
+    color: var(--app-muted);
+}
+
+.turno-summary {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: .8rem;
+    margin: 0 0 1.5rem;
+}
+
+.turno-summary div {
+    padding: .9rem;
+    border: 1px solid var(--app-border);
+    border-radius: 12px;
+    background: var(--app-surface-alt);
+}
+
+.turno-summary dt {
+    margin-bottom: .2rem;
+    color: var(--app-muted);
+    font-size: .75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.turno-summary dd {
+    margin: 0;
+    color: var(--app-text);
+    font-weight: 700;
+}
+
+.cancel-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .75rem;
+}
+
+@media (max-width: 575.98px) {
+    .cancel-page {
+        place-items: start stretch;
+    }
+
+    .turno-summary {
+        grid-template-columns: 1fr;
+    }
+
+    .cancel-actions {
+        display: grid;
+    }
+
+    .cancel-actions .btn {
+        width: 100%;
+    }
+}

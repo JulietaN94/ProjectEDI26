@@ -6,13 +6,17 @@ using Lavadero.Domain.Entities;
 using Lavadero.Domain.Enums;
 using Lavadero.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.Logging;
+using System.ComponentModel.DataAnnotations;
+using System.Security.Cryptography;
 
 namespace Lavadero.Infrastructure.Services;
 
 public sealed class TurnoService : ITurnoService
 {
     private const int PasoMinutos = 30;
+    private const int HorasValidezConfirmacion = 24;
 
     private readonly IDbContextFactory<LavaderoDbContext> _factory;
     private readonly ILogger<TurnoService> _logger;
@@ -28,10 +32,43 @@ public sealed class TurnoService : ITurnoService
     public async Task<TurnoDto> CrearReservaAsync(
         CrearReservaRequest request)
     {
+        ArgumentNullException.ThrowIfNull(request);
+
+        ValidarDatosReserva(request);
         ValidarVentanaReserva(request.FechaHora);
+
+        var telefono =
+            NormalizarTelefono(request.Telefono);
+
+        var nombreCompleto =
+            request.NombreCompleto.Trim();
+
+        var marca =
+            request.Marca.Trim();
+
+        var modelo =
+            request.Modelo.Trim();
 
         await using var context =
             await _factory.CreateDbContextAsync();
+
+        /*
+         * El bloqueo se mantiene hasta confirmar/descartar la transacción.
+         *
+         * La clave está separada por fecha, por lo que dos reservas de
+         * días distintos pueden procesarse al mismo tiempo, pero dos
+         * reservas del mismo día se validan y guardan una detrás de otra.
+         *
+         * Esto evita que dos clientes vean el mismo horario como libre y
+         * logren guardarlo simultáneamente.
+         */
+        await using var transaction =
+            await context.Database.BeginTransactionAsync();
+
+        await AdquirirBloqueoReservaAsync(
+            context,
+            transaction,
+            request.FechaHora.Date);
 
         var servicio =
             await context.Servicios
@@ -41,28 +78,45 @@ public sealed class TurnoService : ITurnoService
             ?? throw new InvalidOperationException(
                 "El servicio seleccionado no está disponible.");
 
+        // Se vuelve a validar DENTRO del bloqueo/transacción.
         await ValidarHorarioYDisponibilidadAsync(
             context,
             request.FechaHora,
             servicio.DuracionMinutos);
 
-        var telefono = request.Telefono.Trim();
-        var nombreCompleto = request.NombreCompleto.Trim();
-        var marca = request.Marca.Trim();
-        var modelo = request.Modelo.Trim();
-
+        /*
+         * Para no duplicar clientes por el formato del teléfono,
+         * comparamos también contra registros históricos que puedan
+         * tener espacios, +, guiones o paréntesis.
+         *
+         * Ejemplo:
+         * 11 1234-5678
+         * (11) 1234-5678
+         * 1112345678
+         *
+         * se consideran el mismo número.
+         */
         var cliente =
             await context.Clientes
                 .Include(x => x.Autos)
-                .FirstOrDefaultAsync(
-                    x => x.Telefono == telefono);
+                .FirstOrDefaultAsync(x =>
+                    x.Telefono
+                        .Replace("+", "")
+                        .Replace("-", "")
+                        .Replace(" ", "")
+                        .Replace("(", "")
+                        .Replace(")", "") ==
+                    telefono);
 
         if (cliente is null)
         {
             cliente = new Cliente
             {
                 NombreCompleto = nombreCompleto,
+
+                // Los clientes nuevos se guardan solamente con dígitos.
                 Telefono = telefono,
+
                 FechaAlta = DateTime.UtcNow
             };
 
@@ -73,7 +127,8 @@ public sealed class TurnoService : ITurnoService
                      nombreCompleto,
                      StringComparison.Ordinal))
         {
-            cliente.NombreCompleto = nombreCompleto;
+            cliente.NombreCompleto =
+                nombreCompleto;
         }
 
         var auto =
@@ -109,12 +164,19 @@ public sealed class TurnoService : ITurnoService
             Observaciones =
                 NormalizarOpcional(
                     request.Observaciones),
-            FechaCreacion = DateTime.UtcNow
+            FechaCreacion = DateTime.UtcNow,
+            TokenConfirmacion = GenerarTokenSeguro(),
+            FechaExpiracionConfirmacion =
+                DateTime.UtcNow.AddHours(
+                    HorasValidezConfirmacion),
+            FechaConfirmacion = null,
+            TokenCancelacion = GenerarTokenSeguro()
         };
 
         context.Turnos.Add(turno);
 
         await context.SaveChangesAsync();
+        await transaction.CommitAsync();
 
         _logger.LogInformation(
             "Turno {TurnoId} creado para servicio {ServicioId} en {FechaHora}.",
@@ -254,6 +316,275 @@ public sealed class TurnoService : ITurnoService
                     : x.Servicio.Precio,
                 x.Servicio.DuracionMinutos))
             .FirstOrDefaultAsync();
+    }
+
+
+    public async Task<TurnoDto?> ObtenerPorTokenAsync(
+        string token)
+    {
+        var tokenNormalizado =
+            NormalizarToken(token);
+
+        if (tokenNormalizado is null)
+        {
+            return null;
+        }
+
+        await using var context =
+            await _factory.CreateDbContextAsync();
+
+        return await QueryTurnos(context)
+            .Where(x =>
+                x.TokenConfirmacion == tokenNormalizado)
+            .Select(x => new TurnoDto(
+                x.Id,
+                x.FechaHora,
+                x.Estado,
+                x.Observaciones,
+                x.FechaCreacion,
+                x.Auto.Cliente.Id,
+                x.Auto.Cliente.NombreCompleto,
+                x.Auto.Cliente.Telefono,
+                x.Auto.Id,
+                x.Auto.Marca,
+                x.Auto.Modelo,
+                x.Servicio.Id,
+                x.Servicio.Nombre,
+                x.PrecioServicio > 0
+                    ? x.PrecioServicio
+                    : x.Servicio.Precio,
+                x.Servicio.DuracionMinutos))
+            .FirstOrDefaultAsync();
+    }
+
+
+    public async Task<string?> ObtenerTokenConfirmacionAsync(
+        int turnoId)
+    {
+        await using var context =
+            await _factory.CreateDbContextAsync();
+
+        return await context.Turnos
+            .AsNoTracking()
+            .Where(x => x.Id == turnoId)
+            .Select(x => x.TokenConfirmacion)
+            .FirstOrDefaultAsync();
+    }
+
+
+    public async Task<TurnoDto?> ObtenerPorTokenCancelacionAsync(
+        string token)
+    {
+        var tokenNormalizado =
+            NormalizarToken(token);
+
+        if (tokenNormalizado is null)
+        {
+            return null;
+        }
+
+        await using var context =
+            await _factory.CreateDbContextAsync();
+
+        return await QueryTurnos(context)
+            .Where(x =>
+                x.TokenCancelacion == tokenNormalizado)
+            .Select(x => new TurnoDto(
+                x.Id,
+                x.FechaHora,
+                x.Estado,
+                x.Observaciones,
+                x.FechaCreacion,
+                x.Auto.Cliente.Id,
+                x.Auto.Cliente.NombreCompleto,
+                x.Auto.Cliente.Telefono,
+                x.Auto.Id,
+                x.Auto.Marca,
+                x.Auto.Modelo,
+                x.Servicio.Id,
+                x.Servicio.Nombre,
+                x.PrecioServicio > 0
+                    ? x.PrecioServicio
+                    : x.Servicio.Precio,
+                x.Servicio.DuracionMinutos))
+            .FirstOrDefaultAsync();
+    }
+
+    public async Task<string?> ObtenerTokenCancelacionAsync(
+        int turnoId)
+    {
+        await using var context =
+            await _factory.CreateDbContextAsync();
+
+        return await context.Turnos
+            .AsNoTracking()
+            .Where(x => x.Id == turnoId)
+            .Select(x => x.TokenCancelacion)
+            .FirstOrDefaultAsync();
+    }
+
+    public async Task CancelarPorTokenAsync(
+        string token)
+    {
+        var tokenNormalizado =
+            NormalizarToken(token)
+            ?? throw new KeyNotFoundException(
+                "El enlace de cancelación no es válido.");
+
+        var ahoraLocal = DateTime.Now;
+
+        await using var context =
+            await _factory.CreateDbContextAsync();
+
+        /*
+         * Igual que la confirmación, la cancelación se ejecuta de forma
+         * atómica directamente en SQL.
+         *
+         * Solo pueden cancelarse turnos Pendientes o Confirmados y
+         * únicamente antes de su horario.
+         */
+        var filasActualizadas =
+            await context.Turnos
+                .Where(x =>
+                    x.TokenCancelacion == tokenNormalizado &&
+                    (x.Estado == EstadoTurno.Pendiente ||
+                     x.Estado == EstadoTurno.Confirmado) &&
+                    x.FechaHora > ahoraLocal)
+                .ExecuteUpdateAsync(setters =>
+                    setters.SetProperty(
+                        x => x.Estado,
+                        EstadoTurno.Cancelado));
+
+        if (filasActualizadas == 1)
+        {
+            _logger.LogInformation(
+                "Turno cancelado mediante enlace público.");
+
+            return;
+        }
+
+        var turno =
+            await context.Turnos
+                .AsNoTracking()
+                .FirstOrDefaultAsync(x =>
+                    x.TokenCancelacion ==
+                    tokenNormalizado)
+            ?? throw new KeyNotFoundException(
+                "El enlace de cancelación no es válido.");
+
+        // Idempotencia: volver a abrir/cancelar el mismo turno no genera error.
+        if (turno.Estado == EstadoTurno.Cancelado)
+        {
+            return;
+        }
+
+        if (turno.Estado == EstadoTurno.Completado)
+        {
+            throw new InvalidOperationException(
+                "El turno ya fue completado y no puede cancelarse.");
+        }
+
+        if (turno.FechaHora <= ahoraLocal)
+        {
+            throw new InvalidOperationException(
+                "El turno ya comenzó o pasó y no puede cancelarse.");
+        }
+
+        throw new InvalidOperationException(
+            "El turno no puede cancelarse en su estado actual.");
+    }
+
+    public async Task ConfirmarPorTokenAsync(
+        string token)
+    {
+        var tokenNormalizado =
+            NormalizarToken(token)
+            ?? throw new KeyNotFoundException(
+                "El enlace de confirmación no es válido.");
+
+        var ahoraUtc = DateTime.UtcNow;
+        var ahoraLocal = DateTime.Now;
+
+        await using var context =
+            await _factory.CreateDbContextAsync();
+
+        /*
+         * La confirmación se realiza en una única operación SQL.
+         *
+         * Así evitamos que dos solicitudes simultáneas lean el mismo
+         * turno Pendiente y lo modifiquen por separado.
+         */
+        var filasActualizadas =
+            await context.Turnos
+                .Where(x =>
+                    x.TokenConfirmacion == tokenNormalizado &&
+                    x.Estado == EstadoTurno.Pendiente &&
+                    x.FechaExpiracionConfirmacion.HasValue &&
+                    x.FechaExpiracionConfirmacion.Value > ahoraUtc &&
+                    x.FechaHora > ahoraLocal)
+                .ExecuteUpdateAsync(setters =>
+                    setters
+                        .SetProperty(
+                            x => x.Estado,
+                            EstadoTurno.Confirmado)
+                        .SetProperty(
+                            x => x.FechaConfirmacion,
+                            ahoraUtc));
+
+        if (filasActualizadas == 1)
+        {
+            _logger.LogInformation(
+                "Turno confirmado mediante enlace público.");
+
+            return;
+        }
+
+        /*
+         * Si no se actualizó ninguna fila, consultamos el estado actual
+         * únicamente para devolver un mensaje correcto al usuario.
+         */
+        var turno =
+            await context.Turnos
+                .AsNoTracking()
+                .FirstOrDefaultAsync(x =>
+                    x.TokenConfirmacion ==
+                    tokenNormalizado)
+            ?? throw new KeyNotFoundException(
+                "El enlace de confirmación no es válido.");
+
+        // Idempotencia: volver a abrir un enlace ya confirmado no genera error.
+        if (turno.Estado == EstadoTurno.Confirmado)
+        {
+            return;
+        }
+
+        if (turno.Estado == EstadoTurno.Cancelado)
+        {
+            throw new InvalidOperationException(
+                "El turno fue cancelado y ya no puede confirmarse.");
+        }
+
+        if (turno.Estado == EstadoTurno.Completado)
+        {
+            throw new InvalidOperationException(
+                "El turno ya fue completado.");
+        }
+
+        if (!turno.FechaExpiracionConfirmacion.HasValue ||
+            turno.FechaExpiracionConfirmacion.Value <= ahoraUtc)
+        {
+            throw new InvalidOperationException(
+                "El enlace de confirmación venció.");
+        }
+
+        if (turno.FechaHora <= ahoraLocal)
+        {
+            throw new InvalidOperationException(
+                "El turno ya pasó y no puede confirmarse.");
+        }
+
+        throw new InvalidOperationException(
+            "El turno no se encuentra pendiente de confirmación.");
     }
 
     public async Task<PagedResult<TurnoDto>>
@@ -613,6 +944,107 @@ public sealed class TurnoService : ITurnoService
         }
     }
 
+    private static void ValidarDatosReserva(
+        CrearReservaRequest request)
+    {
+        var resultados =
+            new List<ValidationResult>();
+
+        var contexto =
+            new ValidationContext(request);
+
+        if (!Validator.TryValidateObject(
+                request,
+                contexto,
+                resultados,
+                validateAllProperties: true))
+        {
+            throw new InvalidOperationException(
+                resultados.FirstOrDefault()?.ErrorMessage ??
+                "Los datos ingresados para la reserva no son válidos.");
+        }
+    }
+
+    private static string NormalizarTelefono(
+        string? telefono)
+    {
+        if (string.IsNullOrWhiteSpace(telefono))
+        {
+            throw new InvalidOperationException(
+                "El teléfono es obligatorio.");
+        }
+
+        var normalizado =
+            new string(
+                telefono
+                    .Where(char.IsDigit)
+                    .ToArray());
+
+        /*
+         * 15 dígitos es el máximo internacional E.164.
+         * Dejamos un mínimo amplio para no atar el sistema a un único
+         * formato local.
+         */
+        if (normalizado.Length is < 6 or > 15)
+        {
+            throw new InvalidOperationException(
+                "El teléfono debe contener entre 6 y 15 dígitos.");
+        }
+
+        return normalizado;
+    }
+
+    private static async Task AdquirirBloqueoReservaAsync(
+        LavaderoDbContext context,
+        IDbContextTransaction transaction,
+        DateTime fecha)
+    {
+        var connection =
+            context.Database.GetDbConnection();
+
+        await using var command =
+            connection.CreateCommand();
+
+        command.Transaction =
+            transaction.GetDbTransaction();
+
+        command.CommandText = """
+            DECLARE @resultado int;
+
+            EXEC @resultado = sys.sp_getapplock
+                @Resource = @recurso,
+                @LockMode = 'Exclusive',
+                @LockOwner = 'Transaction',
+                @LockTimeout = 10000;
+
+            SELECT @resultado;
+            """;
+
+        var parametro =
+            command.CreateParameter();
+
+        parametro.ParameterName =
+            "@recurso";
+
+        parametro.Value =
+            $"Lavadero:Reserva:{fecha:yyyyMMdd}";
+
+        command.Parameters.Add(
+            parametro);
+
+        var resultado =
+            Convert.ToInt32(
+                await command.ExecuteScalarAsync());
+
+        // sp_getapplock: cualquier código negativo indica fallo.
+        if (resultado < 0)
+        {
+            throw new InvalidOperationException(
+                "No se pudo asegurar el horario seleccionado. " +
+                "Intentá nuevamente.");
+        }
+    }
+
     private static bool EsTransicionValida(
         EstadoTurno actual,
         EstadoTurno nuevo) =>
@@ -641,6 +1073,42 @@ public sealed class TurnoService : ITurnoService
                 tamanioPagina,
                 1,
                 100);
+    }
+
+    /// <summary>
+    /// Genera un token criptográficamente seguro de 64 caracteres hexadecimales.
+    /// No se utiliza el Id del turno para evitar enlaces predecibles.
+    /// </summary>
+    private static string GenerarTokenSeguro()
+    {
+        var bytes = RandomNumberGenerator.GetBytes(32);
+
+        return Convert
+            .ToHexString(bytes)
+            .ToLowerInvariant();
+    }
+
+    private static string? NormalizarToken(
+        string? token)
+    {
+        if (string.IsNullOrWhiteSpace(token))
+        {
+            return null;
+        }
+
+        var normalizado =
+            token.Trim().ToLowerInvariant();
+
+        // Los tokens de Fase 8.2 son 32 bytes expresados
+        // como 64 caracteres hexadecimales.
+        if (normalizado.Length != 64 ||
+            normalizado.Any(c =>
+                !Uri.IsHexDigit(c)))
+        {
+            return null;
+        }
+
+        return normalizado;
     }
 
     private static string? NormalizarOpcional(

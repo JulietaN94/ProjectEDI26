@@ -34,3 +34,12 @@ appsettings.Local.json
 Thumbs.db
 .vscode/
 .idea/
+
+.vs/
+**/.vs/
+**/bin/
+**/obj/
+*.user
+*.suo
+
+/Lavadero.zip

@@ -1,67 +1,111 @@
 .reserva-confirmacion {
-    margin-bottom: 1.25rem;
-    padding: clamp(1rem, 3vw, 1.5rem);
-    border: 1px solid #a9dfbf;
+    padding: 1.35rem;
+    border: 1px solid var(--app-border);
     border-radius: var(--app-radius);
-    background: var(--app-success-soft);
+    background: var(--app-surface);
+    color: var(--app-text);
+    box-shadow: var(--app-shadow-sm);
 }
 
 .confirmacion-header {
     display: flex;
     align-items: center;
     gap: .9rem;
+    margin-bottom: 1rem;
 }
 
 .confirmacion-icon {
-    width: 42px;
-    height: 42px;
-    flex: 0 0 42px;
+    width: 44px;
+    height: 44px;
     display: grid;
     place-items: center;
+    flex: 0 0 44px;
     border-radius: 50%;
-    background: #198754;
-    color: white;
-    font-size: 1.25rem;
-    font-weight: 800;
+    background: #d1e7dd;
+    color: #0f5132;
+    font-size: 1.3rem;
+    font-weight: 900;
 }
 
 .eyebrow {
     display: block;
-    margin-bottom: .12rem;
-    color: #157347;
-    font-size: .75rem;
+    color: var(--app-muted);
+    font-size: .72rem;
     font-weight: 800;
-    letter-spacing: .06em;
     text-transform: uppercase;
+    letter-spacing: .08em;
 }
 
-h2 {
-    margin: 0;
+.confirmacion-header h2 {
+    margin: .15rem 0 0;
     color: var(--app-text);
-    font-size: 1.2rem;
+    font-size: 1.35rem;
 }
 
 .confirmacion-grid {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: .75rem 1rem;
-    margin: 1rem 0;
+    gap: .75rem;
+    margin: 0 0 1rem;
 }
 
-dt {
+.confirmacion-grid > div {
+    padding: .8rem;
+    border: 1px solid var(--app-border);
+    border-radius: 10px;
+    background: var(--app-surface-alt);
+}
+
+.confirmacion-grid dt {
+    margin-bottom: .2rem;
     color: var(--app-muted);
-    font-size: .75rem;
+    font-size: .72rem;
     font-weight: 700;
     text-transform: uppercase;
 }
 
-dd {
-    margin: .15rem 0 0;
+.confirmacion-grid dd {
+    margin: 0;
     color: var(--app-text);
+    font-weight: 700;
+}
+
+.confirmacion-link-card {
+    margin: 1rem 0;
+    padding: 1rem;
+    border: 1px solid var(--app-border);
+    border-radius: 12px;
+    background: var(--app-surface-alt);
+}
+
+.link-label {
+    display: block;
+    margin-bottom: .25rem;
+    color: var(--app-text);
+    font-size: .82rem;
+    font-weight: 800;
+}
+
+.link-help {
+    margin-bottom: .75rem;
+    color: var(--app-muted);
+    font-size: .84rem;
+}
+
+.confirmacion-link-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: .6rem;
+}
+
+.confirmacion-link-row .form-control[readonly] {
+    background: var(--app-input-bg);
+    color: var(--app-text);
+    border-color: var(--app-border);
 }
 
 .confirmacion-ayuda {
-    margin: 0;
+    margin: 1rem 0;
     color: var(--app-muted);
     font-size: .9rem;
 }
@@ -69,18 +113,21 @@ dd {
 .confirmacion-actions {
     display: flex;
     flex-wrap: wrap;
-    gap: .6rem;
-    margin-top: 1rem;
+    gap: .65rem;
 }
 
 .confirmacion-mensaje {
     display: block;
-    margin-top: .65rem;
+    margin-top: .75rem;
     color: var(--app-muted);
 }
 
 @media (max-width: 575.98px) {
     .confirmacion-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .confirmacion-link-row {
         grid-template-columns: 1fr;
     }
 
@@ -91,4 +138,12 @@ dd {
     .confirmacion-actions .btn {
         width: 100%;
     }
+}
+
+
+.cancelacion-link-card {
+    border-color: color-mix(
+        in srgb,
+        var(--bs-danger) 35%,
+        var(--app-border));
 }

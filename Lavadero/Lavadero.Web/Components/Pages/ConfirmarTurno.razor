@@ -1,0 +1,253 @@
+@page "/confirmar-turno/{Token}"
+@rendermode InteractiveServer
+@inject ITurnoService TurnoService
+
+<PageTitle>Confirmar turno | Lavadero</PageTitle>
+
+<HeadContent>
+    @* Los enlaces contienen tokens: no deben indexarse ni enviar Referer. *@
+    <meta name="robots"
+          content="noindex,nofollow,noarchive,nosnippet" />
+    <meta name="referrer"
+          content="no-referrer" />
+</HeadContent>
+
+<section class="confirm-page"
+         aria-labelledby="titulo-confirmacion">
+
+    @if (_cargando)
+    {
+        <div class="confirm-card">
+            <LoadingSpinner Texto="Consultando turno..." />
+        </div>
+    }
+    else if (_turno is null)
+    {
+        <div class="confirm-card">
+            <div class="status-icon error"
+                 aria-hidden="true">!</div>
+
+            <h1 id="titulo-confirmacion">
+                Enlace no válido
+            </h1>
+
+            <p class="lead-text">
+                El enlace de confirmación no existe o no es válido.
+            </p>
+
+            <a class="btn btn-primary"
+               href="/">
+                Volver al inicio
+            </a>
+        </div>
+    }
+    else
+    {
+        <div class="confirm-card">
+            @if (_confirmadoAhora ||
+                 _turno.Estado == EstadoTurno.Confirmado)
+            {
+                <div class="status-icon success"
+                     aria-hidden="true">✓</div>
+
+                <span class="eyebrow">
+                    Reserva confirmada
+                </span>
+
+                <h1 id="titulo-confirmacion">
+                    Tu turno está confirmado
+                </h1>
+
+                <p class="lead-text">
+                    Ya registramos la confirmación de tu reserva.
+                </p>
+            }
+            else if (_turno.Estado == EstadoTurno.Cancelado)
+            {
+                <div class="status-icon error"
+                     aria-hidden="true">×</div>
+
+                <span class="eyebrow">
+                    Reserva cancelada
+                </span>
+
+                <h1 id="titulo-confirmacion">
+                    Este turno fue cancelado
+                </h1>
+
+                <p class="lead-text">
+                    El turno ya no puede confirmarse.
+                </p>
+            }
+            else if (_turno.Estado == EstadoTurno.Completado)
+            {
+                <div class="status-icon neutral"
+                     aria-hidden="true">✓</div>
+
+                <span class="eyebrow">
+                    Turno finalizado
+                </span>
+
+                <h1 id="titulo-confirmacion">
+                    Este turno ya fue completado
+                </h1>
+            }
+            else
+            {
+                <div class="status-icon pending"
+                     aria-hidden="true">?</div>
+
+                <span class="eyebrow">
+                    Confirmación pendiente
+                </span>
+
+                <h1 id="titulo-confirmacion">
+                    Confirmá tu turno
+                </h1>
+
+                <p class="lead-text">
+                    Revisá los datos antes de confirmar la reserva.
+                </p>
+            }
+
+            <dl class="turno-summary">
+                <div>
+                    <dt>Turno</dt>
+                    <dd>#@_turno.Id</dd>
+                </div>
+
+                <div>
+                    <dt>Fecha</dt>
+                    <dd>
+                        @_turno.FechaHora.ToString("dd/MM/yyyy")
+                    </dd>
+                </div>
+
+                <div>
+                    <dt>Horario</dt>
+                    <dd>
+                        @_turno.FechaHora.ToString("HH:mm")
+                    </dd>
+                </div>
+
+                <div>
+                    <dt>Servicio</dt>
+                    <dd>@_turno.ServicioNombre</dd>
+                </div>
+
+                <div>
+                    <dt>Vehículo</dt>
+                    <dd>
+                        @_turno.AutoMarca @_turno.AutoModelo
+                    </dd>
+                </div>
+
+                <div>
+                    <dt>Estado</dt>
+                    <dd>
+                        <EstadoTurnoBadge Estado="_turno.Estado" />
+                    </dd>
+                </div>
+            </dl>
+
+            @if (!string.IsNullOrWhiteSpace(_mensajeError))
+            {
+                <div class="alert alert-danger"
+                     role="alert">
+                    @_mensajeError
+                </div>
+            }
+
+            <div class="confirm-actions">
+                @if (_turno.Estado == EstadoTurno.Pendiente &&
+                     !_confirmadoAhora)
+                {
+                    <button type="button"
+                            class="btn btn-primary btn-lg"
+                            disabled="@_confirmando"
+                            @onclick="ConfirmarAsync">
+                        @(_confirmando
+                            ? "Confirmando..."
+                            : "Confirmar reserva")
+                    </button>
+                }
+
+                <a class="btn btn-outline-secondary btn-lg"
+                   href="/">
+                    Volver al inicio
+                </a>
+            </div>
+        </div>
+    }
+</section>
+
+@code {
+    [Parameter]
+    public string Token { get; set; } = string.Empty;
+
+    private TurnoDto? _turno;
+    private bool _cargando = true;
+    private bool _confirmando;
+    private bool _confirmadoAhora;
+    private string? _mensajeError;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        _cargando = true;
+        _mensajeError = null;
+        _confirmadoAhora = false;
+
+        try
+        {
+            _turno =
+                await TurnoService
+                    .ObtenerPorTokenAsync(Token);
+        }
+        catch
+        {
+            _turno = null;
+        }
+        finally
+        {
+            _cargando = false;
+        }
+    }
+
+    private async Task ConfirmarAsync()
+    {
+        if (_turno is null)
+            return;
+
+        _confirmando = true;
+        _mensajeError = null;
+
+        try
+        {
+            await TurnoService
+                .ConfirmarPorTokenAsync(Token);
+
+            _confirmadoAhora = true;
+
+            _turno =
+                await TurnoService
+                    .ObtenerPorTokenAsync(Token);
+        }
+        catch (KeyNotFoundException ex)
+        {
+            _mensajeError = ex.Message;
+        }
+        catch (InvalidOperationException ex)
+        {
+            _mensajeError = ex.Message;
+        }
+        catch
+        {
+            _mensajeError =
+                "No se pudo confirmar el turno. Intentá nuevamente.";
+        }
+        finally
+        {
+            _confirmando = false;
+        }
+    }
+}

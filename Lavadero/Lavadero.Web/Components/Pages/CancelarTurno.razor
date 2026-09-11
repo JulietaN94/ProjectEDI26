@@ -1,0 +1,231 @@
+@page "/cancelar-turno/{Token}"
+@rendermode InteractiveServer
+@inject ITurnoService TurnoService
+
+<PageTitle>Cancelar turno | Lavadero</PageTitle>
+
+<HeadContent>
+    @* Los enlaces contienen tokens: no deben indexarse ni enviar Referer. *@
+    <meta name="robots"
+          content="noindex,nofollow,noarchive,nosnippet" />
+    <meta name="referrer"
+          content="no-referrer" />
+</HeadContent>
+
+<section class="cancel-page"
+         aria-labelledby="titulo-cancelacion">
+
+    @if (_cargando)
+    {
+        <div class="cancel-card">
+            <LoadingSpinner Texto="Consultando turno..." />
+        </div>
+    }
+    else if (_turno is null)
+    {
+        <div class="cancel-card">
+            <div class="status-icon error"
+                 aria-hidden="true">!</div>
+
+            <h1 id="titulo-cancelacion">
+                Enlace no válido
+            </h1>
+
+            <p class="lead-text">
+                El enlace de cancelación no existe o no es válido.
+            </p>
+
+            <a class="btn btn-primary"
+               href="/">
+                Volver al inicio
+            </a>
+        </div>
+    }
+    else
+    {
+        <div class="cancel-card">
+            @if (_canceladoAhora ||
+                 _turno.Estado == EstadoTurno.Cancelado)
+            {
+                <div class="status-icon success"
+                     aria-hidden="true">✓</div>
+
+                <span class="eyebrow">
+                    Reserva cancelada
+                </span>
+
+                <h1 id="titulo-cancelacion">
+                    Tu turno fue cancelado
+                </h1>
+
+                <p class="lead-text">
+                    El horario vuelve a quedar disponible para una nueva reserva.
+                </p>
+            }
+            else if (_turno.Estado == EstadoTurno.Completado)
+            {
+                <div class="status-icon neutral"
+                     aria-hidden="true">✓</div>
+
+                <span class="eyebrow">
+                    Turno finalizado
+                </span>
+
+                <h1 id="titulo-cancelacion">
+                    Este turno ya fue completado
+                </h1>
+            }
+            else
+            {
+                <div class="status-icon warning"
+                     aria-hidden="true">!</div>
+
+                <span class="eyebrow">
+                    Cancelación de reserva
+                </span>
+
+                <h1 id="titulo-cancelacion">
+                    ¿Querés cancelar este turno?
+                </h1>
+
+                <p class="lead-text">
+                    Revisá los datos antes de confirmar la cancelación.
+                </p>
+            }
+
+            <dl class="turno-summary">
+                <div>
+                    <dt>Turno</dt>
+                    <dd>#@_turno.Id</dd>
+                </div>
+
+                <div>
+                    <dt>Fecha</dt>
+                    <dd>@_turno.FechaHora.ToString("dd/MM/yyyy")</dd>
+                </div>
+
+                <div>
+                    <dt>Horario</dt>
+                    <dd>@_turno.FechaHora.ToString("HH:mm")</dd>
+                </div>
+
+                <div>
+                    <dt>Servicio</dt>
+                    <dd>@_turno.ServicioNombre</dd>
+                </div>
+
+                <div>
+                    <dt>Vehículo</dt>
+                    <dd>@_turno.AutoMarca @_turno.AutoModelo</dd>
+                </div>
+
+                <div>
+                    <dt>Estado</dt>
+                    <dd>
+                        <EstadoTurnoBadge Estado="_turno.Estado" />
+                    </dd>
+                </div>
+            </dl>
+
+            @if (!string.IsNullOrWhiteSpace(_mensajeError))
+            {
+                <div class="alert alert-danger"
+                     role="alert">
+                    @_mensajeError
+                </div>
+            }
+
+            <div class="cancel-actions">
+                @if ((_turno.Estado == EstadoTurno.Pendiente ||
+                      _turno.Estado == EstadoTurno.Confirmado) &&
+                     !_canceladoAhora)
+                {
+                    <button type="button"
+                            class="btn btn-danger btn-lg"
+                            disabled="@_cancelando"
+                            @onclick="CancelarAsync">
+                        @(_cancelando
+                            ? "Cancelando..."
+                            : "Sí, cancelar turno")
+                    </button>
+                }
+
+                <a class="btn btn-outline-secondary btn-lg"
+                   href="/">
+                    No, volver
+                </a>
+            </div>
+        </div>
+    }
+</section>
+
+@code {
+    [Parameter]
+    public string Token { get; set; } = string.Empty;
+
+    private TurnoDto? _turno;
+    private bool _cargando = true;
+    private bool _cancelando;
+    private bool _canceladoAhora;
+    private string? _mensajeError;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        _cargando = true;
+        _mensajeError = null;
+        _canceladoAhora = false;
+
+        try
+        {
+            _turno =
+                await TurnoService
+                    .ObtenerPorTokenCancelacionAsync(Token);
+        }
+        catch
+        {
+            _turno = null;
+        }
+        finally
+        {
+            _cargando = false;
+        }
+    }
+
+    private async Task CancelarAsync()
+    {
+        if (_turno is null)
+            return;
+
+        _cancelando = true;
+        _mensajeError = null;
+
+        try
+        {
+            await TurnoService
+                .CancelarPorTokenAsync(Token);
+
+            _canceladoAhora = true;
+
+            _turno =
+                await TurnoService
+                    .ObtenerPorTokenCancelacionAsync(Token);
+        }
+        catch (KeyNotFoundException ex)
+        {
+            _mensajeError = ex.Message;
+        }
+        catch (InvalidOperationException ex)
+        {
+            _mensajeError = ex.Message;
+        }
+        catch
+        {
+            _mensajeError =
+                "No se pudo cancelar el turno. Intentá nuevamente.";
+        }
+        finally
+        {
+            _cancelando = false;
+        }
+    }
+}
