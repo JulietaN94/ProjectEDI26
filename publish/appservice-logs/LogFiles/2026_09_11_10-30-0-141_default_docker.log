@@ -1,0 +1,210 @@
+2026-09-11T05:29:03.3729047Z    _____                               
+2026-09-11T05:29:03.3730398Z   /  _  \ __________ _________   ____  
+2026-09-11T05:29:03.3730455Z  /  /_\  \\___   /  |  \_  __ \_/ __ \ 
+2026-09-11T05:29:03.3730489Z /    |    \/    /|  |  /|  | \/\  ___/ 
+2026-09-11T05:29:03.3730522Z \____|__  /_____ \____/ |__|    \___  >
+2026-09-11T05:29:03.3730888Z         \/      \/                  \/ 
+2026-09-11T05:29:03.3730922Z A P P   S E R V I C E   O N   L I N U X
+2026-09-11T05:29:03.3730951Z 
+2026-09-11T05:29:03.3730990Z Documentation       : http://aka.ms/webapp-linux
+2026-09-11T05:29:03.3731027Z Dotnet quickstart   : https://aka.ms/dotnet-qs
+2026-09-11T05:29:03.3731058Z ASP .NETCore Version: 8.0.28
+2026-09-11T05:29:03.3731090Z Instance Name       : 10-30-0-141
+2026-09-11T05:29:03.3731139Z Instance Id         : e3848c4a19ed5120ac06e6c4552adf58a74475463871a23ea40c8f269e489576
+2026-09-11T05:29:03.3731170Z 
+2026-09-11T05:29:03.3731203Z Note: Any data outside '/home' is not persisted
+2026-09-11T05:29:05.1469442Z Starting OpenBSD Secure Shell server: sshd.
+2026-09-11T05:29:05.1509857Z WEBSITES_INCLUDE_CLOUD_CERTS is not set to true.
+2026-09-11T05:29:05.1763600Z Updating certificates in /etc/ssl/certs...
+2026-09-11T05:29:10.5721404Z rehash: warning: skipping duplicate certificate in azl_SSL.com_TLS_ECC_Root_CA_2022.pem
+2026-09-11T05:29:10.5726223Z rehash: warning: skipping duplicate certificate in azl_SSL.com_TLS_RSA_Root_CA_2022.pem
+2026-09-11T05:29:10.6225805Z rehash: warning: skipping ca-certificates.crt,it does not contain exactly one certificate or CRL
+2026-09-11T05:29:10.6367402Z 4 added, 0 removed; done.
+2026-09-11T05:29:10.6368256Z Running hooks in /etc/ca-certificates/update.d...
+2026-09-11T05:29:10.6399328Z done.
+2026-09-11T05:29:10.6483046Z CA certificates copied and updated successfully.
+2026-09-11T05:29:10.7748233Z Starting periodic command scheduler: cron.
+2026-09-11T05:29:10.7907650Z Running oryx create-script -appPath /home/site/wwwroot -output /opt/startup/startup.sh -defaultAppFilePath /defaulthome/hostingstart/hostingstart.dll     -bindPort 8080 -bindPort2 '' -userStartupCommand '' 
+2026-09-11T05:29:10.8886995Z Could not find build manifest file at '/home/site/wwwroot/oryx-manifest.toml'
+2026-09-11T05:29:10.8887453Z Could not find operation ID in manifest. Generating an operation id...
+2026-09-11T05:29:10.8891065Z Build Operation ID: 32bbf36c-fbf5-4fa1-b6c7-55a7b92109b2
+2026-09-11T05:29:11.0194800Z 
+2026-09-11T05:29:11.0204810Z Agent extension 
+2026-09-11T05:29:11.0206707Z Before if loop >> DotNet Runtime 
+2026-09-11T05:29:11.0458403Z DotNet Runtime 8.0Writing output script to '/opt/startup/startup.sh'
+2026-09-11T05:29:11.0737671Z Trying to find the startup DLL name...
+2026-09-11T05:29:11.0738086Z Found the startup D name: Lavadero.Web.dll
+2026-09-11T05:29:11.0738128Z Running the command: dotnet "Lavadero.Web.dll"
+2026-09-11T05:29:16.7803503Z Unhandled exception. System.InvalidOperationException: No se pudo crear el usuario administrador inicial: Passwords must have at least one uppercase ('A'-'Z').
+2026-09-11T05:29:16.7804059Z    at Lavadero.Infrastructure.Extensions.IdentitySeedExtensions.SeedAdminIdentityAsync(IServiceProvider serviceProvider, IConfiguration configuration) in E:\CursadaProgramacion\ProjectEDI26\Lavadero\Lavadero.Infrastructure\Extensions\IdentitySeedExtensions.cs:line 80
+2026-09-11T05:29:16.7804180Z    at Program.<Main>$(String[] args) in E:\CursadaProgramacion\ProjectEDI26\Lavadero\Lavadero.Web\Program.cs:line 294
+2026-09-11T05:29:16.7804213Z    at Program.<Main>(String[] args)
+2026-09-11T05:29:18.8595468Z /opt/startup/startup.sh: line 20:  1865 Aborted                 (core dumped) dotnet "Lavadero.Web.dll"
+2026-09-11T05:29:41.4815685Z    _____                               
+2026-09-11T05:29:41.4816919Z   /  _  \ __________ _________   ____  
+2026-09-11T05:29:41.4816979Z  /  /_\  \\___   /  |  \_  __ \_/ __ \ 
+2026-09-11T05:29:41.4817015Z /    |    \/    /|  |  /|  | \/\  ___/ 
+2026-09-11T05:29:41.4817049Z \____|__  /_____ \____/ |__|    \___  >
+2026-09-11T05:29:41.4817084Z         \/      \/                  \/ 
+2026-09-11T05:29:41.4817117Z A P P   S E R V I C E   O N   L I N U X
+2026-09-11T05:29:41.4817168Z 
+2026-09-11T05:29:41.4817211Z Documentation       : http://aka.ms/webapp-linux
+2026-09-11T05:29:41.4817250Z Dotnet quickstart   : https://aka.ms/dotnet-qs
+2026-09-11T05:29:41.4817285Z ASP .NETCore Version: 8.0.28
+2026-09-11T05:29:41.4817319Z Instance Name       : 10-30-0-141
+2026-09-11T05:29:41.4817357Z Instance Id         : e3848c4a19ed5120ac06e6c4552adf58a74475463871a23ea40c8f269e489576
+2026-09-11T05:29:41.4817399Z 
+2026-09-11T05:29:41.4817436Z Note: Any data outside '/home' is not persisted
+2026-09-11T05:29:42.0958756Z Starting OpenBSD Secure Shell server: sshd.
+2026-09-11T05:29:42.1033506Z WEBSITES_INCLUDE_CLOUD_CERTS is not set to true.
+2026-09-11T05:29:42.1412363Z Updating certificates in /etc/ssl/certs...
+2026-09-11T05:29:47.2484731Z rehash: warning: skipping duplicate certificate in azl_SSL.com_TLS_ECC_Root_CA_2022.pem
+2026-09-11T05:29:47.2488454Z rehash: warning: skipping duplicate certificate in azl_SSL.com_TLS_RSA_Root_CA_2022.pem
+2026-09-11T05:29:47.3045564Z rehash: warning: skipping ca-certificates.crt,it does not contain exactly one certificate or CRL
+2026-09-11T05:29:47.3172118Z 4 added, 0 removed; done.
+2026-09-11T05:29:47.3174009Z Running hooks in /etc/ca-certificates/update.d...
+2026-09-11T05:29:47.3283221Z done.
+2026-09-11T05:29:47.3381722Z CA certificates copied and updated successfully.
+2026-09-11T05:29:47.4538806Z Starting periodic command scheduler: cron.
+2026-09-11T05:29:47.4571841Z Running oryx create-script -appPath /home/site/wwwroot -output /opt/startup/startup.sh -defaultAppFilePath /defaulthome/hostingstart/hostingstart.dll     -bindPort 8080 -bindPort2 '' -userStartupCommand '' 
+2026-09-11T05:29:47.5376765Z Could not find build manifest file at '/home/site/wwwroot/oryx-manifest.toml'
+2026-09-11T05:29:47.5382066Z Could not find operation ID in manifest. Generating an operation id...
+2026-09-11T05:29:47.5389851Z Build Operation ID: f6c719b0-f35a-4be4-a831-537164235758
+2026-09-11T05:29:47.6760515Z 
+2026-09-11T05:29:47.6760827Z Agent extension 
+2026-09-11T05:29:47.6760873Z Before if loop >> DotNet Runtime 
+2026-09-11T05:29:47.7063509Z DotNet Runtime 8.0Writing output script to '/opt/startup/startup.sh'
+2026-09-11T05:29:47.7441844Z Trying to find the startup DLL name...
+2026-09-11T05:29:47.7442577Z Found the startup D name: Lavadero.Web.dll
+2026-09-11T05:29:47.7444071Z Running the command: dotnet "Lavadero.Web.dll"
+2026-09-11T05:29:54.0712879Z Unhandled exception. System.InvalidOperationException: No se pudo crear el usuario administrador inicial: Passwords must have at least one uppercase ('A'-'Z').
+2026-09-11T05:29:54.0713422Z    at Lavadero.Infrastructure.Extensions.IdentitySeedExtensions.SeedAdminIdentityAsync(IServiceProvider serviceProvider, IConfiguration configuration) in E:\CursadaProgramacion\ProjectEDI26\Lavadero\Lavadero.Infrastructure\Extensions\IdentitySeedExtensions.cs:line 80
+2026-09-11T05:29:54.0713469Z    at Program.<Main>$(String[] args) in E:\CursadaProgramacion\ProjectEDI26\Lavadero\Lavadero.Web\Program.cs:line 294
+2026-09-11T05:29:54.0713502Z    at Program.<Main>(String[] args)
+2026-09-11T05:29:55.8990401Z /opt/startup/startup.sh: line 20:  1867 Aborted                 (core dumped) dotnet "Lavadero.Web.dll"
+2026-09-11T05:30:03.1340845Z    _____                               
+2026-09-11T05:30:03.1341295Z   /  _  \ __________ _________   ____  
+2026-09-11T05:30:03.1341328Z  /  /_\  \\___   /  |  \_  __ \_/ __ \ 
+2026-09-11T05:30:03.1341356Z /    |    \/    /|  |  /|  | \/\  ___/ 
+2026-09-11T05:30:03.1341382Z \____|__  /_____ \____/ |__|    \___  >
+2026-09-11T05:30:03.1341407Z         \/      \/                  \/ 
+2026-09-11T05:30:03.1341433Z A P P   S E R V I C E   O N   L I N U X
+2026-09-11T05:30:03.1341463Z 
+2026-09-11T05:30:03.1341493Z Documentation       : http://aka.ms/webapp-linux
+2026-09-11T05:30:03.1341518Z Dotnet quickstart   : https://aka.ms/dotnet-qs
+2026-09-11T05:30:03.1341540Z ASP .NETCore Version: 8.0.28
+2026-09-11T05:30:03.1341562Z Instance Name       : 10-30-0-141
+2026-09-11T05:30:03.1341655Z Instance Id         : e3848c4a19ed5120ac06e6c4552adf58a74475463871a23ea40c8f269e489576
+2026-09-11T05:30:03.1341677Z 
+2026-09-11T05:30:03.1341700Z Note: Any data outside '/home' is not persisted
+2026-09-11T05:30:03.8262644Z Starting OpenBSD Secure Shell server: sshd.
+2026-09-11T05:30:03.8307699Z WEBSITES_INCLUDE_CLOUD_CERTS is not set to true.
+2026-09-11T05:30:03.8869723Z Updating certificates in /etc/ssl/certs...
+2026-09-11T05:30:10.4185255Z rehash: warning: skipping duplicate certificate in azl_SSL.com_TLS_ECC_Root_CA_2022.pem
+2026-09-11T05:30:10.4194848Z rehash: warning: skipping duplicate certificate in azl_SSL.com_TLS_RSA_Root_CA_2022.pem
+2026-09-11T05:30:10.4730691Z rehash: warning: skipping ca-certificates.crt,it does not contain exactly one certificate or CRL
+2026-09-11T05:30:10.5011904Z 4 added, 0 removed; done.
+2026-09-11T05:30:10.5012250Z Running hooks in /etc/ca-certificates/update.d...
+2026-09-11T05:30:10.5044102Z done.
+2026-09-11T05:30:10.5147903Z CA certificates copied and updated successfully.
+2026-09-11T05:30:10.6189648Z Starting periodic command scheduler: cron.
+2026-09-11T05:30:10.6208457Z Running oryx create-script -appPath /home/site/wwwroot -output /opt/startup/startup.sh -defaultAppFilePath /defaulthome/hostingstart/hostingstart.dll     -bindPort 8080 -bindPort2 '' -userStartupCommand '' 
+2026-09-11T05:30:10.6945031Z Could not find build manifest file at '/home/site/wwwroot/oryx-manifest.toml'
+2026-09-11T05:30:10.6945421Z Could not find operation ID in manifest. Generating an operation id...
+2026-09-11T05:30:10.6972527Z Build Operation ID: 0921042e-0b13-4183-a642-04e190f16984
+2026-09-11T05:30:10.8459997Z 
+2026-09-11T05:30:10.8460560Z Agent extension 
+2026-09-11T05:30:10.8462307Z Before if loop >> DotNet Runtime 
+2026-09-11T05:30:10.8751104Z DotNet Runtime 8.0Writing output script to '/opt/startup/startup.sh'
+2026-09-11T05:30:10.9147736Z Trying to find the startup DLL name...
+2026-09-11T05:30:10.9148093Z Found the startup D name: Lavadero.Web.dll
+2026-09-11T05:30:10.9148128Z Running the command: dotnet "Lavadero.Web.dll"
+2026-09-11T05:30:16.3038463Z Unhandled exception. System.InvalidOperationException: No se pudo crear el usuario administrador inicial: Passwords must have at least one uppercase ('A'-'Z').
+2026-09-11T05:30:16.3038836Z    at Lavadero.Infrastructure.Extensions.IdentitySeedExtensions.SeedAdminIdentityAsync(IServiceProvider serviceProvider, IConfiguration configuration) in E:\CursadaProgramacion\ProjectEDI26\Lavadero\Lavadero.Infrastructure\Extensions\IdentitySeedExtensions.cs:line 80
+2026-09-11T05:30:16.3038874Z    at Program.<Main>$(String[] args) in E:\CursadaProgramacion\ProjectEDI26\Lavadero\Lavadero.Web\Program.cs:line 294
+2026-09-11T05:30:16.3038985Z    at Program.<Main>(String[] args)
+2026-09-11T05:30:18.4454603Z /opt/startup/startup.sh: line 20:  1864 Aborted                 (core dumped) dotnet "Lavadero.Web.dll"
+2026-09-11T05:31:21.1414409Z    _____                               
+2026-09-11T05:31:21.1414757Z   /  _  \ __________ _________   ____  
+2026-09-11T05:31:21.1414791Z  /  /_\  \\___   /  |  \_  __ \_/ __ \ 
+2026-09-11T05:31:21.1414819Z /    |    \/    /|  |  /|  | \/\  ___/ 
+2026-09-11T05:31:21.1414846Z \____|__  /_____ \____/ |__|    \___  >
+2026-09-11T05:31:21.1414871Z         \/      \/                  \/ 
+2026-09-11T05:31:21.1414897Z A P P   S E R V I C E   O N   L I N U X
+2026-09-11T05:31:21.1414924Z 
+2026-09-11T05:31:21.1414952Z Documentation       : http://aka.ms/webapp-linux
+2026-09-11T05:31:21.1414979Z Dotnet quickstart   : https://aka.ms/dotnet-qs
+2026-09-11T05:31:21.1415004Z ASP .NETCore Version: 8.0.28
+2026-09-11T05:31:21.1415029Z Instance Name       : 10-30-0-141
+2026-09-11T05:31:21.1415065Z Instance Id         : e3848c4a19ed5120ac06e6c4552adf58a74475463871a23ea40c8f269e489576
+2026-09-11T05:31:21.1418613Z 
+2026-09-11T05:31:21.1418672Z Note: Any data outside '/home' is not persisted
+2026-09-11T05:31:21.6576879Z Starting OpenBSD Secure Shell server: sshd.
+2026-09-11T05:31:21.6620614Z WEBSITES_INCLUDE_CLOUD_CERTS is not set to true.
+2026-09-11T05:31:21.6873102Z Updating certificates in /etc/ssl/certs...
+2026-09-11T05:31:26.6587983Z rehash: warning: skipping duplicate certificate in azl_SSL.com_TLS_ECC_Root_CA_2022.pem
+2026-09-11T05:31:26.6592290Z rehash: warning: skipping duplicate certificate in azl_SSL.com_TLS_RSA_Root_CA_2022.pem
+2026-09-11T05:31:26.7095306Z rehash: warning: skipping ca-certificates.crt,it does not contain exactly one certificate or CRL
+2026-09-11T05:31:26.7224701Z 4 added, 0 removed; done.
+2026-09-11T05:31:26.7225009Z Running hooks in /etc/ca-certificates/update.d...
+2026-09-11T05:31:26.7482155Z done.
+2026-09-11T05:31:26.7569199Z CA certificates copied and updated successfully.
+2026-09-11T05:31:26.8614947Z Starting periodic command scheduler: cron.
+2026-09-11T05:31:26.8632059Z Running oryx create-script -appPath /home/site/wwwroot -output /opt/startup/startup.sh -defaultAppFilePath /defaulthome/hostingstart/hostingstart.dll     -bindPort 8080 -bindPort2 '' -userStartupCommand '' 
+2026-09-11T05:31:26.9450094Z Could not find build manifest file at '/home/site/wwwroot/oryx-manifest.toml'
+2026-09-11T05:31:26.9450451Z Could not find operation ID in manifest. Generating an operation id...
+2026-09-11T05:31:26.9460080Z Build Operation ID: 9037020e-776f-4937-b297-d5e25c417d34
+2026-09-11T05:31:27.1051910Z 
+2026-09-11T05:31:27.1057504Z Agent extension 
+2026-09-11T05:31:27.1057603Z Before if loop >> DotNet Runtime 
+2026-09-11T05:31:27.1366803Z DotNet Runtime 8.0Writing output script to '/opt/startup/startup.sh'
+2026-09-11T05:31:27.1643879Z Trying to find the startup DLL name...
+2026-09-11T05:31:27.1656558Z Found the startup D name: Lavadero.Web.dll
+2026-09-11T05:31:27.1664818Z Running the command: dotnet "Lavadero.Web.dll"
+2026-09-11T05:31:32.6155480Z Unhandled exception. System.InvalidOperationException: No se pudo crear el usuario administrador inicial: Passwords must have at least one uppercase ('A'-'Z').
+2026-09-11T05:31:32.6155883Z    at Lavadero.Infrastructure.Extensions.IdentitySeedExtensions.SeedAdminIdentityAsync(IServiceProvider serviceProvider, IConfiguration configuration) in E:\CursadaProgramacion\ProjectEDI26\Lavadero\Lavadero.Infrastructure\Extensions\IdentitySeedExtensions.cs:line 80
+2026-09-11T05:31:32.6155921Z    at Program.<Main>$(String[] args) in E:\CursadaProgramacion\ProjectEDI26\Lavadero\Lavadero.Web\Program.cs:line 294
+2026-09-11T05:31:32.6155951Z    at Program.<Main>(String[] args)
+2026-09-11T05:31:34.9774201Z /opt/startup/startup.sh: line 20:  1868 Aborted                 (core dumped) dotnet "Lavadero.Web.dll"
+2026-09-11T05:32:38.4220105Z    _____                               
+2026-09-11T05:32:38.4220438Z   /  _  \ __________ _________   ____  
+2026-09-11T05:32:38.4220471Z  /  /_\  \\___   /  |  \_  __ \_/ __ \ 
+2026-09-11T05:32:38.4220500Z /    |    \/    /|  |  /|  | \/\  ___/ 
+2026-09-11T05:32:38.4220530Z \____|__  /_____ \____/ |__|    \___  >
+2026-09-11T05:32:38.4220637Z         \/      \/                  \/ 
+2026-09-11T05:32:38.4220667Z A P P   S E R V I C E   O N   L I N U X
+2026-09-11T05:32:38.4220693Z 
+2026-09-11T05:32:38.4220720Z Documentation       : http://aka.ms/webapp-linux
+2026-09-11T05:32:38.4220746Z Dotnet quickstart   : https://aka.ms/dotnet-qs
+2026-09-11T05:32:38.4220771Z ASP .NETCore Version: 8.0.28
+2026-09-11T05:32:38.4220796Z Instance Name       : 10-30-0-141
+2026-09-11T05:32:38.4220825Z Instance Id         : e3848c4a19ed5120ac06e6c4552adf58a74475463871a23ea40c8f269e489576
+2026-09-11T05:32:38.4220848Z 
+2026-09-11T05:32:38.4220874Z Note: Any data outside '/home' is not persisted
+2026-09-11T05:32:39.3644952Z Starting OpenBSD Secure Shell server: sshd.
+2026-09-11T05:32:39.3748827Z WEBSITES_INCLUDE_CLOUD_CERTS is not set to true.
+2026-09-11T05:32:39.4023679Z Updating certificates in /etc/ssl/certs...
+2026-09-11T05:32:44.4475260Z rehash: warning: skipping duplicate certificate in azl_SSL.com_TLS_ECC_Root_CA_2022.pem
+2026-09-11T05:32:44.4486285Z rehash: warning: skipping duplicate certificate in azl_SSL.com_TLS_RSA_Root_CA_2022.pem
+2026-09-11T05:32:44.4981444Z rehash: warning: skipping ca-certificates.crt,it does not contain exactly one certificate or CRL
+2026-09-11T05:32:44.5166987Z 4 added, 0 removed; done.
+2026-09-11T05:32:44.5167846Z Running hooks in /etc/ca-certificates/update.d...
+2026-09-11T05:32:44.5197068Z done.
+2026-09-11T05:32:44.5284446Z CA certificates copied and updated successfully.
+2026-09-11T05:32:44.6477973Z Starting periodic command scheduler: cron.
+2026-09-11T05:32:44.6506007Z Running oryx create-script -appPath /home/site/wwwroot -output /opt/startup/startup.sh -defaultAppFilePath /defaulthome/hostingstart/hostingstart.dll     -bindPort 8080 -bindPort2 '' -userStartupCommand '' 
+2026-09-11T05:32:44.7076882Z Could not find build manifest file at '/home/site/wwwroot/oryx-manifest.toml'
+2026-09-11T05:32:44.7078619Z Could not find operation ID in manifest. Generating an operation id...
+2026-09-11T05:32:44.7078666Z Build Operation ID: d0751c8d-f7bc-4b49-bcc6-636c0e17dcea
+2026-09-11T05:32:44.8608172Z 
+2026-09-11T05:32:44.8609844Z Agent extension 
+2026-09-11T05:32:44.8611223Z Before if loop >> DotNet Runtime 
+2026-09-11T05:32:44.8878937Z DotNet Runtime 8.0Writing output script to '/opt/startup/startup.sh'
+2026-09-11T05:32:44.9294760Z Trying to find the startup DLL name...
+2026-09-11T05:32:44.9296649Z Found the startup D name: Lavadero.Web.dll
+2026-09-11T05:32:44.9297604Z Running the command: dotnet "Lavadero.Web.dll"
+2026-09-11T05:32:50.1100440Z Unhandled exception. System.InvalidOperationException: No se pudo crear el usuario administrador inicial: Passwords must have at least one uppercase ('A'-'Z').
+2026-09-11T05:32:50.1100668Z    at Lavadero.Infrastructure.Extensions.IdentitySeedExtensions.SeedAdminIdentityAsync(IServiceProvider serviceProvider, IConfiguration configuration) in E:\CursadaProgramacion\ProjectEDI26\Lavadero\Lavadero.Infrastructure\Extensions\IdentitySeedExtensions.cs:line 80
+2026-09-11T05:32:50.1100701Z    at Program.<Main>$(String[] args) in E:\CursadaProgramacion\ProjectEDI26\Lavadero\Lavadero.Web\Program.cs:line 294
+2026-09-11T05:32:50.1101127Z    at Program.<Main>(String[] args)
+2026-09-11T05:32:52.1333881Z /opt/startup/startup.sh: line 20:  1865 Aborted                 (core dumped) dotnet "Lavadero.Web.dll"

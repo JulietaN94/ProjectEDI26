@@ -1,0 +1,779 @@
+========== New Cold Start Attempt (2026-09-11T05:27:00.9846111+00:00) ==========
+2026-09-11T05:27:00.9846111+00:00 ContainerStatus: State: Starting, Action: EstablishingSiteNetworks, LastError: , LastErrorTimestamp: 01/01/0001 00:00:00, LastErrorDetails: , Details: , DetailsLevel: INFO
+2026-09-11T05:27:01.6571398+00:00 ContainerStatus: State: Starting, Action: StartingSiteContainers, LastError: , LastErrorTimestamp: 01/01/0001 00:00:00, LastErrorDetails: , Details: , DetailsLevel: INFO
+2026-09-11T05:27:01.6588261+00:00 ContainerStatus: Container start method called.
+2026-09-11T05:27:01.6630120+00:00 ContainerStatus: State: Starting, Action: PullingImage, LastError: , LastErrorTimestamp: 01/01/0001 00:00:00, LastErrorDetails: , Details: Pulling image 10.1.0.4:13209/appsvc/dotnetcore:8.0_20260616.2.tuxprod for lavadero-edi26-ncus., DetailsLevel: INFO
+2026-09-11T05:27:01.6684262+00:00 ContainerStatus: Establishing network.
+2026-09-11T05:27:01.6685719+00:00 ContainerStatus: Pulling image: appsvc/dotnetcore:8.0_20260616.2.tuxprod.
+2026-09-11T05:27:02.3599951+00:00 ContainerStatus: Container is starting.
+2026-09-11T05:27:02.3601348+00:00 ContainerStatus: State: Starting, Action: MountingVolumes, LastError: , LastErrorTimestamp: 01/01/0001 00:00:00, LastErrorDetails: , Details: Mounting volumes for lavadero-edi26-ncus., DetailsLevel: INFO
+2026-09-11T05:27:02.3609414+00:00 ContainerStatus: Establishing user namespace if not established already.
+2026-09-11T05:27:02.3610636+00:00 ContainerStatus: Establishing network if not established already.
+2026-09-11T05:27:02.3685085+00:00 ContainerStatus: Mounting volumes.
+2026-09-11T05:27:02.3693649+00:00 ContainerStatus: Nested mountpoint 
+2026-09-11T05:27:02.3790312+00:00 ContainerStatus: Nested mountpoint volatile/logs
+2026-09-11T05:27:02.4437856+00:00 ContainerStatus: Nested mountpoint 
+2026-09-11T05:27:02.5572699+00:00 ContainerStatus: Nested mountpoint 
+2026-09-11T05:27:02.5588264+00:00 ContainerStatus: Nested mountpoint 
+2026-09-11T05:27:02.6124159+00:00 ContainerStatus: Nested mountpoint 
+2026-09-11T05:27:02.9116504+00:00 ContainerStatus: State: Starting, Action: CreatingContainer, LastError: , LastErrorTimestamp: 01/01/0001 00:00:00, LastErrorDetails: , Details: Finished pulling container image and mounting volumes for lavadero-edi26-ncus. Allocatinng the rest of the container resources to finish container creation., DetailsLevel: INFO
+2026-09-11T05:27:02.9118464+00:00 ContainerStatus: Creating container.
+2026-09-11T05:27:02.9119398+00:00 ContainerStatus: Creating pipes for streaming container io.
+2026-09-11T05:27:02.9121776+00:00 ContainerStatus: Creating stdout named pipe at /podr/container/pipe/eeafc275f028_lavadero-edi26-ncus/stdout_660aa75d2f4443bb816626d71164fe96.
+2026-09-11T05:27:02.9123853+00:00 ContainerStatus: Successfully created stdout named pipe at: /podr/container/pipe/eeafc275f028_lavadero-edi26-ncus/stdout_660aa75d2f4443bb816626d71164fe96.
+2026-09-11T05:27:02.9124395+00:00 ContainerStatus: Opening named pipe /podr/container/pipe/eeafc275f028_lavadero-edi26-ncus/stdout_660aa75d2f4443bb816626d71164fe96 for reading in non-blocking mode.
+2026-09-11T05:27:02.9125314+00:00 ContainerStatus: Successfully opened named pipe: /podr/container/pipe/eeafc275f028_lavadero-edi26-ncus/stdout_660aa75d2f4443bb816626d71164fe96.
+2026-09-11T05:27:02.9126859+00:00 ContainerStatus: Successfully removed non-blocking flag from /podr/container/pipe/eeafc275f028_lavadero-edi26-ncus/stdout_660aa75d2f4443bb816626d71164fe96.
+2026-09-11T05:27:02.9170158+00:00 ContainerStatus: Creating stderr named pipe at /podr/container/pipe/eeafc275f028_lavadero-edi26-ncus/stderr_2d44668ceb4c4c5ca820621a16beff88.
+2026-09-11T05:27:02.9171775+00:00 ContainerStatus: Successfully created stderr named pipe at: /podr/container/pipe/eeafc275f028_lavadero-edi26-ncus/stderr_2d44668ceb4c4c5ca820621a16beff88.
+2026-09-11T05:27:02.9172319+00:00 ContainerStatus: Opening named pipe /podr/container/pipe/eeafc275f028_lavadero-edi26-ncus/stderr_2d44668ceb4c4c5ca820621a16beff88 for reading in non-blocking mode.
+2026-09-11T05:27:02.9173168+00:00 ContainerStatus: Successfully opened named pipe: /podr/container/pipe/eeafc275f028_lavadero-edi26-ncus/stderr_2d44668ceb4c4c5ca820621a16beff88.
+2026-09-11T05:27:02.9173699+00:00 ContainerStatus: Successfully removed non-blocking flag from /podr/container/pipe/eeafc275f028_lavadero-edi26-ncus/stderr_2d44668ceb4c4c5ca820621a16beff88.
+2026-09-11T05:27:02.9179378+00:00 ContainerStatus: Creating container with image: appsvc/dotnetcore:8.0_20260616.2.tuxprod from registry: 10.1.0.4:13209 and fully qualified image name: 10.1.0.4:13209/appsvc/dotnetcore:8.0_20260616.2.tuxprod
+2026-09-11T05:27:03.2284426+00:00 ContainerStatus: Starting container: eeafc275f028_lavadero-edi26-ncus.
+2026-09-11T05:27:03.2707557+00:00 ContainerStatus: Starting watchers and probes.
+2026-09-11T05:27:03.2744094+00:00 ContainerStatus: Starting metrics collection.
+2026-09-11T05:27:03.2746102+00:00 ContainerStatus: Container is running.
+2026-09-11T05:27:03.2747862+00:00 ContainerStatus: State: Starting, Action: CreatingContainer, LastError: , LastErrorTimestamp: 01/01/0001 00:00:00, LastErrorDetails: , Details: Container lavadero-edi26-ncus successfully created and is running., DetailsLevel: INFO
+2026-09-11T05:27:03.2993708+00:00 ContainerStatus: Container start method finished after 1640 ms.
+2026-09-11T05:27:03.3000747+00:00 ContainerStatus: State: Starting, Action: InitiatingSiteWarmUpProbe, LastError: , LastErrorTimestamp: 01/01/0001 00:00:00, LastErrorDetails: , Details: Container lavadero-edi26-ncus successfully created and is running., DetailsLevel: INFO
+2026-09-11T05:27:03.3052507+00:00 ContainerStatus: State: Starting, Action: WaitingForSiteWarmUpProbeSuccess, LastError: , LastErrorTimestamp: 01/01/0001 00:00:00, LastErrorDetails: , Details: Pinging warmup path to ensure container is ready to receive requests., DetailsLevel: INFO
+2026-09-11T05:27:03.3723403+00:00 ContainerStream:    _____                               
+2026-09-11T05:27:03.3727429+00:00 ContainerStream:   /  _  \ __________ _________   ____  
+2026-09-11T05:27:03.3727497+00:00 ContainerStream:  /  /_\  \\___   /  |  \_  __ \_/ __ \ 
+2026-09-11T05:27:03.3727535+00:00 ContainerStream: /    |    \/    /|  |  /|  | \/\  ___/ 
+2026-09-11T05:27:03.3727570+00:00 ContainerStream: \____|__  /_____ \____/ |__|    \___  >
+2026-09-11T05:27:03.3727683+00:00 ContainerStream:         \/      \/                  \/ 
+2026-09-11T05:27:03.3727719+00:00 ContainerStream: A P P   S E R V I C E   O N   L I N U X
+2026-09-11T05:27:03.3727749+00:00 ContainerStream: 
+2026-09-11T05:27:03.3727788+00:00 ContainerStream: Documentation       : http://aka.ms/webapp-linux
+2026-09-11T05:27:03.3727829+00:00 ContainerStream: Dotnet quickstart   : https://aka.ms/dotnet-qs
+2026-09-11T05:27:03.3727863+00:00 ContainerStream: ASP .NETCore Version: 8.0.28
+2026-09-11T05:27:03.3727897+00:00 ContainerStream: Instance Name       : 10-30-0-141
+2026-09-11T05:27:03.3727974+00:00 ContainerStream: Instance Id         : e3848c4a19ed5120ac06e6c4552adf58a74475463871a23ea40c8f269e489576
+2026-09-11T05:27:03.3728011+00:00 ContainerStream: 
+2026-09-11T05:27:03.3728072+00:00 ContainerStream: Note: Any data outside '/home' is not persisted
+2026-09-11T05:27:04.1689875+00:00 ContainerStream: Starting OpenBSD Secure Shell server: sshd.
+2026-09-11T05:27:04.1783751+00:00 ContainerStream: WEBSITES_INCLUDE_CLOUD_CERTS is not set to true.
+2026-09-11T05:27:04.2087985+00:00 ContainerStream: Updating certificates in /etc/ssl/certs...
+2026-09-11T05:27:26.8852143+00:00 ContainerStream: rehash: warning: skipping duplicate certificate in azl_SSL.com_TLS_ECC_Root_CA_2022.pem
+2026-09-11T05:27:26.8861156+00:00 ContainerStream: rehash: warning: skipping duplicate certificate in azl_SSL.com_TLS_RSA_Root_CA_2022.pem
+2026-09-11T05:27:26.9956321+00:00 ContainerStream: rehash: warning: skipping ca-certificates.crt,it does not contain exactly one certificate or CRL
+2026-09-11T05:27:27.0273877+00:00 ContainerStream: 4 added, 0 removed; done.
+2026-09-11T05:27:27.0354407+00:00 ContainerStream: Running hooks in /etc/ca-certificates/update.d...
+2026-09-11T05:27:27.0447334+00:00 ContainerStream: done.
+2026-09-11T05:27:27.0618311+00:00 ContainerStream: CA certificates copied and updated successfully.
+2026-09-11T05:27:27.3966818+00:00 ContainerStream: Starting periodic command scheduler: cron.
+2026-09-11T05:27:27.4040855+00:00 ContainerStream: Running oryx create-script -appPath /home/site/wwwroot -output /opt/startup/startup.sh -defaultAppFilePath /defaulthome/hostingstart/hostingstart.dll     -bindPort 8080 -bindPort2 '' -userStartupCommand '' 
+2026-09-11T05:27:27.7290909+00:00 ContainerStream: Could not find build manifest file at '/home/site/wwwroot/oryx-manifest.toml'
+2026-09-11T05:27:27.7291142+00:00 ContainerStream: Could not find operation ID in manifest. Generating an operation id...
+2026-09-11T05:27:27.7291183+00:00 ContainerStream: Build Operation ID: 265c9812-8c05-42ff-baf6-e81410d24841
+2026-09-11T05:27:28.1124071+00:00 ContainerStream: 
+2026-09-11T05:27:28.1124539+00:00 ContainerStream: Agent extension 
+2026-09-11T05:27:28.1124591+00:00 ContainerStream: Before if loop >> DotNet Runtime 
+2026-09-11T05:27:28.1353684+00:00 ContainerStream: DotNet Runtime 8.0Writing output script to '/opt/startup/startup.sh'
+2026-09-11T05:27:28.1732203+00:00 ContainerStream: Trying to find the startup DLL name...
+2026-09-11T05:27:28.1732675+00:00 ContainerStream: Found the startup D name: Lavadero.Web.dll
+2026-09-11T05:27:28.1732717+00:00 ContainerStream: Running the command: dotnet "Lavadero.Web.dll"
+2026-09-11T05:27:47.3383960+00:00 ContainerStream: Unhandled exception. System.InvalidOperationException: An exception has been raised that is likely due to a transient failure. Consider enabling transient error resiliency by adding 'EnableRetryOnFailure' to the 'UseSqlServer' call.
+2026-09-11T05:27:47.3384413+00:00 ContainerStream:  ---> Microsoft.Data.SqlClient.SqlException (0x80131904): Database 'dilanruizb' on server 'dilanruizb.database.windows.net' is not currently available.  Please retry the connection later.  If the problem persists, contact customer support, and provide them the session tracing ID of '{6081ECEC-261E-4E7A-A009-D055647F6D11}'.
+2026-09-11T05:27:47.3384461+00:00 ContainerStream:    at Microsoft.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+2026-09-11T05:27:47.3384500+00:00 ContainerStream:    at Microsoft.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+2026-09-11T05:27:47.3384625+00:00 ContainerStream:    at Microsoft.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+2026-09-11T05:27:47.3384664+00:00 ContainerStream:    at Microsoft.Data.SqlClient.TdsParser.Run(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj)
+2026-09-11T05:27:47.3384697+00:00 ContainerStream:    at Microsoft.Data.SqlClient.SqlInternalConnectionTds.CompleteLogin(Boolean enlistOK)
+2026-09-11T05:27:47.3384735+00:00 ContainerStream:    at Microsoft.Data.SqlClient.SqlInternalConnectionTds.AttemptOneLogin(ServerInfo serverInfo, String newPassword, SecureString newSecurePassword, Boolean ignoreSniOpenTimeout, TimeoutTimer timeout, Boolean withFailover)
+2026-09-11T05:27:47.3386940+00:00 ContainerStream:    at Microsoft.Data.SqlClient.SqlInternalConnectionTds.LoginNoFailover(ServerInfo serverInfo, String newPassword, SecureString newSecurePassword, Boolean redirectedUserInstance, SqlConnectionString connectionOptions, SqlCredential credential, TimeoutTimer timeout)
+2026-09-11T05:27:47.3387020+00:00 ContainerStream:    at Microsoft.Data.SqlClient.SqlInternalConnectionTds.OpenLoginEnlist(TimeoutTimer timeout, SqlConnectionString connectionOptions, SqlCredential credential, String newPassword, SecureString newSecurePassword, Boolean redirectedUserInstance)
+2026-09-11T05:27:47.3387071+00:00 ContainerStream:    at Microsoft.Data.SqlClient.SqlInternalConnectionTds..ctor(DbConnectionPoolIdentity identity, SqlConnectionString connectionOptions, SqlCredential credential, Object providerInfo, String newPassword, SecureString newSecurePassword, Boolean redirectedUserInstance, SqlConnectionString userConnectionOptions, SessionData reconnectSessionData, Boolean applyTransientFaultHandling, String accessToken, DbConnectionPool pool)
+2026-09-11T05:27:47.3387112+00:00 ContainerStream:    at Microsoft.Data.SqlClient.SqlConnectionFactory.CreateConnection(DbConnectionOptions options, DbConnectionPoolKey poolKey, Object poolGroupProviderInfo, DbConnectionPool pool, DbConnection owningConnection, DbConnectionOptions userOptions)
+2026-09-11T05:27:47.3387167+00:00 ContainerStream:    at Microsoft.Data.ProviderBase.DbConnectionFactory.CreatePooledConnection(DbConnectionPool pool, DbConnection owningObject, DbConnectionOptions options, DbConnectionPoolKey poolKey, DbConnectionOptions userOptions)
+2026-09-11T05:27:47.3387207+00:00 ContainerStream:    at Microsoft.Data.ProviderBase.DbConnectionPool.CreateObject(DbConnection owningObject, DbConnectionOptions userOptions, DbConnectionInternal oldConnection)
+2026-09-11T05:27:47.3387245+00:00 ContainerStream:    at Microsoft.Data.ProviderBase.DbConnectionPool.UserCreateRequest(DbConnection owningObject, DbConnectionOptions userOptions, DbConnectionInternal oldConnection)
+2026-09-11T05:27:47.3387287+00:00 ContainerStream:    at Microsoft.Data.ProviderBase.DbConnectionPool.TryGetConnection(DbConnection owningObject, UInt32 waitForMultipleObjectsTimeout, Boolean allowCreate, Boolean onlyOneCheckConnection, DbConnectionOptions userOptions, DbConnectionInternal& connection)
+2026-09-11T05:27:47.3387341+00:00 ContainerStream:    at Microsoft.Data.ProviderBase.DbConnectionPool.WaitForPendingOpen()
+2026-09-11T05:27:47.3387418+00:00 ContainerStream: --- End of stack trace from previous location ---
+2026-09-11T05:27:47.3387461+00:00 ContainerStream:    at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.OpenInternalAsync(Boolean errorsExpected, CancellationToken cancellationToken)
+2026-09-11T05:27:47.3387503+00:00 ContainerStream:    at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.OpenInternalAsync(Boolean errorsExpected, CancellationToken cancellationToken)
+2026-09-11T05:27:47.3387538+00:00 ContainerStream:    at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.OpenAsync(CancellationToken cancellationToken, Boolean errorsExpected)
+2026-09-11T05:27:47.3387936+00:00 ContainerStream:    at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerDatabaseCreator.<>c__DisplayClass20_0.<<ExistsAsync>b__0>d.MoveNext()
+2026-09-11T05:27:47.3387992+00:00 ContainerStream: --- End of stack trace from previous location ---
+2026-09-11T05:27:47.3388028+00:00 ContainerStream:    at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerDatabaseCreator.<>c__DisplayClass20_0.<<ExistsAsync>b__0>d.MoveNext()
+2026-09-11T05:27:47.3388059+00:00 ContainerStream: --- End of stack trace from previous location ---
+2026-09-11T05:27:47.3388092+00:00 ContainerStream:    at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerDatabaseCreator.<>c__DisplayClass20_0.<<ExistsAsync>b__0>d.MoveNext()
+2026-09-11T05:27:47.3388124+00:00 ContainerStream: --- End of stack trace from previous location ---
+2026-09-11T05:27:47.3388188+00:00 ContainerStream:    at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+2026-09-11T05:27:47.3388219+00:00 ContainerStream: ClientConnectionId:b50f0980-cde1-4033-8b1a-33ef3b9106c5
+2026-09-11T05:27:47.3388249+00:00 ContainerStream: Error Number:40613,State:1,Class:20
+2026-09-11T05:27:47.3388278+00:00 ContainerStream:    --- End of inner exception stack trace ---
+2026-09-11T05:27:47.3388315+00:00 ContainerStream:    at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+2026-09-11T05:27:47.3388365+00:00 ContainerStream:    at Microsoft.EntityFrameworkCore.Migrations.HistoryRepository.ExistsAsync(CancellationToken cancellationToken)
+2026-09-11T05:27:47.3388420+00:00 ContainerStream:    at Microsoft.EntityFrameworkCore.Migrations.Internal.Migrator.MigrateAsync(String targetMigration, CancellationToken cancellationToken)
+2026-09-11T05:27:47.3388465+00:00 ContainerStream:    at Lavadero.Infrastructure.Extensions.DependencyInjection.ApplyDatabaseMigrationsAsync(IServiceProvider serviceProvider) in E:\CursadaProgramacion\ProjectEDI26\Lavadero\Lavadero.Infrastructure\Extensions\DependencyInjection.cs:line 42
+2026-09-11T05:27:47.3388505+00:00 ContainerStream:    at Lavadero.Infrastructure.Extensions.DependencyInjection.ApplyDatabaseMigrationsAsync(IServiceProvider serviceProvider) in E:\CursadaProgramacion\ProjectEDI26\Lavadero\Lavadero.Infrastructure\Extensions\DependencyInjection.cs:line 42
+2026-09-11T05:27:47.3388547+00:00 ContainerStream:    at Program.<Main>$(String[] args) in E:\CursadaProgramacion\ProjectEDI26\Lavadero\Lavadero.Web\Program.cs:line 292
+2026-09-11T05:27:47.3388581+00:00 ContainerStream:    at Program.<Main>(String[] args)
+2026-09-11T05:27:48.9340495+00:00 ContainerStream: /opt/startup/startup.sh: line 20:  1863 Aborted                 (core dumped) dotnet "Lavadero.Web.dll"
+2026-09-11T05:27:48.9953646+00:00 ContainerStatus: Container has finished running with exit code: 134.
+2026-09-11T05:27:48.9989495+00:00 ContainerStatus: Container is terminating. Grace period: 5 seconds.
+2026-09-11T05:27:49.0069561+00:00 ContainerStatus: Stop and delete container. Retry count = 0
+2026-09-11T05:27:49.0090020+00:00 ContainerStatus: Stopping container: eeafc275f028_lavadero-edi26-ncus.
+2026-09-11T05:27:49.0896867+00:00 ContainerStatus: Deleting container: eeafc275f028_lavadero-edi26-ncus. Retry count = 0
+2026-09-11T05:27:49.2362198+00:00 ContainerStatus: Container spec TerminationMessagePolicy  path 
+2026-09-11T05:27:49.2380630+00:00 ContainerStatus: Container is terminated. Total time elapsed: 237 ms.
+2026-09-11T05:27:49.2381724+00:00 ContainerStatus: Site container: lavadero-edi26-ncus terminated during site startup.
+2026-09-11T05:27:49.2438295+00:00 ContainerStatus: State: Stopping, Action: CancellingStartup, LastError: , LastErrorTimestamp: 01/01/0001 00:00:00, LastErrorDetails: , Details: Site container: lavadero-edi26-ncus terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-09-11T05:27:49.2641532+00:00 ContainerStatus: Site startup probe failed after 45.9291918 seconds.
+2026-09-11T05:27:49.3707299+00:00 ContainerStatus: State: Stopping, Action: CancellingStartup, LastError: ContainerStartupFailure, LastErrorTimestamp: 09/11/2026 05:27:49, LastErrorDetails: Container exited with exit code 134 during startup after 46.0s. Please inspect your container logs for more details., Details: Site container: lavadero-edi26-ncus terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-09-11T05:27:49.3822938+00:00 ContainerStatus: Failed to start site. Revert by stopping site.
+2026-09-11T05:27:49.3959461+00:00 ContainerStatus: State: Stopping, Action: StoppingSite, LastError: ContainerStartupFailure, LastErrorTimestamp: 09/11/2026 05:27:49, LastErrorDetails: Container exited with exit code 134 during startup after 46.0s. Please inspect your container logs for more details., Details: Site container: lavadero-edi26-ncus terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-09-11T05:27:49.4015452+00:00 ContainerStatus: State: Stopping, Action: StoppingSiteContainers, LastError: ContainerStartupFailure, LastErrorTimestamp: 09/11/2026 05:27:49, LastErrorDetails: Container exited with exit code 134 during startup after 46.0s. Please inspect your container logs for more details., Details: Site container: lavadero-edi26-ncus terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-09-11T05:27:49.4025633+00:00 ContainerStatus: Site: lavadero-edi26-ncus stopped.
+========== New Cold Start Attempt (2026-09-11T05:27:49.4199186+00:00) ==========
+2026-09-11T05:27:49.4199186+00:00 ContainerStatus: State: Stopping, Action: UnmountingVolumes, LastError: ContainerStartupFailure, LastErrorTimestamp: 09/11/2026 05:27:49, LastErrorDetails: Container exited with exit code 134 during startup after 46.0s. Please inspect your container logs for more details., Details: Site container: lavadero-edi26-ncus terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-09-11T05:27:49.6048806+00:00 ContainerStatus: State: Stopping, Action: StoppingSiteNetworks, LastError: ContainerStartupFailure, LastErrorTimestamp: 09/11/2026 05:27:49, LastErrorDetails: Container exited with exit code 134 during startup after 46.0s. Please inspect your container logs for more details., Details: Site container: lavadero-edi26-ncus terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-09-11T05:27:49.7469777+00:00 ContainerStatus: State: Stopped, Action: None, LastError: ContainerStartupFailure, LastErrorTimestamp: 09/11/2026 05:27:49, LastErrorDetails: Container exited with exit code 134 during startup after 46.0s. Please inspect your container logs for more details., Details: Site stopped at 09/11/2026 05:27:49 (UTC), DetailsLevel: ERR
+2026-09-11T05:27:50.1080704+00:00 ContainerStatus: State: Stopped, Action: None, LastError: ContainerStartupFailure, LastErrorTimestamp: 09/11/2026 05:27:49, LastErrorDetails: Container exited with exit code 134 during startup after 46.0s. Please inspect your container logs for more details., Details: Site stopped at 09/11/2026 05:27:49 (UTC), DetailsLevel: ERR
+2026-09-11T05:27:56.5018787+00:00 ContainerStatus: State: Starting, Action: EstablishingSiteNetworks, LastError: ContainerStartupFailure, LastErrorTimestamp: 09/11/2026 05:27:49, LastErrorDetails: Container exited with exit code 134 during startup after 46.0s. Please inspect your container logs for more details., Details: Site stopped at 09/11/2026 05:27:49 (UTC), DetailsLevel: ERR
+2026-09-11T05:27:56.7719763+00:00 ContainerStatus: State: Starting, Action: StartingSiteContainers, LastError: ContainerStartupFailure, LastErrorTimestamp: 09/11/2026 05:27:49, LastErrorDetails: Container exited with exit code 134 during startup after 46.0s. Please inspect your container logs for more details., Details: Site stopped at 09/11/2026 05:27:49 (UTC), DetailsLevel: ERR
+2026-09-11T05:27:56.7727967+00:00 ContainerStatus: Container start method called.
+2026-09-11T05:27:56.7728679+00:00 ContainerStatus: State: Starting, Action: PullingImage, LastError: ContainerStartupFailure, LastErrorTimestamp: 09/11/2026 05:27:49, LastErrorDetails: Container exited with exit code 134 during startup after 46.0s. Please inspect your container logs for more details., Details: Pulling image 10.1.0.4:13209/appsvc/dotnetcore:8.0_20260616.2.tuxprod for lavadero-edi26-ncus., DetailsLevel: INFO
+2026-09-11T05:27:56.7729495+00:00 ContainerStatus: Establishing network.
+2026-09-11T05:27:56.7737117+00:00 ContainerStatus: Pulling image: appsvc/dotnetcore:8.0_20260616.2.tuxprod.
+2026-09-11T05:27:56.8889027+00:00 ContainerStatus: Container is starting.
+2026-09-11T05:27:56.8890072+00:00 ContainerStatus: State: Starting, Action: MountingVolumes, LastError: ContainerStartupFailure, LastErrorTimestamp: 09/11/2026 05:27:49, LastErrorDetails: Container exited with exit code 134 during startup after 46.0s. Please inspect your container logs for more details., Details: Mounting volumes for lavadero-edi26-ncus., DetailsLevel: INFO
+2026-09-11T05:27:56.8891123+00:00 ContainerStatus: Establishing user namespace if not established already.
+2026-09-11T05:27:56.8892119+00:00 ContainerStatus: Establishing network if not established already.
+2026-09-11T05:27:56.8893160+00:00 ContainerStatus: Mounting volumes.
+2026-09-11T05:27:56.8895810+00:00 ContainerStatus: Nested mountpoint 
+2026-09-11T05:27:56.8955898+00:00 ContainerStatus: Nested mountpoint volatile/logs
+2026-09-11T05:27:56.8993709+00:00 ContainerStatus: Nested mountpoint 
+2026-09-11T05:27:56.9025528+00:00 ContainerStatus: Nested mountpoint 
+2026-09-11T05:27:56.9038781+00:00 ContainerStatus: Nested mountpoint 
+2026-09-11T05:27:56.9049313+00:00 ContainerStatus: Nested mountpoint 
+2026-09-11T05:27:56.9741275+00:00 ContainerStatus: State: Starting, Action: CreatingContainer, LastError: ContainerStartupFailure, LastErrorTimestamp: 09/11/2026 05:27:49, LastErrorDetails: Container exited with exit code 134 during startup after 46.0s. Please inspect your container logs for more details., Details: Finished pulling container image and mounting volumes for lavadero-edi26-ncus. Allocatinng the rest of the container resources to finish container creation., DetailsLevel: INFO
+2026-09-11T05:27:56.9741817+00:00 ContainerStatus: Creating container.
+2026-09-11T05:27:56.9742332+00:00 ContainerStatus: Creating pipes for streaming container io.
+2026-09-11T05:27:56.9743001+00:00 ContainerStatus: Creating stdout named pipe at /podr/container/pipe/b49c6d1ee346_lavadero-edi26-ncus/stdout_061bcf3c84ba4a33971e53f4f8788dcb.
+2026-09-11T05:27:56.9770819+00:00 ContainerStatus: Successfully created stdout named pipe at: /podr/container/pipe/b49c6d1ee346_lavadero-edi26-ncus/stdout_061bcf3c84ba4a33971e53f4f8788dcb.
+2026-09-11T05:27:56.9771509+00:00 ContainerStatus: Opening named pipe /podr/container/pipe/b49c6d1ee346_lavadero-edi26-ncus/stdout_061bcf3c84ba4a33971e53f4f8788dcb for reading in non-blocking mode.
+2026-09-11T05:27:56.9772312+00:00 ContainerStatus: Successfully opened named pipe: /podr/container/pipe/b49c6d1ee346_lavadero-edi26-ncus/stdout_061bcf3c84ba4a33971e53f4f8788dcb.
+2026-09-11T05:27:56.9772852+00:00 ContainerStatus: Successfully removed non-blocking flag from /podr/container/pipe/b49c6d1ee346_lavadero-edi26-ncus/stdout_061bcf3c84ba4a33971e53f4f8788dcb.
+2026-09-11T05:27:56.9774120+00:00 ContainerStatus: Creating stderr named pipe at /podr/container/pipe/b49c6d1ee346_lavadero-edi26-ncus/stderr_523f7844fea949f4ab4027862da1d030.
+2026-09-11T05:27:56.9775078+00:00 ContainerStatus: Successfully created stderr named pipe at: /podr/container/pipe/b49c6d1ee346_lavadero-edi26-ncus/stderr_523f7844fea949f4ab4027862da1d030.
+2026-09-11T05:27:56.9775398+00:00 ContainerStatus: Opening named pipe /podr/container/pipe/b49c6d1ee346_lavadero-edi26-ncus/stderr_523f7844fea949f4ab4027862da1d030 for reading in non-blocking mode.
+2026-09-11T05:27:56.9775980+00:00 ContainerStatus: Successfully opened named pipe: /podr/container/pipe/b49c6d1ee346_lavadero-edi26-ncus/stderr_523f7844fea949f4ab4027862da1d030.
+2026-09-11T05:27:56.9776361+00:00 ContainerStatus: Successfully removed non-blocking flag from /podr/container/pipe/b49c6d1ee346_lavadero-edi26-ncus/stderr_523f7844fea949f4ab4027862da1d030.
+2026-09-11T05:27:56.9777615+00:00 ContainerStatus: Creating container with image: appsvc/dotnetcore:8.0_20260616.2.tuxprod from registry: 10.1.0.4:13209 and fully qualified image name: 10.1.0.4:13209/appsvc/dotnetcore:8.0_20260616.2.tuxprod
+2026-09-11T05:27:57.1496381+00:00 ContainerStatus: Starting container: b49c6d1ee346_lavadero-edi26-ncus.
+2026-09-11T05:27:57.1667628+00:00 ContainerStatus: Starting watchers and probes.
+2026-09-11T05:27:57.1669311+00:00 ContainerStatus: Starting metrics collection.
+2026-09-11T05:27:57.1670533+00:00 ContainerStatus: Container is running.
+2026-09-11T05:27:57.1671501+00:00 ContainerStatus: State: Starting, Action: CreatingContainer, LastError: ContainerStartupFailure, LastErrorTimestamp: 09/11/2026 05:27:49, LastErrorDetails: Container exited with exit code 134 during startup after 46.0s. Please inspect your container logs for more details., Details: Container lavadero-edi26-ncus successfully created and is running., DetailsLevel: INFO
+2026-09-11T05:27:57.1921635+00:00 ContainerStatus: Container start method finished after 419 ms.
+2026-09-11T05:27:57.1923203+00:00 ContainerStatus: State: Starting, Action: InitiatingSiteWarmUpProbe, LastError: ContainerStartupFailure, LastErrorTimestamp: 09/11/2026 05:27:49, LastErrorDetails: Container exited with exit code 134 during startup after 46.0s. Please inspect your container logs for more details., Details: Container lavadero-edi26-ncus successfully created and is running., DetailsLevel: INFO
+2026-09-11T05:27:57.1923491+00:00 ContainerStatus: State: Starting, Action: WaitingForSiteWarmUpProbeSuccess, LastError: ContainerStartupFailure, LastErrorTimestamp: 09/11/2026 05:27:49, LastErrorDetails: Container exited with exit code 134 during startup after 46.0s. Please inspect your container logs for more details., Details: Pinging warmup path to ensure container is ready to receive requests., DetailsLevel: INFO
+2026-09-11T05:27:57.2161180+00:00 ContainerStream:    _____                               
+2026-09-11T05:27:57.2161461+00:00 ContainerStream:   /  _  \ __________ _________   ____  
+2026-09-11T05:27:57.2161495+00:00 ContainerStream:  /  /_\  \\___   /  |  \_  __ \_/ __ \ 
+2026-09-11T05:27:57.2161524+00:00 ContainerStream: /    |    \/    /|  |  /|  | \/\  ___/ 
+2026-09-11T05:27:57.2161549+00:00 ContainerStream: \____|__  /_____ \____/ |__|    \___  >
+2026-09-11T05:27:57.2161575+00:00 ContainerStream:         \/      \/                  \/ 
+2026-09-11T05:27:57.2161601+00:00 ContainerStream: A P P   S E R V I C E   O N   L I N U X
+2026-09-11T05:27:57.2161624+00:00 ContainerStream: 
+2026-09-11T05:27:57.2161651+00:00 ContainerStream: Documentation       : http://aka.ms/webapp-linux
+2026-09-11T05:27:57.2161678+00:00 ContainerStream: Dotnet quickstart   : https://aka.ms/dotnet-qs
+2026-09-11T05:27:57.2161702+00:00 ContainerStream: ASP .NETCore Version: 8.0.28
+2026-09-11T05:27:57.2161728+00:00 ContainerStream: Instance Name       : 10-30-0-141
+2026-09-11T05:27:57.2161810+00:00 ContainerStream: Instance Id         : e3848c4a19ed5120ac06e6c4552adf58a74475463871a23ea40c8f269e489576
+2026-09-11T05:27:57.2161838+00:00 ContainerStream: 
+2026-09-11T05:27:57.2161871+00:00 ContainerStream: Note: Any data outside '/home' is not persisted
+2026-09-11T05:27:57.7959663+00:00 ContainerStream: Starting OpenBSD Secure Shell server: sshd.
+2026-09-11T05:27:57.8096617+00:00 ContainerStream: WEBSITES_INCLUDE_CLOUD_CERTS is not set to true.
+2026-09-11T05:27:57.8374358+00:00 ContainerStream: Updating certificates in /etc/ssl/certs...
+2026-09-11T05:28:02.8792076+00:00 ContainerStream: rehash: warning: skipping duplicate certificate in azl_SSL.com_TLS_ECC_Root_CA_2022.pem
+2026-09-11T05:28:02.8809253+00:00 ContainerStream: rehash: warning: skipping duplicate certificate in azl_SSL.com_TLS_RSA_Root_CA_2022.pem
+2026-09-11T05:28:02.9498616+00:00 ContainerStream: rehash: warning: skipping ca-certificates.crt,it does not contain exactly one certificate or CRL
+2026-09-11T05:28:02.9627167+00:00 ContainerStream: 4 added, 0 removed; done.
+2026-09-11T05:28:02.9627459+00:00 ContainerStream: Running hooks in /etc/ca-certificates/update.d...
+2026-09-11T05:28:02.9660361+00:00 ContainerStream: done.
+2026-09-11T05:28:02.9734346+00:00 ContainerStream: CA certificates copied and updated successfully.
+2026-09-11T05:28:03.1275045+00:00 ContainerStream: Starting periodic command scheduler: cron.
+2026-09-11T05:28:03.1324819+00:00 ContainerStream: Running oryx create-script -appPath /home/site/wwwroot -output /opt/startup/startup.sh -defaultAppFilePath /defaulthome/hostingstart/hostingstart.dll     -bindPort 8080 -bindPort2 '' -userStartupCommand '' 
+2026-09-11T05:28:03.2009121+00:00 ContainerStream: Could not find build manifest file at '/home/site/wwwroot/oryx-manifest.toml'
+2026-09-11T05:28:03.2013559+00:00 ContainerStream: Could not find operation ID in manifest. Generating an operation id...
+2026-09-11T05:28:03.2021552+00:00 ContainerStream: Build Operation ID: 03e5a698-3e34-4cff-9dea-c59cc27900e2
+2026-09-11T05:28:03.3537414+00:00 ContainerStream: 
+2026-09-11T05:28:03.3539466+00:00 ContainerStream: Agent extension 
+2026-09-11T05:28:03.3540392+00:00 ContainerStream: Before if loop >> DotNet Runtime 
+2026-09-11T05:28:03.3825257+00:00 ContainerStream: DotNet Runtime 8.0Writing output script to '/opt/startup/startup.sh'
+2026-09-11T05:28:03.4142239+00:00 ContainerStream: Trying to find the startup DLL name...
+2026-09-11T05:28:03.4142570+00:00 ContainerStream: Found the startup D name: Lavadero.Web.dll
+2026-09-11T05:28:03.4142600+00:00 ContainerStream: Running the command: dotnet "Lavadero.Web.dll"
+2026-09-11T05:28:19.8209069+00:00 ContainerStream: Unhandled exception. System.InvalidOperationException: No se pudo crear el usuario administrador inicial: Passwords must have at least one uppercase ('A'-'Z').
+2026-09-11T05:28:19.8209410+00:00 ContainerStream:    at Lavadero.Infrastructure.Extensions.IdentitySeedExtensions.SeedAdminIdentityAsync(IServiceProvider serviceProvider, IConfiguration configuration) in E:\CursadaProgramacion\ProjectEDI26\Lavadero\Lavadero.Infrastructure\Extensions\IdentitySeedExtensions.cs:line 80
+2026-09-11T05:28:19.8209449+00:00 ContainerStream:    at Program.<Main>$(String[] args) in E:\CursadaProgramacion\ProjectEDI26\Lavadero\Lavadero.Web\Program.cs:line 294
+2026-09-11T05:28:19.8209476+00:00 ContainerStream:    at Program.<Main>(String[] args)
+2026-09-11T05:28:21.5158141+00:00 ContainerStream: /opt/startup/startup.sh: line 20:  1866 Aborted                 (core dumped) dotnet "Lavadero.Web.dll"
+2026-09-11T05:28:21.6074358+00:00 ContainerStatus: Container has finished running with exit code: 134.
+2026-09-11T05:28:21.6078924+00:00 ContainerStatus: Container is terminating. Grace period: 5 seconds.
+2026-09-11T05:28:21.6128825+00:00 ContainerStatus: Stop and delete container. Retry count = 0
+2026-09-11T05:28:21.6130831+00:00 ContainerStatus: Stopping container: b49c6d1ee346_lavadero-edi26-ncus.
+2026-09-11T05:28:21.6861698+00:00 ContainerStatus: Deleting container: b49c6d1ee346_lavadero-edi26-ncus. Retry count = 0
+2026-09-11T05:28:21.7832412+00:00 ContainerStatus: Container spec TerminationMessagePolicy  path 
+2026-09-11T05:28:21.7869779+00:00 ContainerStatus: Container is terminated. Total time elapsed: 175 ms.
+2026-09-11T05:28:21.7870956+00:00 ContainerStatus: Site container: lavadero-edi26-ncus terminated during site startup.
+2026-09-11T05:28:21.8079179+00:00 ContainerStatus: State: Stopping, Action: CancellingStartup, LastError: ContainerStartupFailure, LastErrorTimestamp: 09/11/2026 05:27:49, LastErrorDetails: Container exited with exit code 134 during startup after 46.0s. Please inspect your container logs for more details., Details: Site container: lavadero-edi26-ncus terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-09-11T05:28:21.8298364+00:00 ContainerStatus: Site startup probe failed after 24.6369547 seconds.
+2026-09-11T05:28:21.8994644+00:00 ContainerStatus: State: Stopping, Action: CancellingStartup, LastError: ContainerStartupFailure, LastErrorTimestamp: 09/11/2026 05:28:21, LastErrorDetails: Container exited with exit code 134 during startup after 24.6s. Please inspect your container logs for more details., Details: Site container: lavadero-edi26-ncus terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-09-11T05:28:21.9087052+00:00 ContainerStatus: Failed to start site. Revert by stopping site.
+2026-09-11T05:28:21.9119724+00:00 ContainerStatus: State: Stopping, Action: StoppingSite, LastError: ContainerStartupFailure, LastErrorTimestamp: 09/11/2026 05:28:21, LastErrorDetails: Container exited with exit code 134 during startup after 24.6s. Please inspect your container logs for more details., Details: Site container: lavadero-edi26-ncus terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-09-11T05:28:21.9128169+00:00 ContainerStatus: State: Stopping, Action: StoppingSiteContainers, LastError: ContainerStartupFailure, LastErrorTimestamp: 09/11/2026 05:28:21, LastErrorDetails: Container exited with exit code 134 during startup after 24.6s. Please inspect your container logs for more details., Details: Site container: lavadero-edi26-ncus terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-09-11T05:28:21.9128427+00:00 ContainerStatus: Site: lavadero-edi26-ncus stopped.
+========== New Cold Start Attempt (2026-09-11T05:29:02.5744369+00:00) ==========
+2026-09-11T05:29:02.5744369+00:00 ContainerStatus: State: Starting, Action: EstablishingSiteNetworks, LastError: ContainerStartupFailure, LastErrorTimestamp: 09/11/2026 05:28:21, LastErrorDetails: Container exited with exit code 134 during startup after 24.6s. Please inspect your container logs for more details., Details: Site is blocked due to multiple, consecutive cold start failures. Site scheduled to be unblocked at 09/11/2026 05:29:22, DetailsLevel: WARN
+2026-09-11T05:29:02.8969309+00:00 ContainerStatus: State: Starting, Action: StartingSiteContainers, LastError: ContainerStartupFailure, LastErrorTimestamp: 09/11/2026 05:28:21, LastErrorDetails: Container exited with exit code 134 during startup after 24.6s. Please inspect your container logs for more details., Details: Site is blocked due to multiple, consecutive cold start failures. Site scheduled to be unblocked at 09/11/2026 05:29:22, DetailsLevel: WARN
+2026-09-11T05:29:02.8970170+00:00 ContainerStatus: Container start method called.
+2026-09-11T05:29:02.8970544+00:00 ContainerStatus: State: Starting, Action: PullingImage, LastError: ContainerStartupFailure, LastErrorTimestamp: 09/11/2026 05:28:21, LastErrorDetails: Container exited with exit code 134 during startup after 24.6s. Please inspect your container logs for more details., Details: Pulling image 10.1.0.4:13209/appsvc/dotnetcore:8.0_20260616.2.tuxprod for lavadero-edi26-ncus., DetailsLevel: INFO
+2026-09-11T05:29:02.8971165+00:00 ContainerStatus: Establishing network.
+2026-09-11T05:29:02.8971981+00:00 ContainerStatus: Pulling image: appsvc/dotnetcore:8.0_20260616.2.tuxprod.
+2026-09-11T05:29:03.0104485+00:00 ContainerStatus: Container is starting.
+2026-09-11T05:29:03.0105821+00:00 ContainerStatus: State: Starting, Action: MountingVolumes, LastError: ContainerStartupFailure, LastErrorTimestamp: 09/11/2026 05:28:21, LastErrorDetails: Container exited with exit code 134 during startup after 24.6s. Please inspect your container logs for more details., Details: Mounting volumes for lavadero-edi26-ncus., DetailsLevel: INFO
+2026-09-11T05:29:03.0106593+00:00 ContainerStatus: Establishing user namespace if not established already.
+2026-09-11T05:29:03.0110662+00:00 ContainerStatus: Establishing network if not established already.
+2026-09-11T05:29:03.0111770+00:00 ContainerStatus: Mounting volumes.
+2026-09-11T05:29:03.0113424+00:00 ContainerStatus: Nested mountpoint 
+2026-09-11T05:29:03.0120159+00:00 ContainerStatus: Nested mountpoint volatile/logs
+2026-09-11T05:29:03.0162359+00:00 ContainerStatus: Nested mountpoint 
+2026-09-11T05:29:03.0166078+00:00 ContainerStatus: Nested mountpoint 
+2026-09-11T05:29:03.0170742+00:00 ContainerStatus: Nested mountpoint 
+2026-09-11T05:29:03.0184097+00:00 ContainerStatus: Nested mountpoint 
+2026-09-11T05:29:03.1082079+00:00 ContainerStatus: State: Starting, Action: CreatingContainer, LastError: ContainerStartupFailure, LastErrorTimestamp: 09/11/2026 05:28:21, LastErrorDetails: Container exited with exit code 134 during startup after 24.6s. Please inspect your container logs for more details., Details: Finished pulling container image and mounting volumes for lavadero-edi26-ncus. Allocatinng the rest of the container resources to finish container creation., DetailsLevel: INFO
+2026-09-11T05:29:03.1083976+00:00 ContainerStatus: Creating container.
+2026-09-11T05:29:03.1091074+00:00 ContainerStatus: Creating pipes for streaming container io.
+2026-09-11T05:29:03.1092206+00:00 ContainerStatus: Creating stdout named pipe at /podr/container/pipe/bd391f284b5e_lavadero-edi26-ncus/stdout_a45be214dbe14bdc9160fe58e67af5f5.
+2026-09-11T05:29:03.1098295+00:00 ContainerStatus: Successfully created stdout named pipe at: /podr/container/pipe/bd391f284b5e_lavadero-edi26-ncus/stdout_a45be214dbe14bdc9160fe58e67af5f5.
+2026-09-11T05:29:03.1099014+00:00 ContainerStatus: Opening named pipe /podr/container/pipe/bd391f284b5e_lavadero-edi26-ncus/stdout_a45be214dbe14bdc9160fe58e67af5f5 for reading in non-blocking mode.
+2026-09-11T05:29:03.1109159+00:00 ContainerStatus: Successfully opened named pipe: /podr/container/pipe/bd391f284b5e_lavadero-edi26-ncus/stdout_a45be214dbe14bdc9160fe58e67af5f5.
+2026-09-11T05:29:03.1111754+00:00 ContainerStatus: Successfully removed non-blocking flag from /podr/container/pipe/bd391f284b5e_lavadero-edi26-ncus/stdout_a45be214dbe14bdc9160fe58e67af5f5.
+2026-09-11T05:29:03.1122526+00:00 ContainerStatus: Creating stderr named pipe at /podr/container/pipe/bd391f284b5e_lavadero-edi26-ncus/stderr_1e667ccf786149f1947012d46dc845db.
+2026-09-11T05:29:03.1124124+00:00 ContainerStatus: Successfully created stderr named pipe at: /podr/container/pipe/bd391f284b5e_lavadero-edi26-ncus/stderr_1e667ccf786149f1947012d46dc845db.
+2026-09-11T05:29:03.1124858+00:00 ContainerStatus: Opening named pipe /podr/container/pipe/bd391f284b5e_lavadero-edi26-ncus/stderr_1e667ccf786149f1947012d46dc845db for reading in non-blocking mode.
+2026-09-11T05:29:03.1126334+00:00 ContainerStatus: Successfully opened named pipe: /podr/container/pipe/bd391f284b5e_lavadero-edi26-ncus/stderr_1e667ccf786149f1947012d46dc845db.
+2026-09-11T05:29:03.1127199+00:00 ContainerStatus: Successfully removed non-blocking flag from /podr/container/pipe/bd391f284b5e_lavadero-edi26-ncus/stderr_1e667ccf786149f1947012d46dc845db.
+2026-09-11T05:29:03.1128926+00:00 ContainerStatus: Creating container with image: appsvc/dotnetcore:8.0_20260616.2.tuxprod from registry: 10.1.0.4:13209 and fully qualified image name: 10.1.0.4:13209/appsvc/dotnetcore:8.0_20260616.2.tuxprod
+2026-09-11T05:29:03.2784400+00:00 ContainerStatus: Starting container: bd391f284b5e_lavadero-edi26-ncus.
+2026-09-11T05:29:03.3034457+00:00 ContainerStatus: Starting watchers and probes.
+2026-09-11T05:29:03.3036097+00:00 ContainerStatus: Starting metrics collection.
+2026-09-11T05:29:03.3037772+00:00 ContainerStatus: Container is running.
+2026-09-11T05:29:03.3038467+00:00 ContainerStatus: State: Starting, Action: CreatingContainer, LastError: ContainerStartupFailure, LastErrorTimestamp: 09/11/2026 05:28:21, LastErrorDetails: Container exited with exit code 134 during startup after 24.6s. Please inspect your container logs for more details., Details: Container lavadero-edi26-ncus successfully created and is running., DetailsLevel: INFO
+2026-09-11T05:29:03.3290708+00:00 ContainerStatus: Container start method finished after 431 ms.
+2026-09-11T05:29:03.3292750+00:00 ContainerStatus: State: Starting, Action: InitiatingSiteWarmUpProbe, LastError: ContainerStartupFailure, LastErrorTimestamp: 09/11/2026 05:28:21, LastErrorDetails: Container exited with exit code 134 during startup after 24.6s. Please inspect your container logs for more details., Details: Container lavadero-edi26-ncus successfully created and is running., DetailsLevel: INFO
+2026-09-11T05:29:03.3292976+00:00 ContainerStatus: State: Starting, Action: WaitingForSiteWarmUpProbeSuccess, LastError: ContainerStartupFailure, LastErrorTimestamp: 09/11/2026 05:28:21, LastErrorDetails: Container exited with exit code 134 during startup after 24.6s. Please inspect your container logs for more details., Details: Pinging warmup path to ensure container is ready to receive requests., DetailsLevel: INFO
+2026-09-11T05:29:03.3729047+00:00 ContainerStream:    _____                               
+2026-09-11T05:29:03.3730398+00:00 ContainerStream:   /  _  \ __________ _________   ____  
+2026-09-11T05:29:03.3730455+00:00 ContainerStream:  /  /_\  \\___   /  |  \_  __ \_/ __ \ 
+2026-09-11T05:29:03.3730489+00:00 ContainerStream: /    |    \/    /|  |  /|  | \/\  ___/ 
+2026-09-11T05:29:03.3730522+00:00 ContainerStream: \____|__  /_____ \____/ |__|    \___  >
+2026-09-11T05:29:03.3730888+00:00 ContainerStream:         \/      \/                  \/ 
+2026-09-11T05:29:03.3730922+00:00 ContainerStream: A P P   S E R V I C E   O N   L I N U X
+2026-09-11T05:29:03.3730951+00:00 ContainerStream: 
+2026-09-11T05:29:03.3730990+00:00 ContainerStream: Documentation       : http://aka.ms/webapp-linux
+2026-09-11T05:29:03.3731027+00:00 ContainerStream: Dotnet quickstart   : https://aka.ms/dotnet-qs
+2026-09-11T05:29:03.3731058+00:00 ContainerStream: ASP .NETCore Version: 8.0.28
+2026-09-11T05:29:03.3731090+00:00 ContainerStream: Instance Name       : 10-30-0-141
+2026-09-11T05:29:03.3731139+00:00 ContainerStream: Instance Id         : e3848c4a19ed5120ac06e6c4552adf58a74475463871a23ea40c8f269e489576
+2026-09-11T05:29:03.3731170+00:00 ContainerStream: 
+2026-09-11T05:29:03.3731203+00:00 ContainerStream: Note: Any data outside '/home' is not persisted
+2026-09-11T05:29:05.1469442+00:00 ContainerStream: Starting OpenBSD Secure Shell server: sshd.
+2026-09-11T05:29:05.1509857+00:00 ContainerStream: WEBSITES_INCLUDE_CLOUD_CERTS is not set to true.
+2026-09-11T05:29:05.1763600+00:00 ContainerStream: Updating certificates in /etc/ssl/certs...
+2026-09-11T05:29:10.5721404+00:00 ContainerStream: rehash: warning: skipping duplicate certificate in azl_SSL.com_TLS_ECC_Root_CA_2022.pem
+2026-09-11T05:29:10.5726223+00:00 ContainerStream: rehash: warning: skipping duplicate certificate in azl_SSL.com_TLS_RSA_Root_CA_2022.pem
+2026-09-11T05:29:10.6225805+00:00 ContainerStream: rehash: warning: skipping ca-certificates.crt,it does not contain exactly one certificate or CRL
+2026-09-11T05:29:10.6367402+00:00 ContainerStream: 4 added, 0 removed; done.
+2026-09-11T05:29:10.6368256+00:00 ContainerStream: Running hooks in /etc/ca-certificates/update.d...
+2026-09-11T05:29:10.6399328+00:00 ContainerStream: done.
+2026-09-11T05:29:10.6483046+00:00 ContainerStream: CA certificates copied and updated successfully.
+2026-09-11T05:29:10.7748233+00:00 ContainerStream: Starting periodic command scheduler: cron.
+2026-09-11T05:29:10.7907650+00:00 ContainerStream: Running oryx create-script -appPath /home/site/wwwroot -output /opt/startup/startup.sh -defaultAppFilePath /defaulthome/hostingstart/hostingstart.dll     -bindPort 8080 -bindPort2 '' -userStartupCommand '' 
+2026-09-11T05:29:10.8886995+00:00 ContainerStream: Could not find build manifest file at '/home/site/wwwroot/oryx-manifest.toml'
+2026-09-11T05:29:10.8887453+00:00 ContainerStream: Could not find operation ID in manifest. Generating an operation id...
+2026-09-11T05:29:10.8891065+00:00 ContainerStream: Build Operation ID: 32bbf36c-fbf5-4fa1-b6c7-55a7b92109b2
+2026-09-11T05:29:11.0194800+00:00 ContainerStream: 
+2026-09-11T05:29:11.0204810+00:00 ContainerStream: Agent extension 
+2026-09-11T05:29:11.0206707+00:00 ContainerStream: Before if loop >> DotNet Runtime 
+2026-09-11T05:29:11.0458403+00:00 ContainerStream: DotNet Runtime 8.0Writing output script to '/opt/startup/startup.sh'
+2026-09-11T05:29:11.0737671+00:00 ContainerStream: Trying to find the startup DLL name...
+2026-09-11T05:29:11.0738086+00:00 ContainerStream: Found the startup D name: Lavadero.Web.dll
+2026-09-11T05:29:11.0738128+00:00 ContainerStream: Running the command: dotnet "Lavadero.Web.dll"
+2026-09-11T05:29:16.7803503+00:00 ContainerStream: Unhandled exception. System.InvalidOperationException: No se pudo crear el usuario administrador inicial: Passwords must have at least one uppercase ('A'-'Z').
+2026-09-11T05:29:16.7804059+00:00 ContainerStream:    at Lavadero.Infrastructure.Extensions.IdentitySeedExtensions.SeedAdminIdentityAsync(IServiceProvider serviceProvider, IConfiguration configuration) in E:\CursadaProgramacion\ProjectEDI26\Lavadero\Lavadero.Infrastructure\Extensions\IdentitySeedExtensions.cs:line 80
+2026-09-11T05:29:16.7804180+00:00 ContainerStream:    at Program.<Main>$(String[] args) in E:\CursadaProgramacion\ProjectEDI26\Lavadero\Lavadero.Web\Program.cs:line 294
+2026-09-11T05:29:16.7804213+00:00 ContainerStream:    at Program.<Main>(String[] args)
+2026-09-11T05:29:18.8595468+00:00 ContainerStream: /opt/startup/startup.sh: line 20:  1865 Aborted                 (core dumped) dotnet "Lavadero.Web.dll"
+2026-09-11T05:29:18.9354945+00:00 ContainerStatus: Container has finished running with exit code: 134.
+2026-09-11T05:29:18.9359089+00:00 ContainerStatus: Container is terminating. Grace period: 5 seconds.
+2026-09-11T05:29:18.9370379+00:00 ContainerStatus: Stop and delete container. Retry count = 0
+2026-09-11T05:29:18.9378727+00:00 ContainerStatus: Stopping container: bd391f284b5e_lavadero-edi26-ncus.
+2026-09-11T05:29:19.0033516+00:00 ContainerStatus: Deleting container: bd391f284b5e_lavadero-edi26-ncus. Retry count = 0
+2026-09-11T05:29:19.1182827+00:00 ContainerStatus: Container spec TerminationMessagePolicy  path 
+2026-09-11T05:29:19.1183861+00:00 ContainerStatus: Container is terminated. Total time elapsed: 182 ms.
+2026-09-11T05:29:19.1184501+00:00 ContainerStatus: Site container: lavadero-edi26-ncus terminated during site startup.
+2026-09-11T05:29:19.1354982+00:00 ContainerStatus: State: Stopping, Action: CancellingStartup, LastError: ContainerStartupFailure, LastErrorTimestamp: 09/11/2026 05:28:21, LastErrorDetails: Container exited with exit code 134 during startup after 24.6s. Please inspect your container logs for more details., Details: Site container: lavadero-edi26-ncus terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-09-11T05:29:19.1446033+00:00 ContainerStatus: Site startup probe failed after 15.8126224 seconds.
+2026-09-11T05:29:19.2093540+00:00 ContainerStatus: State: Stopping, Action: CancellingStartup, LastError: ContainerStartupFailure, LastErrorTimestamp: 09/11/2026 05:29:19, LastErrorDetails: Container exited with exit code 134 during startup after 15.8s. Please inspect your container logs for more details., Details: Site container: lavadero-edi26-ncus terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-09-11T05:29:19.2135730+00:00 ContainerStatus: Failed to start site. Revert by stopping site.
+2026-09-11T05:29:19.2138083+00:00 ContainerStatus: State: Stopping, Action: StoppingSite, LastError: ContainerStartupFailure, LastErrorTimestamp: 09/11/2026 05:29:19, LastErrorDetails: Container exited with exit code 134 during startup after 15.8s. Please inspect your container logs for more details., Details: Site container: lavadero-edi26-ncus terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-09-11T05:29:19.2139612+00:00 ContainerStatus: State: Stopping, Action: StoppingSiteContainers, LastError: ContainerStartupFailure, LastErrorTimestamp: 09/11/2026 05:29:19, LastErrorDetails: Container exited with exit code 134 during startup after 15.8s. Please inspect your container logs for more details., Details: Site container: lavadero-edi26-ncus terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-09-11T05:29:19.2139770+00:00 ContainerStatus: Site: lavadero-edi26-ncus stopped.
+========== New Cold Start Attempt (2026-09-11T05:29:40.6662473+00:00) ==========
+2026-09-11T05:29:40.6662473+00:00 ContainerStatus: State: Starting, Action: EstablishingSiteNetworks, LastError: ContainerStartupFailure, LastErrorTimestamp: 09/11/2026 05:29:19, LastErrorDetails: Container exited with exit code 134 during startup after 15.8s. Please inspect your container logs for more details., Details: Site stopped at 09/11/2026 05:29:19 (UTC), DetailsLevel: ERR
+2026-09-11T05:29:41.0095130+00:00 ContainerStatus: State: Starting, Action: StartingSiteContainers, LastError: ContainerStartupFailure, LastErrorTimestamp: 09/11/2026 05:29:19, LastErrorDetails: Container exited with exit code 134 during startup after 15.8s. Please inspect your container logs for more details., Details: Site stopped at 09/11/2026 05:29:19 (UTC), DetailsLevel: ERR
+2026-09-11T05:29:41.0102063+00:00 ContainerStatus: Container start method called.
+2026-09-11T05:29:41.0102978+00:00 ContainerStatus: State: Starting, Action: PullingImage, LastError: ContainerStartupFailure, LastErrorTimestamp: 09/11/2026 05:29:19, LastErrorDetails: Container exited with exit code 134 during startup after 15.8s. Please inspect your container logs for more details., Details: Pulling image 10.1.0.4:13209/appsvc/dotnetcore:8.0_20260616.2.tuxprod for lavadero-edi26-ncus., DetailsLevel: INFO
+2026-09-11T05:29:41.0103927+00:00 ContainerStatus: Establishing network.
+2026-09-11T05:29:41.0105208+00:00 ContainerStatus: Pulling image: appsvc/dotnetcore:8.0_20260616.2.tuxprod.
+2026-09-11T05:29:41.1064381+00:00 ContainerStatus: Container is starting.
+2026-09-11T05:29:41.1065068+00:00 ContainerStatus: State: Starting, Action: MountingVolumes, LastError: ContainerStartupFailure, LastErrorTimestamp: 09/11/2026 05:29:19, LastErrorDetails: Container exited with exit code 134 during startup after 15.8s. Please inspect your container logs for more details., Details: Mounting volumes for lavadero-edi26-ncus., DetailsLevel: INFO
+2026-09-11T05:29:41.1065686+00:00 ContainerStatus: Establishing user namespace if not established already.
+2026-09-11T05:29:41.1066455+00:00 ContainerStatus: Establishing network if not established already.
+2026-09-11T05:29:41.1067392+00:00 ContainerStatus: Mounting volumes.
+2026-09-11T05:29:41.1068998+00:00 ContainerStatus: Nested mountpoint 
+2026-09-11T05:29:41.1081775+00:00 ContainerStatus: Nested mountpoint volatile/logs
+2026-09-11T05:29:41.1159359+00:00 ContainerStatus: Nested mountpoint 
+2026-09-11T05:29:41.1165631+00:00 ContainerStatus: Nested mountpoint 
+2026-09-11T05:29:41.1179648+00:00 ContainerStatus: Nested mountpoint 
+2026-09-11T05:29:41.1205423+00:00 ContainerStatus: Nested mountpoint 
+2026-09-11T05:29:41.2241567+00:00 ContainerStatus: State: Starting, Action: CreatingContainer, LastError: ContainerStartupFailure, LastErrorTimestamp: 09/11/2026 05:29:19, LastErrorDetails: Container exited with exit code 134 during startup after 15.8s. Please inspect your container logs for more details., Details: Finished pulling container image and mounting volumes for lavadero-edi26-ncus. Allocatinng the rest of the container resources to finish container creation., DetailsLevel: INFO
+2026-09-11T05:29:41.2242797+00:00 ContainerStatus: Creating container.
+2026-09-11T05:29:41.2243965+00:00 ContainerStatus: Creating pipes for streaming container io.
+2026-09-11T05:29:41.2245187+00:00 ContainerStatus: Creating stdout named pipe at /podr/container/pipe/8d09192bd0b8_lavadero-edi26-ncus/stdout_612e531fd6904389a3b1a3d35e178742.
+2026-09-11T05:29:41.2246990+00:00 ContainerStatus: Successfully created stdout named pipe at: /podr/container/pipe/8d09192bd0b8_lavadero-edi26-ncus/stdout_612e531fd6904389a3b1a3d35e178742.
+2026-09-11T05:29:41.2248000+00:00 ContainerStatus: Opening named pipe /podr/container/pipe/8d09192bd0b8_lavadero-edi26-ncus/stdout_612e531fd6904389a3b1a3d35e178742 for reading in non-blocking mode.
+2026-09-11T05:29:41.2249450+00:00 ContainerStatus: Successfully opened named pipe: /podr/container/pipe/8d09192bd0b8_lavadero-edi26-ncus/stdout_612e531fd6904389a3b1a3d35e178742.
+2026-09-11T05:29:41.2280237+00:00 ContainerStatus: Successfully removed non-blocking flag from /podr/container/pipe/8d09192bd0b8_lavadero-edi26-ncus/stdout_612e531fd6904389a3b1a3d35e178742.
+2026-09-11T05:29:41.2281982+00:00 ContainerStatus: Creating stderr named pipe at /podr/container/pipe/8d09192bd0b8_lavadero-edi26-ncus/stderr_e974c87eee824beda88866d871c88fb4.
+2026-09-11T05:29:41.2283222+00:00 ContainerStatus: Successfully created stderr named pipe at: /podr/container/pipe/8d09192bd0b8_lavadero-edi26-ncus/stderr_e974c87eee824beda88866d871c88fb4.
+2026-09-11T05:29:41.2288446+00:00 ContainerStatus: Opening named pipe /podr/container/pipe/8d09192bd0b8_lavadero-edi26-ncus/stderr_e974c87eee824beda88866d871c88fb4 for reading in non-blocking mode.
+2026-09-11T05:29:41.2289581+00:00 ContainerStatus: Successfully opened named pipe: /podr/container/pipe/8d09192bd0b8_lavadero-edi26-ncus/stderr_e974c87eee824beda88866d871c88fb4.
+2026-09-11T05:29:41.2290617+00:00 ContainerStatus: Successfully removed non-blocking flag from /podr/container/pipe/8d09192bd0b8_lavadero-edi26-ncus/stderr_e974c87eee824beda88866d871c88fb4.
+2026-09-11T05:29:41.2297802+00:00 ContainerStatus: Creating container with image: appsvc/dotnetcore:8.0_20260616.2.tuxprod from registry: 10.1.0.4:13209 and fully qualified image name: 10.1.0.4:13209/appsvc/dotnetcore:8.0_20260616.2.tuxprod
+2026-09-11T05:29:41.4033311+00:00 ContainerStatus: Starting container: 8d09192bd0b8_lavadero-edi26-ncus.
+2026-09-11T05:29:41.4221270+00:00 ContainerStatus: Starting watchers and probes.
+2026-09-11T05:29:41.4223151+00:00 ContainerStatus: Starting metrics collection.
+2026-09-11T05:29:41.4224393+00:00 ContainerStatus: Container is running.
+2026-09-11T05:29:41.4225280+00:00 ContainerStatus: State: Starting, Action: CreatingContainer, LastError: ContainerStartupFailure, LastErrorTimestamp: 09/11/2026 05:29:19, LastErrorDetails: Container exited with exit code 134 during startup after 15.8s. Please inspect your container logs for more details., Details: Container lavadero-edi26-ncus successfully created and is running., DetailsLevel: INFO
+2026-09-11T05:29:41.4560728+00:00 ContainerStatus: Container start method finished after 445 ms.
+2026-09-11T05:29:41.4562518+00:00 ContainerStatus: State: Starting, Action: InitiatingSiteWarmUpProbe, LastError: ContainerStartupFailure, LastErrorTimestamp: 09/11/2026 05:29:19, LastErrorDetails: Container exited with exit code 134 during startup after 15.8s. Please inspect your container logs for more details., Details: Container lavadero-edi26-ncus successfully created and is running., DetailsLevel: INFO
+2026-09-11T05:29:41.4562768+00:00 ContainerStatus: State: Starting, Action: WaitingForSiteWarmUpProbeSuccess, LastError: ContainerStartupFailure, LastErrorTimestamp: 09/11/2026 05:29:19, LastErrorDetails: Container exited with exit code 134 during startup after 15.8s. Please inspect your container logs for more details., Details: Pinging warmup path to ensure container is ready to receive requests., DetailsLevel: INFO
+2026-09-11T05:29:41.4815685+00:00 ContainerStream:    _____                               
+2026-09-11T05:29:41.4816919+00:00 ContainerStream:   /  _  \ __________ _________   ____  
+2026-09-11T05:29:41.4816979+00:00 ContainerStream:  /  /_\  \\___   /  |  \_  __ \_/ __ \ 
+2026-09-11T05:29:41.4817015+00:00 ContainerStream: /    |    \/    /|  |  /|  | \/\  ___/ 
+2026-09-11T05:29:41.4817049+00:00 ContainerStream: \____|__  /_____ \____/ |__|    \___  >
+2026-09-11T05:29:41.4817084+00:00 ContainerStream:         \/      \/                  \/ 
+2026-09-11T05:29:41.4817117+00:00 ContainerStream: A P P   S E R V I C E   O N   L I N U X
+2026-09-11T05:29:41.4817168+00:00 ContainerStream: 
+2026-09-11T05:29:41.4817211+00:00 ContainerStream: Documentation       : http://aka.ms/webapp-linux
+2026-09-11T05:29:41.4817250+00:00 ContainerStream: Dotnet quickstart   : https://aka.ms/dotnet-qs
+2026-09-11T05:29:41.4817285+00:00 ContainerStream: ASP .NETCore Version: 8.0.28
+2026-09-11T05:29:41.4817319+00:00 ContainerStream: Instance Name       : 10-30-0-141
+2026-09-11T05:29:41.4817357+00:00 ContainerStream: Instance Id         : e3848c4a19ed5120ac06e6c4552adf58a74475463871a23ea40c8f269e489576
+2026-09-11T05:29:41.4817399+00:00 ContainerStream: 
+2026-09-11T05:29:41.4817436+00:00 ContainerStream: Note: Any data outside '/home' is not persisted
+2026-09-11T05:29:42.0958756+00:00 ContainerStream: Starting OpenBSD Secure Shell server: sshd.
+2026-09-11T05:29:42.1033506+00:00 ContainerStream: WEBSITES_INCLUDE_CLOUD_CERTS is not set to true.
+2026-09-11T05:29:42.1412363+00:00 ContainerStream: Updating certificates in /etc/ssl/certs...
+2026-09-11T05:29:47.2484731+00:00 ContainerStream: rehash: warning: skipping duplicate certificate in azl_SSL.com_TLS_ECC_Root_CA_2022.pem
+2026-09-11T05:29:47.2488454+00:00 ContainerStream: rehash: warning: skipping duplicate certificate in azl_SSL.com_TLS_RSA_Root_CA_2022.pem
+2026-09-11T05:29:47.3045564+00:00 ContainerStream: rehash: warning: skipping ca-certificates.crt,it does not contain exactly one certificate or CRL
+2026-09-11T05:29:47.3172118+00:00 ContainerStream: 4 added, 0 removed; done.
+2026-09-11T05:29:47.3174009+00:00 ContainerStream: Running hooks in /etc/ca-certificates/update.d...
+2026-09-11T05:29:47.3283221+00:00 ContainerStream: done.
+2026-09-11T05:29:47.3381722+00:00 ContainerStream: CA certificates copied and updated successfully.
+2026-09-11T05:29:47.4538806+00:00 ContainerStream: Starting periodic command scheduler: cron.
+2026-09-11T05:29:47.4571841+00:00 ContainerStream: Running oryx create-script -appPath /home/site/wwwroot -output /opt/startup/startup.sh -defaultAppFilePath /defaulthome/hostingstart/hostingstart.dll     -bindPort 8080 -bindPort2 '' -userStartupCommand '' 
+2026-09-11T05:29:47.5376765+00:00 ContainerStream: Could not find build manifest file at '/home/site/wwwroot/oryx-manifest.toml'
+2026-09-11T05:29:47.5382066+00:00 ContainerStream: Could not find operation ID in manifest. Generating an operation id...
+2026-09-11T05:29:47.5389851+00:00 ContainerStream: Build Operation ID: f6c719b0-f35a-4be4-a831-537164235758
+2026-09-11T05:29:47.6760515+00:00 ContainerStream: 
+2026-09-11T05:29:47.6760827+00:00 ContainerStream: Agent extension 
+2026-09-11T05:29:47.6760873+00:00 ContainerStream: Before if loop >> DotNet Runtime 
+2026-09-11T05:29:47.7063509+00:00 ContainerStream: DotNet Runtime 8.0Writing output script to '/opt/startup/startup.sh'
+2026-09-11T05:29:47.7441844+00:00 ContainerStream: Trying to find the startup DLL name...
+2026-09-11T05:29:47.7442577+00:00 ContainerStream: Found the startup D name: Lavadero.Web.dll
+2026-09-11T05:29:47.7444071+00:00 ContainerStream: Running the command: dotnet "Lavadero.Web.dll"
+2026-09-11T05:29:54.0712879+00:00 ContainerStream: Unhandled exception. System.InvalidOperationException: No se pudo crear el usuario administrador inicial: Passwords must have at least one uppercase ('A'-'Z').
+2026-09-11T05:29:54.0713422+00:00 ContainerStream:    at Lavadero.Infrastructure.Extensions.IdentitySeedExtensions.SeedAdminIdentityAsync(IServiceProvider serviceProvider, IConfiguration configuration) in E:\CursadaProgramacion\ProjectEDI26\Lavadero\Lavadero.Infrastructure\Extensions\IdentitySeedExtensions.cs:line 80
+2026-09-11T05:29:54.0713469+00:00 ContainerStream:    at Program.<Main>$(String[] args) in E:\CursadaProgramacion\ProjectEDI26\Lavadero\Lavadero.Web\Program.cs:line 294
+2026-09-11T05:29:54.0713502+00:00 ContainerStream:    at Program.<Main>(String[] args)
+2026-09-11T05:29:55.8990401+00:00 ContainerStream: /opt/startup/startup.sh: line 20:  1867 Aborted                 (core dumped) dotnet "Lavadero.Web.dll"
+2026-09-11T05:29:55.9878264+00:00 ContainerStatus: Container has finished running with exit code: 134.
+2026-09-11T05:29:55.9879382+00:00 ContainerStatus: Container is terminating. Grace period: 5 seconds.
+2026-09-11T05:29:55.9893984+00:00 ContainerStatus: Stop and delete container. Retry count = 0
+2026-09-11T05:29:55.9894654+00:00 ContainerStatus: Stopping container: 8d09192bd0b8_lavadero-edi26-ncus.
+2026-09-11T05:29:56.1008818+00:00 ContainerStatus: Deleting container: 8d09192bd0b8_lavadero-edi26-ncus. Retry count = 0
+2026-09-11T05:29:56.1994554+00:00 ContainerStatus: Container spec TerminationMessagePolicy  path 
+2026-09-11T05:29:56.2023180+00:00 ContainerStatus: Container is terminated. Total time elapsed: 213 ms.
+2026-09-11T05:29:56.2024486+00:00 ContainerStatus: Site container: lavadero-edi26-ncus terminated during site startup.
+2026-09-11T05:29:56.2044538+00:00 ContainerStatus: State: Stopping, Action: CancellingStartup, LastError: ContainerStartupFailure, LastErrorTimestamp: 09/11/2026 05:29:19, LastErrorDetails: Container exited with exit code 134 during startup after 15.8s. Please inspect your container logs for more details., Details: Site container: lavadero-edi26-ncus terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-09-11T05:29:56.2281058+00:00 ContainerStatus: Site startup probe failed after 14.7708406 seconds.
+2026-09-11T05:29:56.3033834+00:00 ContainerStatus: State: Stopping, Action: CancellingStartup, LastError: ContainerStartupFailure, LastErrorTimestamp: 09/11/2026 05:29:56, LastErrorDetails: Container exited with exit code 134 during startup after 14.8s. Please inspect your container logs for more details., Details: Site container: lavadero-edi26-ncus terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-09-11T05:29:56.3250806+00:00 ContainerStatus: Failed to start site. Revert by stopping site.
+2026-09-11T05:29:56.3252567+00:00 ContainerStatus: State: Stopping, Action: StoppingSite, LastError: ContainerStartupFailure, LastErrorTimestamp: 09/11/2026 05:29:56, LastErrorDetails: Container exited with exit code 134 during startup after 14.8s. Please inspect your container logs for more details., Details: Site container: lavadero-edi26-ncus terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-09-11T05:29:56.3254770+00:00 ContainerStatus: State: Stopping, Action: StoppingSiteContainers, LastError: ContainerStartupFailure, LastErrorTimestamp: 09/11/2026 05:29:56, LastErrorDetails: Container exited with exit code 134 during startup after 14.8s. Please inspect your container logs for more details., Details: Site container: lavadero-edi26-ncus terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-09-11T05:29:56.3254957+00:00 ContainerStatus: Site: lavadero-edi26-ncus stopped.
+========== New Cold Start Attempt (2026-09-11T05:29:56.3372760+00:00) ==========
+2026-09-11T05:29:56.3372760+00:00 ContainerStatus: State: Stopping, Action: UnmountingVolumes, LastError: ContainerStartupFailure, LastErrorTimestamp: 09/11/2026 05:29:56, LastErrorDetails: Container exited with exit code 134 during startup after 14.8s. Please inspect your container logs for more details., Details: Site container: lavadero-edi26-ncus terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-09-11T05:29:56.4746712+00:00 ContainerStatus: State: Stopping, Action: StoppingSiteNetworks, LastError: ContainerStartupFailure, LastErrorTimestamp: 09/11/2026 05:29:56, LastErrorDetails: Container exited with exit code 134 during startup after 14.8s. Please inspect your container logs for more details., Details: Site container: lavadero-edi26-ncus terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-09-11T05:29:56.5685366+00:00 ContainerStatus: State: Stopped, Action: None, LastError: ContainerStartupFailure, LastErrorTimestamp: 09/11/2026 05:29:56, LastErrorDetails: Container exited with exit code 134 during startup after 14.8s. Please inspect your container logs for more details., Details: Site stopped at 09/11/2026 05:29:56 (UTC), DetailsLevel: ERR
+2026-09-11T05:29:56.7554797+00:00 ContainerStatus: State: Stopped, Action: None, LastError: ContainerStartupFailure, LastErrorTimestamp: 09/11/2026 05:29:56, LastErrorDetails: Container exited with exit code 134 during startup after 14.8s. Please inspect your container logs for more details., Details: Site stopped at 09/11/2026 05:29:56 (UTC), DetailsLevel: ERR
+2026-09-11T05:30:01.8222353+00:00 ContainerStatus: State: Starting, Action: EstablishingSiteNetworks, LastError: ContainerStartupFailure, LastErrorTimestamp: 09/11/2026 05:29:56, LastErrorDetails: Container exited with exit code 134 during startup after 14.8s. Please inspect your container logs for more details., Details: Site stopped at 09/11/2026 05:29:56 (UTC), DetailsLevel: ERR
+2026-09-11T05:30:02.4622092+00:00 ContainerStatus: State: Starting, Action: StartingSiteContainers, LastError: ContainerStartupFailure, LastErrorTimestamp: 09/11/2026 05:29:56, LastErrorDetails: Container exited with exit code 134 during startup after 14.8s. Please inspect your container logs for more details., Details: Site stopped at 09/11/2026 05:29:56 (UTC), DetailsLevel: ERR
+2026-09-11T05:30:02.4622911+00:00 ContainerStatus: Container start method called.
+2026-09-11T05:30:02.4623389+00:00 ContainerStatus: State: Starting, Action: PullingImage, LastError: ContainerStartupFailure, LastErrorTimestamp: 09/11/2026 05:29:56, LastErrorDetails: Container exited with exit code 134 during startup after 14.8s. Please inspect your container logs for more details., Details: Pulling image 10.1.0.4:13209/appsvc/dotnetcore:8.0_20260616.2.tuxprod for lavadero-edi26-ncus., DetailsLevel: INFO
+2026-09-11T05:30:02.4623980+00:00 ContainerStatus: Establishing network.
+2026-09-11T05:30:02.4624760+00:00 ContainerStatus: Pulling image: appsvc/dotnetcore:8.0_20260616.2.tuxprod.
+2026-09-11T05:30:02.6531891+00:00 ContainerStatus: Container is starting.
+2026-09-11T05:30:02.6532607+00:00 ContainerStatus: State: Starting, Action: MountingVolumes, LastError: ContainerStartupFailure, LastErrorTimestamp: 09/11/2026 05:29:56, LastErrorDetails: Container exited with exit code 134 during startup after 14.8s. Please inspect your container logs for more details., Details: Mounting volumes for lavadero-edi26-ncus., DetailsLevel: INFO
+2026-09-11T05:30:02.6533310+00:00 ContainerStatus: Establishing user namespace if not established already.
+2026-09-11T05:30:02.6534228+00:00 ContainerStatus: Establishing network if not established already.
+2026-09-11T05:30:02.6535201+00:00 ContainerStatus: Mounting volumes.
+2026-09-11T05:30:02.6536886+00:00 ContainerStatus: Nested mountpoint 
+2026-09-11T05:30:02.6586184+00:00 ContainerStatus: Nested mountpoint volatile/logs
+2026-09-11T05:30:02.6633383+00:00 ContainerStatus: Nested mountpoint 
+2026-09-11T05:30:02.6638757+00:00 ContainerStatus: Nested mountpoint 
+2026-09-11T05:30:02.6685509+00:00 ContainerStatus: Nested mountpoint 
+2026-09-11T05:30:02.6761251+00:00 ContainerStatus: Nested mountpoint 
+2026-09-11T05:30:02.7825814+00:00 ContainerStatus: State: Starting, Action: CreatingContainer, LastError: ContainerStartupFailure, LastErrorTimestamp: 09/11/2026 05:29:56, LastErrorDetails: Container exited with exit code 134 during startup after 14.8s. Please inspect your container logs for more details., Details: Finished pulling container image and mounting volumes for lavadero-edi26-ncus. Allocatinng the rest of the container resources to finish container creation., DetailsLevel: INFO
+2026-09-11T05:30:02.7826341+00:00 ContainerStatus: Creating container.
+2026-09-11T05:30:02.7826680+00:00 ContainerStatus: Creating pipes for streaming container io.
+2026-09-11T05:30:02.7827009+00:00 ContainerStatus: Creating stdout named pipe at /podr/container/pipe/4a56724d2b4f_lavadero-edi26-ncus/stdout_2e0d34df0cb54be796f989ac2155c98f.
+2026-09-11T05:30:02.7828225+00:00 ContainerStatus: Successfully created stdout named pipe at: /podr/container/pipe/4a56724d2b4f_lavadero-edi26-ncus/stdout_2e0d34df0cb54be796f989ac2155c98f.
+2026-09-11T05:30:02.7828544+00:00 ContainerStatus: Opening named pipe /podr/container/pipe/4a56724d2b4f_lavadero-edi26-ncus/stdout_2e0d34df0cb54be796f989ac2155c98f for reading in non-blocking mode.
+2026-09-11T05:30:02.7829024+00:00 ContainerStatus: Successfully opened named pipe: /podr/container/pipe/4a56724d2b4f_lavadero-edi26-ncus/stdout_2e0d34df0cb54be796f989ac2155c98f.
+2026-09-11T05:30:02.7829346+00:00 ContainerStatus: Successfully removed non-blocking flag from /podr/container/pipe/4a56724d2b4f_lavadero-edi26-ncus/stdout_2e0d34df0cb54be796f989ac2155c98f.
+2026-09-11T05:30:02.7830552+00:00 ContainerStatus: Creating stderr named pipe at /podr/container/pipe/4a56724d2b4f_lavadero-edi26-ncus/stderr_be3c55ab063d4651a54bf1b281fc46b9.
+2026-09-11T05:30:02.7831559+00:00 ContainerStatus: Successfully created stderr named pipe at: /podr/container/pipe/4a56724d2b4f_lavadero-edi26-ncus/stderr_be3c55ab063d4651a54bf1b281fc46b9.
+2026-09-11T05:30:02.7831992+00:00 ContainerStatus: Opening named pipe /podr/container/pipe/4a56724d2b4f_lavadero-edi26-ncus/stderr_be3c55ab063d4651a54bf1b281fc46b9 for reading in non-blocking mode.
+2026-09-11T05:30:02.7832632+00:00 ContainerStatus: Successfully opened named pipe: /podr/container/pipe/4a56724d2b4f_lavadero-edi26-ncus/stderr_be3c55ab063d4651a54bf1b281fc46b9.
+2026-09-11T05:30:02.7833067+00:00 ContainerStatus: Successfully removed non-blocking flag from /podr/container/pipe/4a56724d2b4f_lavadero-edi26-ncus/stderr_be3c55ab063d4651a54bf1b281fc46b9.
+2026-09-11T05:30:02.7833966+00:00 ContainerStatus: Creating container with image: appsvc/dotnetcore:8.0_20260616.2.tuxprod from registry: 10.1.0.4:13209 and fully qualified image name: 10.1.0.4:13209/appsvc/dotnetcore:8.0_20260616.2.tuxprod
+2026-09-11T05:30:03.0384823+00:00 ContainerStatus: Starting container: 4a56724d2b4f_lavadero-edi26-ncus.
+2026-09-11T05:30:03.0593453+00:00 ContainerStatus: Starting watchers and probes.
+2026-09-11T05:30:03.0595546+00:00 ContainerStatus: Starting metrics collection.
+2026-09-11T05:30:03.0596495+00:00 ContainerStatus: Container is running.
+2026-09-11T05:30:03.0606287+00:00 ContainerStatus: State: Starting, Action: CreatingContainer, LastError: ContainerStartupFailure, LastErrorTimestamp: 09/11/2026 05:29:56, LastErrorDetails: Container exited with exit code 134 during startup after 14.8s. Please inspect your container logs for more details., Details: Container lavadero-edi26-ncus successfully created and is running., DetailsLevel: INFO
+2026-09-11T05:30:03.0973656+00:00 ContainerStatus: Container start method finished after 634 ms.
+2026-09-11T05:30:03.0984854+00:00 ContainerStatus: State: Starting, Action: InitiatingSiteWarmUpProbe, LastError: ContainerStartupFailure, LastErrorTimestamp: 09/11/2026 05:29:56, LastErrorDetails: Container exited with exit code 134 during startup after 14.8s. Please inspect your container logs for more details., Details: Container lavadero-edi26-ncus successfully created and is running., DetailsLevel: INFO
+2026-09-11T05:30:03.0985279+00:00 ContainerStatus: State: Starting, Action: WaitingForSiteWarmUpProbeSuccess, LastError: ContainerStartupFailure, LastErrorTimestamp: 09/11/2026 05:29:56, LastErrorDetails: Container exited with exit code 134 during startup after 14.8s. Please inspect your container logs for more details., Details: Pinging warmup path to ensure container is ready to receive requests., DetailsLevel: INFO
+2026-09-11T05:30:03.1340845+00:00 ContainerStream:    _____                               
+2026-09-11T05:30:03.1341295+00:00 ContainerStream:   /  _  \ __________ _________   ____  
+2026-09-11T05:30:03.1341328+00:00 ContainerStream:  /  /_\  \\___   /  |  \_  __ \_/ __ \ 
+2026-09-11T05:30:03.1341356+00:00 ContainerStream: /    |    \/    /|  |  /|  | \/\  ___/ 
+2026-09-11T05:30:03.1341382+00:00 ContainerStream: \____|__  /_____ \____/ |__|    \___  >
+2026-09-11T05:30:03.1341407+00:00 ContainerStream:         \/      \/                  \/ 
+2026-09-11T05:30:03.1341433+00:00 ContainerStream: A P P   S E R V I C E   O N   L I N U X
+2026-09-11T05:30:03.1341463+00:00 ContainerStream: 
+2026-09-11T05:30:03.1341493+00:00 ContainerStream: Documentation       : http://aka.ms/webapp-linux
+2026-09-11T05:30:03.1341518+00:00 ContainerStream: Dotnet quickstart   : https://aka.ms/dotnet-qs
+2026-09-11T05:30:03.1341540+00:00 ContainerStream: ASP .NETCore Version: 8.0.28
+2026-09-11T05:30:03.1341562+00:00 ContainerStream: Instance Name       : 10-30-0-141
+2026-09-11T05:30:03.1341655+00:00 ContainerStream: Instance Id         : e3848c4a19ed5120ac06e6c4552adf58a74475463871a23ea40c8f269e489576
+2026-09-11T05:30:03.1341677+00:00 ContainerStream: 
+2026-09-11T05:30:03.1341700+00:00 ContainerStream: Note: Any data outside '/home' is not persisted
+2026-09-11T05:30:03.8262644+00:00 ContainerStream: Starting OpenBSD Secure Shell server: sshd.
+2026-09-11T05:30:03.8307699+00:00 ContainerStream: WEBSITES_INCLUDE_CLOUD_CERTS is not set to true.
+2026-09-11T05:30:03.8869723+00:00 ContainerStream: Updating certificates in /etc/ssl/certs...
+2026-09-11T05:30:10.4185255+00:00 ContainerStream: rehash: warning: skipping duplicate certificate in azl_SSL.com_TLS_ECC_Root_CA_2022.pem
+2026-09-11T05:30:10.4194848+00:00 ContainerStream: rehash: warning: skipping duplicate certificate in azl_SSL.com_TLS_RSA_Root_CA_2022.pem
+2026-09-11T05:30:10.4730691+00:00 ContainerStream: rehash: warning: skipping ca-certificates.crt,it does not contain exactly one certificate or CRL
+2026-09-11T05:30:10.5011904+00:00 ContainerStream: 4 added, 0 removed; done.
+2026-09-11T05:30:10.5012250+00:00 ContainerStream: Running hooks in /etc/ca-certificates/update.d...
+2026-09-11T05:30:10.5044102+00:00 ContainerStream: done.
+2026-09-11T05:30:10.5147903+00:00 ContainerStream: CA certificates copied and updated successfully.
+2026-09-11T05:30:10.6189648+00:00 ContainerStream: Starting periodic command scheduler: cron.
+2026-09-11T05:30:10.6208457+00:00 ContainerStream: Running oryx create-script -appPath /home/site/wwwroot -output /opt/startup/startup.sh -defaultAppFilePath /defaulthome/hostingstart/hostingstart.dll     -bindPort 8080 -bindPort2 '' -userStartupCommand '' 
+2026-09-11T05:30:10.6945031+00:00 ContainerStream: Could not find build manifest file at '/home/site/wwwroot/oryx-manifest.toml'
+2026-09-11T05:30:10.6945421+00:00 ContainerStream: Could not find operation ID in manifest. Generating an operation id...
+2026-09-11T05:30:10.6972527+00:00 ContainerStream: Build Operation ID: 0921042e-0b13-4183-a642-04e190f16984
+2026-09-11T05:30:10.8459997+00:00 ContainerStream: 
+2026-09-11T05:30:10.8460560+00:00 ContainerStream: Agent extension 
+2026-09-11T05:30:10.8462307+00:00 ContainerStream: Before if loop >> DotNet Runtime 
+2026-09-11T05:30:10.8751104+00:00 ContainerStream: DotNet Runtime 8.0Writing output script to '/opt/startup/startup.sh'
+2026-09-11T05:30:10.9147736+00:00 ContainerStream: Trying to find the startup DLL name...
+2026-09-11T05:30:10.9148093+00:00 ContainerStream: Found the startup D name: Lavadero.Web.dll
+2026-09-11T05:30:10.9148128+00:00 ContainerStream: Running the command: dotnet "Lavadero.Web.dll"
+2026-09-11T05:30:16.3038463+00:00 ContainerStream: Unhandled exception. System.InvalidOperationException: No se pudo crear el usuario administrador inicial: Passwords must have at least one uppercase ('A'-'Z').
+2026-09-11T05:30:16.3038836+00:00 ContainerStream:    at Lavadero.Infrastructure.Extensions.IdentitySeedExtensions.SeedAdminIdentityAsync(IServiceProvider serviceProvider, IConfiguration configuration) in E:\CursadaProgramacion\ProjectEDI26\Lavadero\Lavadero.Infrastructure\Extensions\IdentitySeedExtensions.cs:line 80
+2026-09-11T05:30:16.3038874+00:00 ContainerStream:    at Program.<Main>$(String[] args) in E:\CursadaProgramacion\ProjectEDI26\Lavadero\Lavadero.Web\Program.cs:line 294
+2026-09-11T05:30:16.3038985+00:00 ContainerStream:    at Program.<Main>(String[] args)
+2026-09-11T05:30:18.4454603+00:00 ContainerStream: /opt/startup/startup.sh: line 20:  1864 Aborted                 (core dumped) dotnet "Lavadero.Web.dll"
+2026-09-11T05:30:18.4892323+00:00 ContainerStatus: Container has finished running with exit code: 134.
+2026-09-11T05:30:18.4896211+00:00 ContainerStatus: Container is terminating. Grace period: 5 seconds.
+2026-09-11T05:30:18.4911273+00:00 ContainerStatus: Stop and delete container. Retry count = 0
+2026-09-11T05:30:18.4912464+00:00 ContainerStatus: Stopping container: 4a56724d2b4f_lavadero-edi26-ncus.
+2026-09-11T05:30:18.5273476+00:00 ContainerStatus: Deleting container: 4a56724d2b4f_lavadero-edi26-ncus. Retry count = 0
+2026-09-11T05:30:18.6995578+00:00 ContainerStatus: Container spec TerminationMessagePolicy  path 
+2026-09-11T05:30:18.7008525+00:00 ContainerStatus: Container is terminated. Total time elapsed: 210 ms.
+2026-09-11T05:30:18.7009761+00:00 ContainerStatus: Site container: lavadero-edi26-ncus terminated during site startup.
+2026-09-11T05:30:18.7082636+00:00 ContainerStatus: State: Stopping, Action: CancellingStartup, LastError: ContainerStartupFailure, LastErrorTimestamp: 09/11/2026 05:29:56, LastErrorDetails: Container exited with exit code 134 during startup after 14.8s. Please inspect your container logs for more details., Details: Site container: lavadero-edi26-ncus terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-09-11T05:30:18.7150726+00:00 ContainerStatus: Site startup probe failed after 15.6130611 seconds.
+2026-09-11T05:30:18.8186986+00:00 ContainerStatus: State: Stopping, Action: CancellingStartup, LastError: ContainerStartupFailure, LastErrorTimestamp: 09/11/2026 05:30:18, LastErrorDetails: Container exited with exit code 134 during startup after 15.6s. Please inspect your container logs for more details., Details: Site container: lavadero-edi26-ncus terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-09-11T05:30:18.8361684+00:00 ContainerStatus: Failed to start site. Revert by stopping site.
+2026-09-11T05:30:18.8363087+00:00 ContainerStatus: State: Stopping, Action: StoppingSite, LastError: ContainerStartupFailure, LastErrorTimestamp: 09/11/2026 05:30:18, LastErrorDetails: Container exited with exit code 134 during startup after 15.6s. Please inspect your container logs for more details., Details: Site container: lavadero-edi26-ncus terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-09-11T05:30:18.8365381+00:00 ContainerStatus: State: Stopping, Action: StoppingSiteContainers, LastError: ContainerStartupFailure, LastErrorTimestamp: 09/11/2026 05:30:18, LastErrorDetails: Container exited with exit code 134 during startup after 15.6s. Please inspect your container logs for more details., Details: Site container: lavadero-edi26-ncus terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-09-11T05:30:18.8365584+00:00 ContainerStatus: Site: lavadero-edi26-ncus stopped.
+========== New Cold Start Attempt (2026-09-11T05:30:18.8432742+00:00) ==========
+2026-09-11T05:30:18.8432742+00:00 ContainerStatus: State: Stopping, Action: UnmountingVolumes, LastError: ContainerStartupFailure, LastErrorTimestamp: 09/11/2026 05:30:18, LastErrorDetails: Container exited with exit code 134 during startup after 15.6s. Please inspect your container logs for more details., Details: Site container: lavadero-edi26-ncus terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-09-11T05:30:19.0075171+00:00 ContainerStatus: State: Stopping, Action: StoppingSiteNetworks, LastError: ContainerStartupFailure, LastErrorTimestamp: 09/11/2026 05:30:18, LastErrorDetails: Container exited with exit code 134 during startup after 15.6s. Please inspect your container logs for more details., Details: Site container: lavadero-edi26-ncus terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-09-11T05:30:19.1614336+00:00 ContainerStatus: Site: lavadero-edi26-ncus will be blocked for 1 minutes till 09/11/2026 05:31:19
+2026-09-11T05:30:19.1699051+00:00 ContainerStatus: State: Blocked, Action: StoppingSiteNetworks, LastError: ContainerStartupFailure, LastErrorTimestamp: 09/11/2026 05:30:18, LastErrorDetails: Container exited with exit code 134 during startup after 15.6s. Please inspect your container logs for more details., Details: Site: lavadero-edi26-ncus will be blocked for 1 minutes till 09/11/2026 05:31:19, DetailsLevel: WARN
+2026-09-11T05:30:19.1753929+00:00 ContainerStatus: State: Stopped, Action: None, LastError: ContainerStartupFailure, LastErrorTimestamp: 09/11/2026 05:30:18, LastErrorDetails: Container exited with exit code 134 during startup after 15.6s. Please inspect your container logs for more details., Details: Site stopped at 09/11/2026 05:30:19 (UTC), DetailsLevel: WARN
+2026-09-11T05:30:19.3895516+00:00 ContainerStatus: State: Stopped, Action: None, LastError: ContainerStartupFailure, LastErrorTimestamp: 09/11/2026 05:30:18, LastErrorDetails: Container exited with exit code 134 during startup after 15.6s. Please inspect your container logs for more details., Details: Site stopped at 09/11/2026 05:30:19 (UTC), DetailsLevel: WARN
+2026-09-11T05:30:24.5766237+00:00 ContainerStatus: State: Blocked, Action: None, LastError: ContainerStartupFailure, LastErrorTimestamp: 09/11/2026 05:30:18, LastErrorDetails: Container exited with exit code 134 during startup after 15.6s. Please inspect your container logs for more details., Details: Site is blocked due to multiple, consecutive cold start failures. Site scheduled to be unblocked at 09/11/2026 05:31:19, DetailsLevel: WARN
+2026-09-11T05:30:24.5766620+00:00 ContainerStatus: Start site prohibitted because the site is being blocked.
+2026-09-11T05:30:29.6505085+00:00 ContainerStatus: State: Blocked, Action: None, LastError: ContainerStartupFailure, LastErrorTimestamp: 09/11/2026 05:30:18, LastErrorDetails: Container exited with exit code 134 during startup after 15.6s. Please inspect your container logs for more details., Details: Site is blocked due to multiple, consecutive cold start failures. Site scheduled to be unblocked at 09/11/2026 05:31:19, DetailsLevel: WARN
+2026-09-11T05:30:29.6505344+00:00 ContainerStatus: Start site prohibitted because the site is being blocked.
+2026-09-11T05:30:34.6992961+00:00 ContainerStatus: State: Blocked, Action: None, LastError: ContainerStartupFailure, LastErrorTimestamp: 09/11/2026 05:30:18, LastErrorDetails: Container exited with exit code 134 during startup after 15.6s. Please inspect your container logs for more details., Details: Site is blocked due to multiple, consecutive cold start failures. Site scheduled to be unblocked at 09/11/2026 05:31:19, DetailsLevel: WARN
+2026-09-11T05:30:34.6993187+00:00 ContainerStatus: Start site prohibitted because the site is being blocked.
+2026-09-11T05:30:39.7489925+00:00 ContainerStatus: State: Blocked, Action: None, LastError: ContainerStartupFailure, LastErrorTimestamp: 09/11/2026 05:30:18, LastErrorDetails: Container exited with exit code 134 during startup after 15.6s. Please inspect your container logs for more details., Details: Site is blocked due to multiple, consecutive cold start failures. Site scheduled to be unblocked at 09/11/2026 05:31:19, DetailsLevel: WARN
+2026-09-11T05:30:39.7490170+00:00 ContainerStatus: Start site prohibitted because the site is being blocked.
+2026-09-11T05:30:44.8073231+00:00 ContainerStatus: State: Blocked, Action: None, LastError: ContainerStartupFailure, LastErrorTimestamp: 09/11/2026 05:30:18, LastErrorDetails: Container exited with exit code 134 during startup after 15.6s. Please inspect your container logs for more details., Details: Site is blocked due to multiple, consecutive cold start failures. Site scheduled to be unblocked at 09/11/2026 05:31:19, DetailsLevel: WARN
+2026-09-11T05:30:44.8073471+00:00 ContainerStatus: Start site prohibitted because the site is being blocked.
+2026-09-11T05:30:49.8522499+00:00 ContainerStatus: State: Blocked, Action: None, LastError: ContainerStartupFailure, LastErrorTimestamp: 09/11/2026 05:30:18, LastErrorDetails: Container exited with exit code 134 during startup after 15.6s. Please inspect your container logs for more details., Details: Site is blocked due to multiple, consecutive cold start failures. Site scheduled to be unblocked at 09/11/2026 05:31:19, DetailsLevel: WARN
+2026-09-11T05:30:49.8547473+00:00 ContainerStatus: Start site prohibitted because the site is being blocked.
+2026-09-11T05:30:54.9841179+00:00 ContainerStatus: State: Blocked, Action: None, LastError: ContainerStartupFailure, LastErrorTimestamp: 09/11/2026 05:30:18, LastErrorDetails: Container exited with exit code 134 during startup after 15.6s. Please inspect your container logs for more details., Details: Site is blocked due to multiple, consecutive cold start failures. Site scheduled to be unblocked at 09/11/2026 05:31:19, DetailsLevel: WARN
+2026-09-11T05:30:54.9845731+00:00 ContainerStatus: Start site prohibitted because the site is being blocked.
+2026-09-11T05:31:00.0308085+00:00 ContainerStatus: State: Blocked, Action: None, LastError: ContainerStartupFailure, LastErrorTimestamp: 09/11/2026 05:30:18, LastErrorDetails: Container exited with exit code 134 during startup after 15.6s. Please inspect your container logs for more details., Details: Site is blocked due to multiple, consecutive cold start failures. Site scheduled to be unblocked at 09/11/2026 05:31:19, DetailsLevel: WARN
+2026-09-11T05:31:00.0308331+00:00 ContainerStatus: Start site prohibitted because the site is being blocked.
+2026-09-11T05:31:05.0844912+00:00 ContainerStatus: State: Blocked, Action: None, LastError: ContainerStartupFailure, LastErrorTimestamp: 09/11/2026 05:30:18, LastErrorDetails: Container exited with exit code 134 during startup after 15.6s. Please inspect your container logs for more details., Details: Site is blocked due to multiple, consecutive cold start failures. Site scheduled to be unblocked at 09/11/2026 05:31:19, DetailsLevel: WARN
+2026-09-11T05:31:05.0845952+00:00 ContainerStatus: Start site prohibitted because the site is being blocked.
+2026-09-11T05:31:10.1708839+00:00 ContainerStatus: State: Blocked, Action: None, LastError: ContainerStartupFailure, LastErrorTimestamp: 09/11/2026 05:30:18, LastErrorDetails: Container exited with exit code 134 during startup after 15.6s. Please inspect your container logs for more details., Details: Site is blocked due to multiple, consecutive cold start failures. Site scheduled to be unblocked at 09/11/2026 05:31:19, DetailsLevel: WARN
+2026-09-11T05:31:10.1709141+00:00 ContainerStatus: Start site prohibitted because the site is being blocked.
+2026-09-11T05:31:15.2176472+00:00 ContainerStatus: State: Blocked, Action: None, LastError: ContainerStartupFailure, LastErrorTimestamp: 09/11/2026 05:30:18, LastErrorDetails: Container exited with exit code 134 during startup after 15.6s. Please inspect your container logs for more details., Details: Site is blocked due to multiple, consecutive cold start failures. Site scheduled to be unblocked at 09/11/2026 05:31:19, DetailsLevel: WARN
+2026-09-11T05:31:15.2176780+00:00 ContainerStatus: Start site prohibitted because the site is being blocked.
+2026-09-11T05:31:19.1629691+00:00 ContainerStatus: Site: lavadero-edi26-ncus is unblocked.
+2026-09-11T05:31:20.2792613+00:00 ContainerStatus: State: Starting, Action: EstablishingSiteNetworks, LastError: ContainerStartupFailure, LastErrorTimestamp: 09/11/2026 05:30:18, LastErrorDetails: Container exited with exit code 134 during startup after 15.6s. Please inspect your container logs for more details., Details: Site is blocked due to multiple, consecutive cold start failures. Site scheduled to be unblocked at 09/11/2026 05:31:19, DetailsLevel: WARN
+2026-09-11T05:31:20.6808192+00:00 ContainerStatus: State: Starting, Action: StartingSiteContainers, LastError: ContainerStartupFailure, LastErrorTimestamp: 09/11/2026 05:30:18, LastErrorDetails: Container exited with exit code 134 during startup after 15.6s. Please inspect your container logs for more details., Details: Site is blocked due to multiple, consecutive cold start failures. Site scheduled to be unblocked at 09/11/2026 05:31:19, DetailsLevel: WARN
+2026-09-11T05:31:20.6809035+00:00 ContainerStatus: Container start method called.
+2026-09-11T05:31:20.6809643+00:00 ContainerStatus: State: Starting, Action: PullingImage, LastError: ContainerStartupFailure, LastErrorTimestamp: 09/11/2026 05:30:18, LastErrorDetails: Container exited with exit code 134 during startup after 15.6s. Please inspect your container logs for more details., Details: Pulling image 10.1.0.4:13209/appsvc/dotnetcore:8.0_20260616.2.tuxprod for lavadero-edi26-ncus., DetailsLevel: INFO
+2026-09-11T05:31:20.6810321+00:00 ContainerStatus: Establishing network.
+2026-09-11T05:31:20.6810982+00:00 ContainerStatus: Pulling image: appsvc/dotnetcore:8.0_20260616.2.tuxprod.
+2026-09-11T05:31:20.7969397+00:00 ContainerStatus: Container is starting.
+2026-09-11T05:31:20.7970146+00:00 ContainerStatus: State: Starting, Action: MountingVolumes, LastError: ContainerStartupFailure, LastErrorTimestamp: 09/11/2026 05:30:18, LastErrorDetails: Container exited with exit code 134 during startup after 15.6s. Please inspect your container logs for more details., Details: Mounting volumes for lavadero-edi26-ncus., DetailsLevel: INFO
+2026-09-11T05:31:20.7970755+00:00 ContainerStatus: Establishing user namespace if not established already.
+2026-09-11T05:31:20.7971698+00:00 ContainerStatus: Establishing network if not established already.
+2026-09-11T05:31:20.7973580+00:00 ContainerStatus: Mounting volumes.
+2026-09-11T05:31:20.7974923+00:00 ContainerStatus: Nested mountpoint 
+2026-09-11T05:31:20.8009264+00:00 ContainerStatus: Nested mountpoint volatile/logs
+2026-09-11T05:31:20.8040806+00:00 ContainerStatus: Nested mountpoint 
+2026-09-11T05:31:20.8045438+00:00 ContainerStatus: Nested mountpoint 
+2026-09-11T05:31:20.8049625+00:00 ContainerStatus: Nested mountpoint 
+2026-09-11T05:31:20.8061620+00:00 ContainerStatus: Nested mountpoint 
+2026-09-11T05:31:20.8823064+00:00 ContainerStatus: State: Starting, Action: CreatingContainer, LastError: ContainerStartupFailure, LastErrorTimestamp: 09/11/2026 05:30:18, LastErrorDetails: Container exited with exit code 134 during startup after 15.6s. Please inspect your container logs for more details., Details: Finished pulling container image and mounting volumes for lavadero-edi26-ncus. Allocatinng the rest of the container resources to finish container creation., DetailsLevel: INFO
+2026-09-11T05:31:20.8823771+00:00 ContainerStatus: Creating container.
+2026-09-11T05:31:20.8824566+00:00 ContainerStatus: Creating pipes for streaming container io.
+2026-09-11T05:31:20.8825237+00:00 ContainerStatus: Creating stdout named pipe at /podr/container/pipe/df7a75393666_lavadero-edi26-ncus/stdout_d9a25ed54b9c435c92b751689f6df80a.
+2026-09-11T05:31:20.8858591+00:00 ContainerStatus: Successfully created stdout named pipe at: /podr/container/pipe/df7a75393666_lavadero-edi26-ncus/stdout_d9a25ed54b9c435c92b751689f6df80a.
+2026-09-11T05:31:20.8859309+00:00 ContainerStatus: Opening named pipe /podr/container/pipe/df7a75393666_lavadero-edi26-ncus/stdout_d9a25ed54b9c435c92b751689f6df80a for reading in non-blocking mode.
+2026-09-11T05:31:20.8860167+00:00 ContainerStatus: Successfully opened named pipe: /podr/container/pipe/df7a75393666_lavadero-edi26-ncus/stdout_d9a25ed54b9c435c92b751689f6df80a.
+2026-09-11T05:31:20.8860693+00:00 ContainerStatus: Successfully removed non-blocking flag from /podr/container/pipe/df7a75393666_lavadero-edi26-ncus/stdout_d9a25ed54b9c435c92b751689f6df80a.
+2026-09-11T05:31:20.8861758+00:00 ContainerStatus: Creating stderr named pipe at /podr/container/pipe/df7a75393666_lavadero-edi26-ncus/stderr_f4bdacdfcbbf410c9214d5e5fdc7144d.
+2026-09-11T05:31:20.8862923+00:00 ContainerStatus: Successfully created stderr named pipe at: /podr/container/pipe/df7a75393666_lavadero-edi26-ncus/stderr_f4bdacdfcbbf410c9214d5e5fdc7144d.
+2026-09-11T05:31:20.8889007+00:00 ContainerStatus: Opening named pipe /podr/container/pipe/df7a75393666_lavadero-edi26-ncus/stderr_f4bdacdfcbbf410c9214d5e5fdc7144d for reading in non-blocking mode.
+2026-09-11T05:31:20.8890126+00:00 ContainerStatus: Successfully opened named pipe: /podr/container/pipe/df7a75393666_lavadero-edi26-ncus/stderr_f4bdacdfcbbf410c9214d5e5fdc7144d.
+2026-09-11T05:31:20.8890760+00:00 ContainerStatus: Successfully removed non-blocking flag from /podr/container/pipe/df7a75393666_lavadero-edi26-ncus/stderr_f4bdacdfcbbf410c9214d5e5fdc7144d.
+2026-09-11T05:31:20.8895685+00:00 ContainerStatus: Creating container with image: appsvc/dotnetcore:8.0_20260616.2.tuxprod from registry: 10.1.0.4:13209 and fully qualified image name: 10.1.0.4:13209/appsvc/dotnetcore:8.0_20260616.2.tuxprod
+2026-09-11T05:31:21.0638196+00:00 ContainerStatus: Starting container: df7a75393666_lavadero-edi26-ncus.
+2026-09-11T05:31:21.0793168+00:00 ContainerStatus: Starting watchers and probes.
+2026-09-11T05:31:21.0794945+00:00 ContainerStatus: Starting metrics collection.
+2026-09-11T05:31:21.0796033+00:00 ContainerStatus: Container is running.
+2026-09-11T05:31:21.0796957+00:00 ContainerStatus: State: Starting, Action: CreatingContainer, LastError: ContainerStartupFailure, LastErrorTimestamp: 09/11/2026 05:30:18, LastErrorDetails: Container exited with exit code 134 during startup after 15.6s. Please inspect your container logs for more details., Details: Container lavadero-edi26-ncus successfully created and is running., DetailsLevel: INFO
+2026-09-11T05:31:21.0979766+00:00 ContainerStatus: Container start method finished after 416 ms.
+2026-09-11T05:31:21.0983218+00:00 ContainerStatus: State: Starting, Action: InitiatingSiteWarmUpProbe, LastError: ContainerStartupFailure, LastErrorTimestamp: 09/11/2026 05:30:18, LastErrorDetails: Container exited with exit code 134 during startup after 15.6s. Please inspect your container logs for more details., Details: Container lavadero-edi26-ncus successfully created and is running., DetailsLevel: INFO
+2026-09-11T05:31:21.0983488+00:00 ContainerStatus: State: Starting, Action: WaitingForSiteWarmUpProbeSuccess, LastError: ContainerStartupFailure, LastErrorTimestamp: 09/11/2026 05:30:18, LastErrorDetails: Container exited with exit code 134 during startup after 15.6s. Please inspect your container logs for more details., Details: Pinging warmup path to ensure container is ready to receive requests., DetailsLevel: INFO
+2026-09-11T05:31:21.1414409+00:00 ContainerStream:    _____                               
+2026-09-11T05:31:21.1414757+00:00 ContainerStream:   /  _  \ __________ _________   ____  
+2026-09-11T05:31:21.1414791+00:00 ContainerStream:  /  /_\  \\___   /  |  \_  __ \_/ __ \ 
+2026-09-11T05:31:21.1414819+00:00 ContainerStream: /    |    \/    /|  |  /|  | \/\  ___/ 
+2026-09-11T05:31:21.1414846+00:00 ContainerStream: \____|__  /_____ \____/ |__|    \___  >
+2026-09-11T05:31:21.1414871+00:00 ContainerStream:         \/      \/                  \/ 
+2026-09-11T05:31:21.1414897+00:00 ContainerStream: A P P   S E R V I C E   O N   L I N U X
+2026-09-11T05:31:21.1414924+00:00 ContainerStream: 
+2026-09-11T05:31:21.1414952+00:00 ContainerStream: Documentation       : http://aka.ms/webapp-linux
+2026-09-11T05:31:21.1414979+00:00 ContainerStream: Dotnet quickstart   : https://aka.ms/dotnet-qs
+2026-09-11T05:31:21.1415004+00:00 ContainerStream: ASP .NETCore Version: 8.0.28
+2026-09-11T05:31:21.1415029+00:00 ContainerStream: Instance Name       : 10-30-0-141
+2026-09-11T05:31:21.1415065+00:00 ContainerStream: Instance Id         : e3848c4a19ed5120ac06e6c4552adf58a74475463871a23ea40c8f269e489576
+2026-09-11T05:31:21.1418613+00:00 ContainerStream: 
+2026-09-11T05:31:21.1418672+00:00 ContainerStream: Note: Any data outside '/home' is not persisted
+2026-09-11T05:31:21.6576879+00:00 ContainerStream: Starting OpenBSD Secure Shell server: sshd.
+2026-09-11T05:31:21.6620614+00:00 ContainerStream: WEBSITES_INCLUDE_CLOUD_CERTS is not set to true.
+2026-09-11T05:31:21.6873102+00:00 ContainerStream: Updating certificates in /etc/ssl/certs...
+2026-09-11T05:31:26.6587983+00:00 ContainerStream: rehash: warning: skipping duplicate certificate in azl_SSL.com_TLS_ECC_Root_CA_2022.pem
+2026-09-11T05:31:26.6592290+00:00 ContainerStream: rehash: warning: skipping duplicate certificate in azl_SSL.com_TLS_RSA_Root_CA_2022.pem
+2026-09-11T05:31:26.7095306+00:00 ContainerStream: rehash: warning: skipping ca-certificates.crt,it does not contain exactly one certificate or CRL
+2026-09-11T05:31:26.7224701+00:00 ContainerStream: 4 added, 0 removed; done.
+2026-09-11T05:31:26.7225009+00:00 ContainerStream: Running hooks in /etc/ca-certificates/update.d...
+2026-09-11T05:31:26.7482155+00:00 ContainerStream: done.
+2026-09-11T05:31:26.7569199+00:00 ContainerStream: CA certificates copied and updated successfully.
+2026-09-11T05:31:26.8614947+00:00 ContainerStream: Starting periodic command scheduler: cron.
+2026-09-11T05:31:26.8632059+00:00 ContainerStream: Running oryx create-script -appPath /home/site/wwwroot -output /opt/startup/startup.sh -defaultAppFilePath /defaulthome/hostingstart/hostingstart.dll     -bindPort 8080 -bindPort2 '' -userStartupCommand '' 
+2026-09-11T05:31:26.9450094+00:00 ContainerStream: Could not find build manifest file at '/home/site/wwwroot/oryx-manifest.toml'
+2026-09-11T05:31:26.9450451+00:00 ContainerStream: Could not find operation ID in manifest. Generating an operation id...
+2026-09-11T05:31:26.9460080+00:00 ContainerStream: Build Operation ID: 9037020e-776f-4937-b297-d5e25c417d34
+2026-09-11T05:31:27.1051910+00:00 ContainerStream: 
+2026-09-11T05:31:27.1057504+00:00 ContainerStream: Agent extension 
+2026-09-11T05:31:27.1057603+00:00 ContainerStream: Before if loop >> DotNet Runtime 
+2026-09-11T05:31:27.1366803+00:00 ContainerStream: DotNet Runtime 8.0Writing output script to '/opt/startup/startup.sh'
+2026-09-11T05:31:27.1643879+00:00 ContainerStream: Trying to find the startup DLL name...
+2026-09-11T05:31:27.1656558+00:00 ContainerStream: Found the startup D name: Lavadero.Web.dll
+2026-09-11T05:31:27.1664818+00:00 ContainerStream: Running the command: dotnet "Lavadero.Web.dll"
+2026-09-11T05:31:32.6155480+00:00 ContainerStream: Unhandled exception. System.InvalidOperationException: No se pudo crear el usuario administrador inicial: Passwords must have at least one uppercase ('A'-'Z').
+2026-09-11T05:31:32.6155883+00:00 ContainerStream:    at Lavadero.Infrastructure.Extensions.IdentitySeedExtensions.SeedAdminIdentityAsync(IServiceProvider serviceProvider, IConfiguration configuration) in E:\CursadaProgramacion\ProjectEDI26\Lavadero\Lavadero.Infrastructure\Extensions\IdentitySeedExtensions.cs:line 80
+2026-09-11T05:31:32.6155921+00:00 ContainerStream:    at Program.<Main>$(String[] args) in E:\CursadaProgramacion\ProjectEDI26\Lavadero\Lavadero.Web\Program.cs:line 294
+2026-09-11T05:31:32.6155951+00:00 ContainerStream:    at Program.<Main>(String[] args)
+2026-09-11T05:31:34.9774201+00:00 ContainerStream: /opt/startup/startup.sh: line 20:  1868 Aborted                 (core dumped) dotnet "Lavadero.Web.dll"
+2026-09-11T05:31:35.0289496+00:00 ContainerStatus: Container has finished running with exit code: 134.
+2026-09-11T05:31:35.0290735+00:00 ContainerStatus: Container is terminating. Grace period: 5 seconds.
+2026-09-11T05:31:35.0297408+00:00 ContainerStatus: Stop and delete container. Retry count = 0
+2026-09-11T05:31:35.0298029+00:00 ContainerStatus: Stopping container: df7a75393666_lavadero-edi26-ncus.
+2026-09-11T05:31:35.0994699+00:00 ContainerStatus: Deleting container: df7a75393666_lavadero-edi26-ncus. Retry count = 0
+2026-09-11T05:31:35.2341645+00:00 ContainerStatus: Container spec TerminationMessagePolicy  path 
+2026-09-11T05:31:35.2343452+00:00 ContainerStatus: Container is terminated. Total time elapsed: 205 ms.
+2026-09-11T05:31:35.2344125+00:00 ContainerStatus: Site container: lavadero-edi26-ncus terminated during site startup.
+2026-09-11T05:31:35.2457074+00:00 ContainerStatus: State: Stopping, Action: CancellingStartup, LastError: ContainerStartupFailure, LastErrorTimestamp: 09/11/2026 05:30:18, LastErrorDetails: Container exited with exit code 134 during startup after 15.6s. Please inspect your container logs for more details., Details: Site container: lavadero-edi26-ncus terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-09-11T05:31:35.2587139+00:00 ContainerStatus: Site startup probe failed after 14.1599669 seconds.
+2026-09-11T05:31:35.3163327+00:00 ContainerStatus: State: Stopping, Action: CancellingStartup, LastError: ContainerStartupFailure, LastErrorTimestamp: 09/11/2026 05:31:35, LastErrorDetails: Container exited with exit code 134 during startup after 14.2s. Please inspect your container logs for more details., Details: Site container: lavadero-edi26-ncus terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-09-11T05:31:35.3328146+00:00 ContainerStatus: Failed to start site. Revert by stopping site.
+2026-09-11T05:31:35.3329724+00:00 ContainerStatus: State: Stopping, Action: StoppingSite, LastError: ContainerStartupFailure, LastErrorTimestamp: 09/11/2026 05:31:35, LastErrorDetails: Container exited with exit code 134 during startup after 14.2s. Please inspect your container logs for more details., Details: Site container: lavadero-edi26-ncus terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-09-11T05:31:35.3333022+00:00 ContainerStatus: State: Stopping, Action: StoppingSiteContainers, LastError: ContainerStartupFailure, LastErrorTimestamp: 09/11/2026 05:31:35, LastErrorDetails: Container exited with exit code 134 during startup after 14.2s. Please inspect your container logs for more details., Details: Site container: lavadero-edi26-ncus terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-09-11T05:31:35.3333222+00:00 ContainerStatus: Site: lavadero-edi26-ncus stopped.
+========== New Cold Start Attempt (2026-09-11T05:31:35.3373183+00:00) ==========
+2026-09-11T05:31:35.3373183+00:00 ContainerStatus: State: Stopping, Action: UnmountingVolumes, LastError: ContainerStartupFailure, LastErrorTimestamp: 09/11/2026 05:31:35, LastErrorDetails: Container exited with exit code 134 during startup after 14.2s. Please inspect your container logs for more details., Details: Site container: lavadero-edi26-ncus terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-09-11T05:31:35.5095452+00:00 ContainerStatus: State: Stopping, Action: StoppingSiteNetworks, LastError: ContainerStartupFailure, LastErrorTimestamp: 09/11/2026 05:31:35, LastErrorDetails: Container exited with exit code 134 during startup after 14.2s. Please inspect your container logs for more details., Details: Site container: lavadero-edi26-ncus terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-09-11T05:31:35.6184285+00:00 ContainerStatus: Site: lavadero-edi26-ncus will be blocked for 1 minutes till 09/11/2026 05:32:35
+2026-09-11T05:31:35.6185243+00:00 ContainerStatus: State: Blocked, Action: StoppingSiteNetworks, LastError: ContainerStartupFailure, LastErrorTimestamp: 09/11/2026 05:31:35, LastErrorDetails: Container exited with exit code 134 during startup after 14.2s. Please inspect your container logs for more details., Details: Site: lavadero-edi26-ncus will be blocked for 1 minutes till 09/11/2026 05:32:35, DetailsLevel: WARN
+2026-09-11T05:31:35.6187228+00:00 ContainerStatus: State: Stopped, Action: None, LastError: ContainerStartupFailure, LastErrorTimestamp: 09/11/2026 05:31:35, LastErrorDetails: Container exited with exit code 134 during startup after 14.2s. Please inspect your container logs for more details., Details: Site stopped at 09/11/2026 05:31:35 (UTC), DetailsLevel: WARN
+2026-09-11T05:31:35.9958706+00:00 ContainerStatus: State: Stopped, Action: None, LastError: ContainerStartupFailure, LastErrorTimestamp: 09/11/2026 05:31:35, LastErrorDetails: Container exited with exit code 134 during startup after 14.2s. Please inspect your container logs for more details., Details: Site stopped at 09/11/2026 05:31:35 (UTC), DetailsLevel: WARN
+2026-09-11T05:31:41.1353977+00:00 ContainerStatus: State: Blocked, Action: None, LastError: ContainerStartupFailure, LastErrorTimestamp: 09/11/2026 05:31:35, LastErrorDetails: Container exited with exit code 134 during startup after 14.2s. Please inspect your container logs for more details., Details: Site is blocked due to multiple, consecutive cold start failures. Site scheduled to be unblocked at 09/11/2026 05:32:35, DetailsLevel: WARN
+2026-09-11T05:31:41.1357957+00:00 ContainerStatus: Start site prohibitted because the site is being blocked.
+2026-09-11T05:31:46.3067076+00:00 ContainerStatus: State: Blocked, Action: None, LastError: ContainerStartupFailure, LastErrorTimestamp: 09/11/2026 05:31:35, LastErrorDetails: Container exited with exit code 134 during startup after 14.2s. Please inspect your container logs for more details., Details: Site is blocked due to multiple, consecutive cold start failures. Site scheduled to be unblocked at 09/11/2026 05:32:35, DetailsLevel: WARN
+2026-09-11T05:31:46.3067386+00:00 ContainerStatus: Start site prohibitted because the site is being blocked.
+2026-09-11T05:31:51.3672511+00:00 ContainerStatus: State: Blocked, Action: None, LastError: ContainerStartupFailure, LastErrorTimestamp: 09/11/2026 05:31:35, LastErrorDetails: Container exited with exit code 134 during startup after 14.2s. Please inspect your container logs for more details., Details: Site is blocked due to multiple, consecutive cold start failures. Site scheduled to be unblocked at 09/11/2026 05:32:35, DetailsLevel: WARN
+2026-09-11T05:31:51.3672912+00:00 ContainerStatus: Start site prohibitted because the site is being blocked.
+2026-09-11T05:31:56.4164477+00:00 ContainerStatus: State: Blocked, Action: None, LastError: ContainerStartupFailure, LastErrorTimestamp: 09/11/2026 05:31:35, LastErrorDetails: Container exited with exit code 134 during startup after 14.2s. Please inspect your container logs for more details., Details: Site is blocked due to multiple, consecutive cold start failures. Site scheduled to be unblocked at 09/11/2026 05:32:35, DetailsLevel: WARN
+2026-09-11T05:31:56.4164757+00:00 ContainerStatus: Start site prohibitted because the site is being blocked.
+2026-09-11T05:32:01.5403898+00:00 ContainerStatus: State: Blocked, Action: None, LastError: ContainerStartupFailure, LastErrorTimestamp: 09/11/2026 05:31:35, LastErrorDetails: Container exited with exit code 134 during startup after 14.2s. Please inspect your container logs for more details., Details: Site is blocked due to multiple, consecutive cold start failures. Site scheduled to be unblocked at 09/11/2026 05:32:35, DetailsLevel: WARN
+2026-09-11T05:32:01.5404209+00:00 ContainerStatus: Start site prohibitted because the site is being blocked.
+2026-09-11T05:32:06.6291040+00:00 ContainerStatus: State: Blocked, Action: None, LastError: ContainerStartupFailure, LastErrorTimestamp: 09/11/2026 05:31:35, LastErrorDetails: Container exited with exit code 134 during startup after 14.2s. Please inspect your container logs for more details., Details: Site is blocked due to multiple, consecutive cold start failures. Site scheduled to be unblocked at 09/11/2026 05:32:35, DetailsLevel: WARN
+2026-09-11T05:32:06.6291397+00:00 ContainerStatus: Start site prohibitted because the site is being blocked.
+2026-09-11T05:32:11.7455559+00:00 ContainerStatus: State: Blocked, Action: None, LastError: ContainerStartupFailure, LastErrorTimestamp: 09/11/2026 05:31:35, LastErrorDetails: Container exited with exit code 134 during startup after 14.2s. Please inspect your container logs for more details., Details: Site is blocked due to multiple, consecutive cold start failures. Site scheduled to be unblocked at 09/11/2026 05:32:35, DetailsLevel: WARN
+2026-09-11T05:32:11.7455877+00:00 ContainerStatus: Start site prohibitted because the site is being blocked.
+2026-09-11T05:32:17.1462780+00:00 ContainerStatus: State: Blocked, Action: None, LastError: ContainerStartupFailure, LastErrorTimestamp: 09/11/2026 05:31:35, LastErrorDetails: Container exited with exit code 134 during startup after 14.2s. Please inspect your container logs for more details., Details: Site is blocked due to multiple, consecutive cold start failures. Site scheduled to be unblocked at 09/11/2026 05:32:35, DetailsLevel: WARN
+2026-09-11T05:32:17.1463739+00:00 ContainerStatus: Start site prohibitted because the site is being blocked.
+2026-09-11T05:32:22.4457298+00:00 ContainerStatus: State: Blocked, Action: None, LastError: ContainerStartupFailure, LastErrorTimestamp: 09/11/2026 05:31:35, LastErrorDetails: Container exited with exit code 134 during startup after 14.2s. Please inspect your container logs for more details., Details: Site is blocked due to multiple, consecutive cold start failures. Site scheduled to be unblocked at 09/11/2026 05:32:35, DetailsLevel: WARN
+2026-09-11T05:32:22.4458183+00:00 ContainerStatus: Start site prohibitted because the site is being blocked.
+2026-09-11T05:32:27.5519862+00:00 ContainerStatus: State: Blocked, Action: None, LastError: ContainerStartupFailure, LastErrorTimestamp: 09/11/2026 05:31:35, LastErrorDetails: Container exited with exit code 134 during startup after 14.2s. Please inspect your container logs for more details., Details: Site is blocked due to multiple, consecutive cold start failures. Site scheduled to be unblocked at 09/11/2026 05:32:35, DetailsLevel: WARN
+2026-09-11T05:32:27.5520141+00:00 ContainerStatus: Start site prohibitted because the site is being blocked.
+2026-09-11T05:32:32.6047599+00:00 ContainerStatus: State: Blocked, Action: None, LastError: ContainerStartupFailure, LastErrorTimestamp: 09/11/2026 05:31:35, LastErrorDetails: Container exited with exit code 134 during startup after 14.2s. Please inspect your container logs for more details., Details: Site is blocked due to multiple, consecutive cold start failures. Site scheduled to be unblocked at 09/11/2026 05:32:35, DetailsLevel: WARN
+2026-09-11T05:32:32.6047853+00:00 ContainerStatus: Start site prohibitted because the site is being blocked.
+2026-09-11T05:32:35.6191866+00:00 ContainerStatus: Site: lavadero-edi26-ncus is unblocked.
+2026-09-11T05:32:37.6534713+00:00 ContainerStatus: State: Starting, Action: EstablishingSiteNetworks, LastError: ContainerStartupFailure, LastErrorTimestamp: 09/11/2026 05:31:35, LastErrorDetails: Container exited with exit code 134 during startup after 14.2s. Please inspect your container logs for more details., Details: Site is blocked due to multiple, consecutive cold start failures. Site scheduled to be unblocked at 09/11/2026 05:32:35, DetailsLevel: WARN
+2026-09-11T05:32:37.9228620+00:00 ContainerStatus: State: Starting, Action: StartingSiteContainers, LastError: ContainerStartupFailure, LastErrorTimestamp: 09/11/2026 05:31:35, LastErrorDetails: Container exited with exit code 134 during startup after 14.2s. Please inspect your container logs for more details., Details: Site is blocked due to multiple, consecutive cold start failures. Site scheduled to be unblocked at 09/11/2026 05:32:35, DetailsLevel: WARN
+2026-09-11T05:32:37.9253519+00:00 ContainerStatus: Container start method called.
+2026-09-11T05:32:37.9254303+00:00 ContainerStatus: State: Starting, Action: PullingImage, LastError: ContainerStartupFailure, LastErrorTimestamp: 09/11/2026 05:31:35, LastErrorDetails: Container exited with exit code 134 during startup after 14.2s. Please inspect your container logs for more details., Details: Pulling image 10.1.0.4:13209/appsvc/dotnetcore:8.0_20260616.2.tuxprod for lavadero-edi26-ncus., DetailsLevel: INFO
+2026-09-11T05:32:37.9255092+00:00 ContainerStatus: Establishing network.
+2026-09-11T05:32:37.9255847+00:00 ContainerStatus: Pulling image: appsvc/dotnetcore:8.0_20260616.2.tuxprod.
+2026-09-11T05:32:38.0321144+00:00 ContainerStatus: Container is starting.
+2026-09-11T05:32:38.0322166+00:00 ContainerStatus: State: Starting, Action: MountingVolumes, LastError: ContainerStartupFailure, LastErrorTimestamp: 09/11/2026 05:31:35, LastErrorDetails: Container exited with exit code 134 during startup after 14.2s. Please inspect your container logs for more details., Details: Mounting volumes for lavadero-edi26-ncus., DetailsLevel: INFO
+2026-09-11T05:32:38.0322783+00:00 ContainerStatus: Establishing user namespace if not established already.
+2026-09-11T05:32:38.0323349+00:00 ContainerStatus: Establishing network if not established already.
+2026-09-11T05:32:38.0324057+00:00 ContainerStatus: Mounting volumes.
+2026-09-11T05:32:38.0325047+00:00 ContainerStatus: Nested mountpoint 
+2026-09-11T05:32:38.0369208+00:00 ContainerStatus: Nested mountpoint volatile/logs
+2026-09-11T05:32:38.0405130+00:00 ContainerStatus: Nested mountpoint 
+2026-09-11T05:32:38.0416473+00:00 ContainerStatus: Nested mountpoint 
+2026-09-11T05:32:38.0420831+00:00 ContainerStatus: Nested mountpoint 
+2026-09-11T05:32:38.0490781+00:00 ContainerStatus: Nested mountpoint 
+2026-09-11T05:32:38.1352808+00:00 ContainerStatus: State: Starting, Action: CreatingContainer, LastError: ContainerStartupFailure, LastErrorTimestamp: 09/11/2026 05:31:35, LastErrorDetails: Container exited with exit code 134 during startup after 14.2s. Please inspect your container logs for more details., Details: Finished pulling container image and mounting volumes for lavadero-edi26-ncus. Allocatinng the rest of the container resources to finish container creation., DetailsLevel: INFO
+2026-09-11T05:32:38.1353283+00:00 ContainerStatus: Creating container.
+2026-09-11T05:32:38.1353615+00:00 ContainerStatus: Creating pipes for streaming container io.
+2026-09-11T05:32:38.1354013+00:00 ContainerStatus: Creating stdout named pipe at /podr/container/pipe/a877b3e89d6d_lavadero-edi26-ncus/stdout_8768042744494de3832e57d9655e0bad.
+2026-09-11T05:32:38.1366574+00:00 ContainerStatus: Successfully created stdout named pipe at: /podr/container/pipe/a877b3e89d6d_lavadero-edi26-ncus/stdout_8768042744494de3832e57d9655e0bad.
+2026-09-11T05:32:38.1371174+00:00 ContainerStatus: Opening named pipe /podr/container/pipe/a877b3e89d6d_lavadero-edi26-ncus/stdout_8768042744494de3832e57d9655e0bad for reading in non-blocking mode.
+2026-09-11T05:32:38.1382907+00:00 ContainerStatus: Successfully opened named pipe: /podr/container/pipe/a877b3e89d6d_lavadero-edi26-ncus/stdout_8768042744494de3832e57d9655e0bad.
+2026-09-11T05:32:38.1384405+00:00 ContainerStatus: Successfully removed non-blocking flag from /podr/container/pipe/a877b3e89d6d_lavadero-edi26-ncus/stdout_8768042744494de3832e57d9655e0bad.
+2026-09-11T05:32:38.1393520+00:00 ContainerStatus: Creating stderr named pipe at /podr/container/pipe/a877b3e89d6d_lavadero-edi26-ncus/stderr_6ec07e28c8024981a7a818eed75f178e.
+2026-09-11T05:32:38.1400339+00:00 ContainerStatus: Successfully created stderr named pipe at: /podr/container/pipe/a877b3e89d6d_lavadero-edi26-ncus/stderr_6ec07e28c8024981a7a818eed75f178e.
+2026-09-11T05:32:38.1406228+00:00 ContainerStatus: Opening named pipe /podr/container/pipe/a877b3e89d6d_lavadero-edi26-ncus/stderr_6ec07e28c8024981a7a818eed75f178e for reading in non-blocking mode.
+2026-09-11T05:32:38.1410806+00:00 ContainerStatus: Successfully opened named pipe: /podr/container/pipe/a877b3e89d6d_lavadero-edi26-ncus/stderr_6ec07e28c8024981a7a818eed75f178e.
+2026-09-11T05:32:38.1412628+00:00 ContainerStatus: Successfully removed non-blocking flag from /podr/container/pipe/a877b3e89d6d_lavadero-edi26-ncus/stderr_6ec07e28c8024981a7a818eed75f178e.
+2026-09-11T05:32:38.1413767+00:00 ContainerStatus: Creating container with image: appsvc/dotnetcore:8.0_20260616.2.tuxprod from registry: 10.1.0.4:13209 and fully qualified image name: 10.1.0.4:13209/appsvc/dotnetcore:8.0_20260616.2.tuxprod
+2026-09-11T05:32:38.3445546+00:00 ContainerStatus: Starting container: a877b3e89d6d_lavadero-edi26-ncus.
+2026-09-11T05:32:38.3626959+00:00 ContainerStatus: Starting watchers and probes.
+2026-09-11T05:32:38.3634515+00:00 ContainerStatus: Starting metrics collection.
+2026-09-11T05:32:38.3645544+00:00 ContainerStatus: Container is running.
+2026-09-11T05:32:38.3646600+00:00 ContainerStatus: State: Starting, Action: CreatingContainer, LastError: ContainerStartupFailure, LastErrorTimestamp: 09/11/2026 05:31:35, LastErrorDetails: Container exited with exit code 134 during startup after 14.2s. Please inspect your container logs for more details., Details: Container lavadero-edi26-ncus successfully created and is running., DetailsLevel: INFO
+2026-09-11T05:32:38.3780588+00:00 ContainerStatus: Container start method finished after 452 ms.
+2026-09-11T05:32:38.3781853+00:00 ContainerStatus: State: Starting, Action: InitiatingSiteWarmUpProbe, LastError: ContainerStartupFailure, LastErrorTimestamp: 09/11/2026 05:31:35, LastErrorDetails: Container exited with exit code 134 during startup after 14.2s. Please inspect your container logs for more details., Details: Container lavadero-edi26-ncus successfully created and is running., DetailsLevel: INFO
+2026-09-11T05:32:38.3782504+00:00 ContainerStatus: State: Starting, Action: WaitingForSiteWarmUpProbeSuccess, LastError: ContainerStartupFailure, LastErrorTimestamp: 09/11/2026 05:31:35, LastErrorDetails: Container exited with exit code 134 during startup after 14.2s. Please inspect your container logs for more details., Details: Pinging warmup path to ensure container is ready to receive requests., DetailsLevel: INFO
+2026-09-11T05:32:38.4220105+00:00 ContainerStream:    _____                               
+2026-09-11T05:32:38.4220438+00:00 ContainerStream:   /  _  \ __________ _________   ____  
+2026-09-11T05:32:38.4220471+00:00 ContainerStream:  /  /_\  \\___   /  |  \_  __ \_/ __ \ 
+2026-09-11T05:32:38.4220500+00:00 ContainerStream: /    |    \/    /|  |  /|  | \/\  ___/ 
+2026-09-11T05:32:38.4220530+00:00 ContainerStream: \____|__  /_____ \____/ |__|    \___  >
+2026-09-11T05:32:38.4220637+00:00 ContainerStream:         \/      \/                  \/ 
+2026-09-11T05:32:38.4220667+00:00 ContainerStream: A P P   S E R V I C E   O N   L I N U X
+2026-09-11T05:32:38.4220693+00:00 ContainerStream: 
+2026-09-11T05:32:38.4220720+00:00 ContainerStream: Documentation       : http://aka.ms/webapp-linux
+2026-09-11T05:32:38.4220746+00:00 ContainerStream: Dotnet quickstart   : https://aka.ms/dotnet-qs
+2026-09-11T05:32:38.4220771+00:00 ContainerStream: ASP .NETCore Version: 8.0.28
+2026-09-11T05:32:38.4220796+00:00 ContainerStream: Instance Name       : 10-30-0-141
+2026-09-11T05:32:38.4220825+00:00 ContainerStream: Instance Id         : e3848c4a19ed5120ac06e6c4552adf58a74475463871a23ea40c8f269e489576
+2026-09-11T05:32:38.4220848+00:00 ContainerStream: 
+2026-09-11T05:32:38.4220874+00:00 ContainerStream: Note: Any data outside '/home' is not persisted
+2026-09-11T05:32:39.3644952+00:00 ContainerStream: Starting OpenBSD Secure Shell server: sshd.
+2026-09-11T05:32:39.3748827+00:00 ContainerStream: WEBSITES_INCLUDE_CLOUD_CERTS is not set to true.
+2026-09-11T05:32:39.4023679+00:00 ContainerStream: Updating certificates in /etc/ssl/certs...
+2026-09-11T05:32:44.4475260+00:00 ContainerStream: rehash: warning: skipping duplicate certificate in azl_SSL.com_TLS_ECC_Root_CA_2022.pem
+2026-09-11T05:32:44.4486285+00:00 ContainerStream: rehash: warning: skipping duplicate certificate in azl_SSL.com_TLS_RSA_Root_CA_2022.pem
+2026-09-11T05:32:44.4981444+00:00 ContainerStream: rehash: warning: skipping ca-certificates.crt,it does not contain exactly one certificate or CRL
+2026-09-11T05:32:44.5166987+00:00 ContainerStream: 4 added, 0 removed; done.
+2026-09-11T05:32:44.5167846+00:00 ContainerStream: Running hooks in /etc/ca-certificates/update.d...
+2026-09-11T05:32:44.5197068+00:00 ContainerStream: done.
+2026-09-11T05:32:44.5284446+00:00 ContainerStream: CA certificates copied and updated successfully.
+2026-09-11T05:32:44.6477973+00:00 ContainerStream: Starting periodic command scheduler: cron.
+2026-09-11T05:32:44.6506007+00:00 ContainerStream: Running oryx create-script -appPath /home/site/wwwroot -output /opt/startup/startup.sh -defaultAppFilePath /defaulthome/hostingstart/hostingstart.dll     -bindPort 8080 -bindPort2 '' -userStartupCommand '' 
+2026-09-11T05:32:44.7076882+00:00 ContainerStream: Could not find build manifest file at '/home/site/wwwroot/oryx-manifest.toml'
+2026-09-11T05:32:44.7078619+00:00 ContainerStream: Could not find operation ID in manifest. Generating an operation id...
+2026-09-11T05:32:44.7078666+00:00 ContainerStream: Build Operation ID: d0751c8d-f7bc-4b49-bcc6-636c0e17dcea
+2026-09-11T05:32:44.8608172+00:00 ContainerStream: 
+2026-09-11T05:32:44.8609844+00:00 ContainerStream: Agent extension 
+2026-09-11T05:32:44.8611223+00:00 ContainerStream: Before if loop >> DotNet Runtime 
+2026-09-11T05:32:44.8878937+00:00 ContainerStream: DotNet Runtime 8.0Writing output script to '/opt/startup/startup.sh'
+2026-09-11T05:32:44.9294760+00:00 ContainerStream: Trying to find the startup DLL name...
+2026-09-11T05:32:44.9296649+00:00 ContainerStream: Found the startup D name: Lavadero.Web.dll
+2026-09-11T05:32:44.9297604+00:00 ContainerStream: Running the command: dotnet "Lavadero.Web.dll"
+2026-09-11T05:32:50.1100440+00:00 ContainerStream: Unhandled exception. System.InvalidOperationException: No se pudo crear el usuario administrador inicial: Passwords must have at least one uppercase ('A'-'Z').
+2026-09-11T05:32:50.1100668+00:00 ContainerStream:    at Lavadero.Infrastructure.Extensions.IdentitySeedExtensions.SeedAdminIdentityAsync(IServiceProvider serviceProvider, IConfiguration configuration) in E:\CursadaProgramacion\ProjectEDI26\Lavadero\Lavadero.Infrastructure\Extensions\IdentitySeedExtensions.cs:line 80
+2026-09-11T05:32:50.1100701+00:00 ContainerStream:    at Program.<Main>$(String[] args) in E:\CursadaProgramacion\ProjectEDI26\Lavadero\Lavadero.Web\Program.cs:line 294
+2026-09-11T05:32:50.1101127+00:00 ContainerStream:    at Program.<Main>(String[] args)
+2026-09-11T05:32:52.1333881+00:00 ContainerStream: /opt/startup/startup.sh: line 20:  1865 Aborted                 (core dumped) dotnet "Lavadero.Web.dll"
+2026-09-11T05:32:52.1883066+00:00 ContainerStatus: Container has finished running with exit code: 134.
+2026-09-11T05:32:52.1884042+00:00 ContainerStatus: Container is terminating. Grace period: 5 seconds.
+2026-09-11T05:32:52.2022879+00:00 ContainerStatus: Stop and delete container. Retry count = 0
+2026-09-11T05:32:52.2023772+00:00 ContainerStatus: Stopping container: a877b3e89d6d_lavadero-edi26-ncus.
+2026-09-11T05:32:52.2836560+00:00 ContainerStatus: Deleting container: a877b3e89d6d_lavadero-edi26-ncus. Retry count = 0
+2026-09-11T05:32:52.4299196+00:00 ContainerStatus: Container spec TerminationMessagePolicy  path 
+2026-09-11T05:32:52.4314403+00:00 ContainerStatus: Container is terminated. Total time elapsed: 229 ms.
+2026-09-11T05:32:52.4315151+00:00 ContainerStatus: Site container: lavadero-edi26-ncus terminated during site startup.
+2026-09-11T05:32:52.4330762+00:00 ContainerStatus: State: Stopping, Action: CancellingStartup, LastError: ContainerStartupFailure, LastErrorTimestamp: 09/11/2026 05:31:35, LastErrorDetails: Container exited with exit code 134 during startup after 14.2s. Please inspect your container logs for more details., Details: Site container: lavadero-edi26-ncus terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-09-11T05:32:52.4559384+00:00 ContainerStatus: Site startup probe failed after 14.0773119 seconds.
+2026-09-11T05:32:52.5081654+00:00 ContainerStatus: State: Stopping, Action: CancellingStartup, LastError: ContainerStartupFailure, LastErrorTimestamp: 09/11/2026 05:32:52, LastErrorDetails: Container exited with exit code 134 during startup after 14.1s. Please inspect your container logs for more details., Details: Site container: lavadero-edi26-ncus terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-09-11T05:32:52.5147184+00:00 ContainerStatus: Failed to start site. Revert by stopping site.
+2026-09-11T05:32:52.5148502+00:00 ContainerStatus: State: Stopping, Action: StoppingSite, LastError: ContainerStartupFailure, LastErrorTimestamp: 09/11/2026 05:32:52, LastErrorDetails: Container exited with exit code 134 during startup after 14.1s. Please inspect your container logs for more details., Details: Site container: lavadero-edi26-ncus terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-09-11T05:32:52.5150800+00:00 ContainerStatus: State: Stopping, Action: StoppingSiteContainers, LastError: ContainerStartupFailure, LastErrorTimestamp: 09/11/2026 05:32:52, LastErrorDetails: Container exited with exit code 134 during startup after 14.1s. Please inspect your container logs for more details., Details: Site container: lavadero-edi26-ncus terminated during site startup. Cancelling site startup., DetailsLevel: ERR
+2026-09-11T05:32:52.5150974+00:00 ContainerStatus: Site: lavadero-edi26-ncus stopped.
