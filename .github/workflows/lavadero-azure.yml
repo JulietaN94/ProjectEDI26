@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - develop
+      - feature/azure-deploy
     paths:
       - "Lavadero/**"
       - ".github/workflows/lavadero-azure.yml"
