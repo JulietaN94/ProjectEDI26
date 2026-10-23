@@ -19,6 +19,7 @@ public static class DependencyInjection
                     typeof(LavaderoDbContext).Assembly.FullName)));
 
         services.AddScoped<IClienteService, ClienteService>();
+        services.AddScoped<CatalogoService>();
         services.AddScoped<IServicioService, ServicioService>();
         services.AddScoped<ITurnoService, TurnoService>();
         services.AddScoped<IHorarioAtencionService, HorarioAtencionService>();

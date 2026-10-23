@@ -1,0 +1,33 @@
+@page "/admin/productos"
+@rendermode InteractiveServer
+@attribute [Authorize(Roles = "Administrador")]
+@using Lavadero.Domain.Entities
+@using Lavadero.Infrastructure.Services
+@inject CatalogoService Catalogo
+<PageTitle>Administrar productos</PageTitle>
+<PageHeader Titulo="Productos" Subtitulo="Administrá el catálogo." />
+@if (mensaje != null) { <div class="alert alert-info" role="status">@mensaje</div> }
+<EditForm Model="modelo" OnValidSubmit="Guardar"><DataAnnotationsValidator /><ValidationSummary />
+    <label class="form-label">Código <InputText class="form-control" @bind-Value="modelo.Codigo" /></label>
+    <label class="form-label">Nombre <InputText class="form-control" @bind-Value="modelo.Nombre" /></label>
+    <label class="form-label">Marca <InputText class="form-control" @bind-Value="modelo.Marca" /></label>
+    <label class="form-label">Descripción <InputTextArea class="form-control" @bind-Value="modelo.Descripcion" /></label>
+    <label class="form-label">Precio de venta <InputNumber class="form-control" @bind-Value="modelo.PrecioVenta" /></label>
+    <label>Activo <InputCheckbox @bind-Value="modelo.Activo" /></label>
+    <div><label>Imagen opcional (máximo 500 KB) <InputFile OnChange="Imagen" accept="image/png,image/jpeg,image/webp" /></label></div>
+    @if (modelo.Imagen != null) { <button type="button" class="btn btn-outline-secondary" @onclick="QuitarImagen">Quitar imagen</button> }
+    <div><button class="btn btn-primary">Guardar</button> <button type="button" class="btn btn-secondary" @onclick="Nuevo">Nuevo</button></div>
+</EditForm>
+<table class="table mt-4"><thead><tr><th>Código</th><th>Producto</th><th>Precio</th><th>Estado</th><th></th></tr></thead><tbody>
+@foreach (var p in productos) { <tr><td>@p.Codigo</td><td>@p.Nombre</td><td>@p.PrecioVenta.ToString("C2")</td><td>@(p.Activo ? "Activo" : "Inactivo")</td><td><button class="btn btn-sm btn-outline-primary" @onclick="() => Editar(p)">Editar</button></td></tr> }
+</tbody></table>
+@code {
+    Producto modelo = new(); List<Producto> productos = new(); string? mensaje;
+    protected override async Task OnInitializedAsync() => await Cargar();
+    async Task Cargar() => productos = await Catalogo.ProductosAsync(true);
+    void Nuevo() { modelo = new(); mensaje = null; }
+    void Editar(Producto p) => modelo = new Producto { Id=p.Id, Codigo=p.Codigo, Nombre=p.Nombre, Marca=p.Marca, Descripcion=p.Descripcion, PrecioVenta=p.PrecioVenta, Activo=p.Activo, Imagen=p.Imagen, ImagenContentType=p.ImagenContentType };
+    void QuitarImagen() { modelo.Imagen = null; modelo.ImagenContentType = null; }
+    async Task Imagen(InputFileChangeEventArgs e) { try { var f=e.File; if (f.ContentType is not ("image/png" or "image/jpeg" or "image/webp") || f.Size > 500000) throw new InvalidOperationException("Imagen inválida o demasiado grande."); using var ms=new MemoryStream(); await f.OpenReadStream(500000).CopyToAsync(ms); modelo.Imagen=ms.ToArray(); modelo.ImagenContentType=f.ContentType; } catch (Exception ex) { mensaje=ex.Message; } }
+    async Task Guardar() { try { await Catalogo.GuardarProductoAsync(modelo); Nuevo(); await Cargar(); mensaje="Producto guardado."; } catch (InvalidOperationException ex) { mensaje=ex.Message; } }
+}

@@ -123,6 +123,46 @@ namespace Lavadero.Infrastructure.Migrations
                         });
                 });
 
+            modelBuilder.Entity("Lavadero.Domain.Entities.DetallePedido", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("Cantidad")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Codigo")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("Nombre")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<int>("PedidoId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("PrecioUnitario")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("ProductoId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PedidoId");
+
+                    b.HasIndex("ProductoId");
+
+                    b.ToTable("DetallesPedido");
+                });
+
             modelBuilder.Entity("Lavadero.Domain.Entities.HorarioAtencion", b =>
                 {
                     b.Property<int>("Id")
@@ -211,6 +251,88 @@ namespace Lavadero.Infrastructure.Migrations
                             HoraApertura = new TimeSpan(0, 0, 0, 0, 0),
                             HoraCierre = new TimeSpan(0, 0, 0, 0, 0)
                         });
+                });
+
+            modelBuilder.Entity("Lavadero.Domain.Entities.Pedido", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Apellido")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("Celular")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
+
+                    b.Property<int>("Estado")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("FechaUtc")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Nombre")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Pedidos");
+                });
+
+            modelBuilder.Entity("Lavadero.Domain.Entities.Producto", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<bool>("Activo")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Codigo")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("Descripcion")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<byte[]>("Imagen")
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<string>("ImagenContentType")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("Marca")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("Nombre")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<decimal>("PrecioVenta")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Codigo")
+                        .IsUnique();
+
+                    b.ToTable("Productos");
                 });
 
             modelBuilder.Entity("Lavadero.Domain.Entities.Servicio", b =>
@@ -566,6 +688,25 @@ namespace Lavadero.Infrastructure.Migrations
                     b.Navigation("Cliente");
                 });
 
+            modelBuilder.Entity("Lavadero.Domain.Entities.DetallePedido", b =>
+                {
+                    b.HasOne("Lavadero.Domain.Entities.Pedido", "Pedido")
+                        .WithMany("Detalles")
+                        .HasForeignKey("PedidoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Lavadero.Domain.Entities.Producto", "Producto")
+                        .WithMany()
+                        .HasForeignKey("ProductoId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Pedido");
+
+                    b.Navigation("Producto");
+                });
+
             modelBuilder.Entity("Lavadero.Domain.Entities.Turno", b =>
                 {
                     b.HasOne("Lavadero.Domain.Entities.Auto", "Auto")
@@ -644,6 +785,11 @@ namespace Lavadero.Infrastructure.Migrations
             modelBuilder.Entity("Lavadero.Domain.Entities.Cliente", b =>
                 {
                     b.Navigation("Autos");
+                });
+
+            modelBuilder.Entity("Lavadero.Domain.Entities.Pedido", b =>
+                {
+                    b.Navigation("Detalles");
                 });
 
             modelBuilder.Entity("Lavadero.Domain.Entities.Servicio", b =>

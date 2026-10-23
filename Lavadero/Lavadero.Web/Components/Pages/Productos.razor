@@ -1,0 +1,39 @@
+@page "/productos"
+@rendermode InteractiveServer
+@using Lavadero.Domain.Entities
+@using Lavadero.Infrastructure.Services
+@inject CatalogoService Catalogo
+
+<PageTitle>Productos</PageTitle>
+<PageHeader Titulo="Productos" Subtitulo="Elegí los productos que querés pedir." />
+@if (!string.IsNullOrEmpty(mensaje)) { <div class="alert alert-info" role="status">@mensaje</div> }
+<div class="row g-3">
+    @foreach (var p in productos)
+    {
+        <div class="col-md-4"><div class="card h-100"><div class="card-body">
+            @if (p.Imagen != null) { <img class="img-fluid" alt="@p.Nombre" src="@Imagen(p)" /> }
+            <h2 class="h5">@p.Nombre</h2><p>@p.Marca</p><p>@p.Descripcion</p><strong>@p.PrecioVenta.ToString("C2")</strong>
+            <label class="form-label d-block" for="@($"cantidad-{p.Id}")">Cantidad</label>
+            <input id="@($"cantidad-{p.Id}")" type="number" min="0" max="100" class="form-control" value="@Cantidad(p.Id)" @onchange="e => CambiarCantidad(p.Id, e.Value?.ToString())" />
+        </div></div></div>
+    }
+</div>
+<section class="mt-4"><h2>Enviar pedido</h2>
+    <p>Total estimado: @Total.ToString("C2")</p>
+    <EditForm Model="datos" OnValidSubmit="Enviar"><DataAnnotationsValidator /><ValidationSummary />
+        <label class="form-label">Nombre <InputText class="form-control" @bind-Value="datos.Nombre" /></label>
+        <label class="form-label">Apellido <InputText class="form-control" @bind-Value="datos.Apellido" /></label>
+        <label class="form-label">Celular <InputText class="form-control" @bind-Value="datos.Celular" /></label>
+        <div><button class="btn btn-primary" disabled="@enviando">Enviar pedido</button></div>
+    </EditForm>
+</section>
+@code {
+    List<Producto> productos = new(); Dictionary<int,int> cantidades = new(); Datos datos = new(); string? mensaje; bool enviando;
+    protected override async Task OnInitializedAsync() => productos = await Catalogo.ProductosAsync();
+    int Cantidad(int id) => cantidades.GetValueOrDefault(id);
+    decimal Total => productos.Sum(p => p.PrecioVenta * Cantidad(p.Id));
+    static string Imagen(Producto p) => $"data:{p.ImagenContentType};base64,{Convert.ToBase64String(p.Imagen!)}";
+    void CambiarCantidad(int id, string? valor) { if (int.TryParse(valor, out var n) && n is > 0 and <= 100) cantidades[id] = n; else cantidades.Remove(id); }
+    async Task Enviar() { if (enviando) return; enviando = true; try { var id = await Catalogo.CrearPedidoAsync(datos.Nombre, datos.Apellido, datos.Celular, cantidades); mensaje = $"Pedido #{id} recibido. Nos comunicaremos con vos."; cantidades.Clear(); datos = new(); } catch (InvalidOperationException ex) { mensaje = ex.Message; } finally { enviando = false; } }
+    class Datos { [Required, StringLength(100)] public string Nombre { get; set; } = ""; [Required, StringLength(100)] public string Apellido { get; set; } = ""; [Required, StringLength(30, MinimumLength = 6)] public string Celular { get; set; } = ""; }
+}

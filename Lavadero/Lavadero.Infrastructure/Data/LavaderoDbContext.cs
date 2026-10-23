@@ -16,6 +16,9 @@ public sealed class LavaderoDbContext
     }
 
     public DbSet<Cliente> Clientes => Set<Cliente>();
+    public DbSet<Producto> Productos => Set<Producto>();
+    public DbSet<Pedido> Pedidos => Set<Pedido>();
+    public DbSet<DetallePedido> DetallesPedido => Set<DetallePedido>();
     public DbSet<Auto> Autos => Set<Auto>();
     public DbSet<Servicio> Servicios => Set<Servicio>();
     public DbSet<Turno> Turnos => Set<Turno>();
@@ -26,6 +29,11 @@ public sealed class LavaderoDbContext
     {
         // Identity configura aquí AspNetUsers, AspNetRoles, AspNetUserRoles, etc.
         base.OnModelCreating(modelBuilder);
+
+        modelBuilder.Entity<Producto>().HasIndex(x => x.Codigo).IsUnique();
+        modelBuilder.Entity<Producto>().Property(x => x.PrecioVenta).HasPrecision(18, 2);
+        modelBuilder.Entity<DetallePedido>().Property(x => x.PrecioUnitario).HasPrecision(18, 2);
+        modelBuilder.Entity<DetallePedido>().HasOne(x => x.Producto).WithMany().HasForeignKey(x => x.ProductoId).OnDelete(DeleteBehavior.Restrict);
 
         modelBuilder.ApplyConfigurationsFromAssembly(
             typeof(LavaderoDbContext).Assembly);
