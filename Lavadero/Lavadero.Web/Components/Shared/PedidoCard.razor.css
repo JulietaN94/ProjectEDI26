@@ -1,0 +1,19 @@
+.pedido-tarjeta { background: var(--app-surface); color: var(--app-text); border: 1px solid var(--app-border); border-radius: 12px; padding: clamp(1rem, 2vw, 1.4rem); margin-top: 1rem; }
+.pedido-encabezado, .pedido-pie { display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+.pedido-encabezado h3 { font-size: 1.1rem; font-weight: 700; margin: 0 0 .3rem; }
+.pedido-fecha { color: var(--app-text-soft); font-size: .9rem; margin: 0; }
+.pedido-estado { background: var(--catalogo-bg); border: 1px solid var(--catalogo-border); border-radius: 999px; color: var(--app-text); font-size: .85rem; font-weight: 600; padding: .3rem .75rem; }
+.pedido-cliente { display: flex; gap: 1rem 3rem; flex-wrap: wrap; margin: 1.25rem 0; }
+.pedido-cliente > div { display: flex; flex-direction: column; gap: .2rem; overflow-wrap: anywhere; }
+.pedido-etiqueta, .pedido-codigo { color: var(--app-text-soft); font-size: .85rem; }
+.pedido-productos { background: var(--app-surface-alt); border: 1px solid var(--app-border); border-radius: 10px; padding: 1rem; }
+.pedido-productos h4 { font-size: .95rem; font-weight: 700; margin: 0 0 .75rem; }
+.pedido-lista { list-style: none; padding: 0; margin: 0; }
+.pedido-lista li { display: flex; justify-content: space-between; gap: .75rem; flex-wrap: wrap; padding: .65rem 0; border-top: 1px solid var(--app-border); }
+.pedido-lista li > div { display: flex; flex-direction: column; overflow-wrap: anywhere; min-width: 0; }
+.pedido-cantidad { align-self: center; }
+.pedido-pie { margin-top: 1.2rem; }
+.pedido-total { display: flex; flex-direction: column; gap: .15rem; }
+.pedido-total span { color: var(--app-text-soft); font-size: .85rem; }
+.pedido-total strong { font-size: 1.2rem; }
+.pedido-acciones { display: flex; gap: .5rem; flex-wrap: wrap; }

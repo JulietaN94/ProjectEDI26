@@ -1,0 +1,4 @@
+.pedidos-contenedor { background: var(--catalogo-bg); color: var(--app-text); border: 1px solid var(--catalogo-border); border-radius: 16px; padding: clamp(1rem, 3vw, 1.75rem); min-height: 34rem; }
+.pedidos-contenedor h2 { font-size: 1.25rem; font-weight: 700; }
+.pedidos-ayuda { color: var(--app-text-soft); }
+.pedidos-vacio { background: var(--app-surface); border: 1px solid var(--app-border); border-radius: 10px; padding: 1rem; margin-bottom: 0; }

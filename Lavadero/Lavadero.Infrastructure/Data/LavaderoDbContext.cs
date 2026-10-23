@@ -30,11 +30,6 @@ public sealed class LavaderoDbContext
         // Identity configura aquí AspNetUsers, AspNetRoles, AspNetUserRoles, etc.
         base.OnModelCreating(modelBuilder);
 
-        modelBuilder.Entity<Producto>().HasIndex(x => x.Codigo).IsUnique();
-        modelBuilder.Entity<Producto>().Property(x => x.PrecioVenta).HasPrecision(18, 2);
-        modelBuilder.Entity<DetallePedido>().Property(x => x.PrecioUnitario).HasPrecision(18, 2);
-        modelBuilder.Entity<DetallePedido>().HasOne(x => x.Producto).WithMany().HasForeignKey(x => x.ProductoId).OnDelete(DeleteBehavior.Restrict);
-
         modelBuilder.ApplyConfigurationsFromAssembly(
             typeof(LavaderoDbContext).Assembly);
 

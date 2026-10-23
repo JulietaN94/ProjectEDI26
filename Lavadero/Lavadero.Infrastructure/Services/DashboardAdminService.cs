@@ -62,9 +62,7 @@ public sealed class DashboardAdminService
                         x => x.Estado == EstadoTurno.Completado)
                     .Select(x =>
                         (decimal?)(
-                            x.PrecioServicio > 0
-                                ? x.PrecioServicio
-                                : x.Servicio.Precio))
+                            x.PrecioServicio))
                     .SumAsync()
                 ?? 0m;
 
@@ -91,9 +89,7 @@ public sealed class DashboardAdminService
                         x.Auto.Modelo,
                         x.Servicio.Id,
                         x.Servicio.Nombre,
-                        x.PrecioServicio > 0
-                            ? x.PrecioServicio
-                            : x.Servicio.Precio,
+                        x.PrecioServicio,
                         x.Servicio.DuracionMinutos))
                     .ToListAsync();
 

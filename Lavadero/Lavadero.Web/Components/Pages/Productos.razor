@@ -1,39 +1,104 @@
+@using Lavadero.Application.DTOs
+@using Lavadero.Application.Models
 @page "/productos"
 @rendermode InteractiveServer
 @using Lavadero.Domain.Entities
-@using Lavadero.Infrastructure.Services
-@inject CatalogoService Catalogo
+@using Lavadero.Application.Interfaces
+@inject ICatalogoService Catalogo
 
 <PageTitle>Productos</PageTitle>
 <PageHeader Titulo="Productos" Subtitulo="Elegí los productos que querés pedir." />
-@if (!string.IsNullOrEmpty(mensaje)) { <div class="alert alert-info" role="status">@mensaje</div> }
-<div class="row g-3">
-    @foreach (var p in productos)
-    {
-        <div class="col-md-4"><div class="card h-100"><div class="card-body">
-            @if (p.Imagen != null) { <img class="img-fluid" alt="@p.Nombre" src="@Imagen(p)" /> }
-            <h2 class="h5">@p.Nombre</h2><p>@p.Marca</p><p>@p.Descripcion</p><strong>@p.PrecioVenta.ToString("C2")</strong>
-            <label class="form-label d-block" for="@($"cantidad-{p.Id}")">Cantidad</label>
-            <input id="@($"cantidad-{p.Id}")" type="number" min="0" max="100" class="form-control" value="@Cantidad(p.Id)" @onchange="e => CambiarCantidad(p.Id, e.Value?.ToString())" />
-        </div></div></div>
-    }
+
+<div class="pedido-pasos" aria-label="Pasos del pedido">
+    <span class="@(paso == 1 ? "paso-actual" : "")">1. Elegí tus productos</span>
+    <span aria-hidden="true">→</span>
+    <span class="@(paso == 2 ? "paso-actual" : "")">2. Completá tus datos</span>
 </div>
-<section class="mt-4"><h2>Enviar pedido</h2>
-    <p>Total estimado: @Total.ToString("C2")</p>
-    <EditForm Model="datos" OnValidSubmit="Enviar"><DataAnnotationsValidator /><ValidationSummary />
-        <label class="form-label">Nombre <InputText class="form-control" @bind-Value="datos.Nombre" /></label>
-        <label class="form-label">Apellido <InputText class="form-control" @bind-Value="datos.Apellido" /></label>
-        <label class="form-label">Celular <InputText class="form-control" @bind-Value="datos.Celular" /></label>
-        <div><button class="btn btn-primary" disabled="@enviando">Enviar pedido</button></div>
-    </EditForm>
-</section>
+
+@if (!string.IsNullOrEmpty(mensaje))
+{
+    <div class="alert @(error ? "alert-danger" : "alert-success")" role="status">@mensaje</div>
+}
+
+@if (paso == 1)
+{
+    <section class="catalogo-contenedor" aria-labelledby="titulo-catalogo">
+        <h2 id="titulo-catalogo">Elegí tus productos</h2>
+        <p class="catalogo-ayuda">Indicá la cantidad de cada producto que quieras pedir.</p>
+        @if (cargando)
+        {
+            <LoadingSpinner Texto="Cargando productos..." />
+        }
+        else if (productos.Count == 0)
+        {
+            <p class="catalogo-vacio" role="status">Todavía no hay productos disponibles en el catálogo.</p>
+        }
+        else
+        {
+            <div class="row g-3">
+                @foreach (var p in productos)
+                {
+                    <div class="col-12 col-sm-6 col-lg-4" @key="p.Id">
+                        <ProductoCard Producto="p" Cantidad="@Cantidad(p.Id)" CantidadChanged="cantidad => CambiarCantidad(p.Id, cantidad)" />
+                    </div>
+                }
+            </div>
+            <div class="catalogo-pie">
+                <div>
+                    <strong>Total estimado: @Total.ToString("C2")</strong>
+                    @if (cantidades.Count == 0) { <p class="seleccion-vacia" role="status">Todavía no agregaste productos al pedido.</p> }
+                </div>
+                <button type="button" class="btn btn-primary" disabled="@(cantidades.Count == 0)" @onclick="Continuar">Continuar con mis datos</button>
+            </div>
+        }
+    </section>
+}
+else
+{
+    <section class="catalogo-contenedor" aria-labelledby="titulo-datos">
+        <h2 id="titulo-datos">Completá tus datos</h2>
+        <p class="catalogo-ayuda">Dejanos tus datos para poder contactarte por tu pedido.</p>
+        <div class="pedido-resumen">
+            <h3>Tu pedido</h3>
+            <ul>
+                @foreach (var p in productos.Where(p => Cantidad(p.Id) > 0))
+                {
+                    <li>@p.Nombre · @Cantidad(p.Id) × @p.PrecioVenta.ToString("C2")</li>
+                }
+            </ul>
+            <strong>Total estimado: @Total.ToString("C2")</strong>
+        </div>
+        <EditForm Model="datos" OnValidSubmit="Enviar">
+            <DataAnnotationsValidator /><ValidationSummary />
+            <div class="row g-3">
+                <div class="col-md-4"><label class="form-label" for="nombre-pedido">Nombre</label><InputText id="nombre-pedido" class="form-control" @bind-Value="datos.Nombre" /><ValidationMessage For="() => datos.Nombre" /></div>
+                <div class="col-md-4"><label class="form-label" for="apellido-pedido">Apellido</label><InputText id="apellido-pedido" class="form-control" @bind-Value="datos.Apellido" /><ValidationMessage For="() => datos.Apellido" /></div>
+                <div class="col-md-4"><label class="form-label" for="celular-pedido">Celular</label><InputText id="celular-pedido" type="tel" class="form-control" @bind-Value="datos.Celular" /><ValidationMessage For="() => datos.Celular" /></div>
+            </div>
+            <div class="pedido-acciones"><button type="button" class="btn btn-outline-secondary" disabled="@enviando" @onclick="Volver">Volver a productos</button><button class="btn btn-primary" disabled="@enviando">@(enviando ? "Enviando..." : "Enviar pedido")</button></div>
+        </EditForm>
+    </section>
+}
+
 @code {
-    List<Producto> productos = new(); Dictionary<int,int> cantidades = new(); Datos datos = new(); string? mensaje; bool enviando;
-    protected override async Task OnInitializedAsync() => productos = await Catalogo.ProductosAsync();
-    int Cantidad(int id) => cantidades.GetValueOrDefault(id);
-    decimal Total => productos.Sum(p => p.PrecioVenta * Cantidad(p.Id));
-    static string Imagen(Producto p) => $"data:{p.ImagenContentType};base64,{Convert.ToBase64String(p.Imagen!)}";
-    void CambiarCantidad(int id, string? valor) { if (int.TryParse(valor, out var n) && n is > 0 and <= 100) cantidades[id] = n; else cantidades.Remove(id); }
-    async Task Enviar() { if (enviando) return; enviando = true; try { var id = await Catalogo.CrearPedidoAsync(datos.Nombre, datos.Apellido, datos.Celular, cantidades); mensaje = $"Pedido #{id} recibido. Nos comunicaremos con vos."; cantidades.Clear(); datos = new(); } catch (InvalidOperationException ex) { mensaje = ex.Message; } finally { enviando = false; } }
-    class Datos { [Required, StringLength(100)] public string Nombre { get; set; } = ""; [Required, StringLength(100)] public string Apellido { get; set; } = ""; [Required, StringLength(30, MinimumLength = 6)] public string Celular { get; set; } = ""; }
+    private List<ProductoDto> productos = new();
+    private readonly Dictionary<int, int> cantidades = new();
+    private CrearPedidoRequest datos = new();
+    private string? mensaje;
+    private bool error, enviando, cargando = true;
+    private int paso = 1;
+    protected override async Task OnInitializedAsync() { try { productos = await Catalogo.ProductosAsync(); } finally { cargando = false; } }
+    private int Cantidad(int id) => cantidades.GetValueOrDefault(id);
+    private decimal Total => productos.Sum(p => p.PrecioVenta * Cantidad(p.Id));
+    private void CambiarCantidad(int id, int cantidad) { if (cantidad is > 0 and <= 100) cantidades[id] = cantidad; else cantidades.Remove(id); }
+    private void Continuar() { if (cantidades.Count > 0) { paso = 2; mensaje = null; } }
+    private void Volver() { paso = 1; mensaje = null; }
+    private async Task Enviar()
+    {
+        if (enviando) return;
+        enviando = true;
+        try { var id = await Catalogo.CrearPedidoAsync(new CrearPedidoRequest { Nombre = datos.Nombre, Apellido = datos.Apellido, Celular = datos.Celular, Cantidades = new(cantidades) }); cantidades.Clear(); datos = new(); paso = 1; error = false; mensaje = $"Pedido #{id} recibido. Nos comunicaremos con vos."; }
+        catch (InvalidOperationException ex) { error = true; mensaje = ex.Message; }
+        finally { enviando = false; }
+    }
 }

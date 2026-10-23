@@ -2,6 +2,8 @@
     color-scheme: light;
 
     --app-primary: #0d6efd;
+    --catalogo-bg: #e3ebf2;
+    --catalogo-border: #cbd9e5;
     --app-bg: #f4f6f8;
     --app-surface: #ffffff;
     --app-surface-alt: #f8fafc;
@@ -23,6 +25,8 @@ body.dark-mode {
     color-scheme: dark;
 
     --app-bg: #101521;
+    --catalogo-bg: #26394e;
+    --catalogo-border: #435b72;
     --app-surface: #182131;
     --app-surface-alt: #202b3c;
     --app-text: #f1f5f9;

@@ -1,0 +1,12 @@
+.pedido-pasos { display: flex; flex-wrap: wrap; gap: .75rem; align-items: center; margin-bottom: 1.5rem; color: var(--app-muted); font-weight: 600; }
+.paso-actual { color: var(--app-text); }
+.catalogo-contenedor { background: var(--catalogo-bg); color: var(--app-text); border: 1px solid var(--catalogo-border); border-radius: 16px; padding: clamp(1rem, 3vw, 1.75rem); }
+.catalogo-contenedor h2 { font-size: 1.35rem; font-weight: 700; }
+.catalogo-ayuda { color: var(--app-text-soft); }
+.catalogo-vacio, .pedido-resumen { background: var(--app-surface); border: 1px solid var(--app-border); border-radius: 10px; padding: 1rem; }
+.pedido-resumen h3 { font-size: 1.05rem; font-weight: 700; }
+.seleccion-vacia { color: var(--app-text-soft); }
+.catalogo-pie { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem; margin-top: 1.5rem; }
+.seleccion-vacia { margin: .35rem 0 0; }
+.pedido-resumen { margin: 1rem 0 1.5rem; }
+.pedido-acciones { display: flex; flex-wrap: wrap; gap: .75rem; margin-top: 1.5rem; }

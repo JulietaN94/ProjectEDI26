@@ -127,6 +127,7 @@ public sealed class ServicioService : IServicioService
     public async Task<ServicioDto> CrearAsync(
         GuardarServicioRequest request)
     {
+        ValidacionRequest.Validar(request);
         await using var context =
             await _factory.CreateDbContextAsync();
 
@@ -172,8 +173,13 @@ public sealed class ServicioService : IServicioService
         int id,
         GuardarServicioRequest request)
     {
+        ValidacionRequest.Validar(request);
         await using var context =
             await _factory.CreateDbContextAsync();
+
+        // Mantener la comprobación y la actualización juntas frente a nuevas reservas.
+        await using var transaction = await context.Database.BeginTransactionAsync(
+            System.Data.IsolationLevel.Serializable);
 
         var servicio =
             await context.Servicios.FindAsync(id)
@@ -196,6 +202,14 @@ public sealed class ServicioService : IServicioService
                 "Ya existe otro servicio con ese nombre.");
         }
 
+        if (servicio.DuracionMinutos != request.DuracionMinutos &&
+            await context.Turnos.AnyAsync(x => x.ServicioId == id))
+        {
+            throw new InvalidOperationException(
+                "No se puede cambiar la duración de un servicio con turnos asociados. " +
+                "Creá otro servicio para ofrecer una duración diferente.");
+        }
+
         servicio.Nombre = nombre;
         servicio.Descripcion =
             NormalizarOpcional(
@@ -206,6 +220,8 @@ public sealed class ServicioService : IServicioService
         servicio.Activo = request.Activo;
 
         await context.SaveChangesAsync();
+
+        await transaction.CommitAsync();
 
         _logger.LogInformation(
             "Servicio {ServicioId} actualizado.",

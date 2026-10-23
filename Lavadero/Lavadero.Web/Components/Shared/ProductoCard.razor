@@ -1,0 +1,27 @@
+@using Lavadero.Application.DTOs
+@using Lavadero.Application.Models
+@using Lavadero.Domain.Entities
+
+<article class="producto-tarjeta">
+    @if (Producto.Imagen != null)
+    {
+        <img class="producto-imagen" alt="@Producto.Nombre" src="@Imagen" />
+    }
+    <h3>@Producto.Nombre</h3>
+    @if (!string.IsNullOrWhiteSpace(Producto.Marca)) { <p class="producto-marca">@Producto.Marca</p> }
+    @if (!string.IsNullOrWhiteSpace(Producto.Descripcion)) { <p>@Producto.Descripcion</p> }
+    <strong class="producto-precio">@Producto.PrecioVenta.ToString("C2")</strong>
+    <label class="form-label d-block" for="@IdCantidad">Cantidad</label>
+    <input id="@IdCantidad" type="number" min="0" max="100" class="form-control" value="@Cantidad" @onchange="CantidadModificada" />
+</article>
+
+@code {
+    [Parameter, EditorRequired] public ProductoDto Producto { get; set; } = default!;
+    [Parameter] public int Cantidad { get; set; }
+    [Parameter] public EventCallback<int> CantidadChanged { get; set; }
+
+    private string IdCantidad => $"cantidad-{Producto.Id}";
+    private string Imagen => $"data:{Producto.ImagenContentType};base64,{Convert.ToBase64String(Producto.Imagen!)}";
+    private Task CantidadModificada(ChangeEventArgs e) => CantidadChanged.InvokeAsync(
+        int.TryParse(e.Value?.ToString(), out var cantidad) && cantidad is > 0 and <= 100 ? cantidad : 0);
+}

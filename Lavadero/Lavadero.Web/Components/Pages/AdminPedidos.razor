@@ -1,17 +1,47 @@
+@using Lavadero.Application.DTOs
+@using Lavadero.Application.Models
 @page "/admin/pedidos"
 @rendermode InteractiveServer
 @attribute [Authorize(Roles = "Administrador")]
 @using Lavadero.Domain.Entities
-@using Lavadero.Infrastructure.Services
-@inject CatalogoService Catalogo
+@using Lavadero.Application.Interfaces
+@inject ICatalogoService Catalogo
 <PageTitle>Pedidos</PageTitle><PageHeader Titulo="Pedidos" Subtitulo="Últimos 200 pedidos recibidos." />
 @if (mensaje != null) { <div class="alert alert-info">@mensaje</div> }
-@foreach (var p in pedidos) {
-<section class="card mb-3"><div class="card-body"><h2 class="h5">Pedido #@p.Id — @p.Estado</h2><p>@p.FechaUtc.ToString("dd/MM/yyyy HH:mm") UTC — @p.Nombre @p.Apellido — @p.Celular</p>
-<ul>@foreach (var d in p.Detalles) { <li>@d.Codigo — @d.Nombre: @d.Cantidad × @d.PrecioUnitario.ToString("C2")</li> }</ul>
-<strong>Total: @p.Detalles.Sum(d => d.PrecioUnitario * d.Cantidad).ToString("C2")</strong><div class="mt-2">
-@if (p.Estado == EstadoPedido.Pendiente) { <button class="btn btn-primary" @onclick="() => Cambiar(p.Id, EstadoPedido.EnPreparacion)">En preparación</button> }
-@if (p.Estado == EstadoPedido.EnPreparacion) { <button class="btn btn-success" @onclick="() => Cambiar(p.Id, EstadoPedido.Entregado)">Entregado</button> }
-@if (p.Estado is EstadoPedido.Pendiente or EstadoPedido.EnPreparacion) { <button class="btn btn-outline-danger" @onclick="() => Cambiar(p.Id, EstadoPedido.Cancelado)">Cancelar</button> }
-</div></div></section> }
-@code { List<Pedido> pedidos = new(); string? mensaje; protected override async Task OnInitializedAsync() => await Cargar(); async Task Cargar() => pedidos = await Catalogo.PedidosAsync(); async Task Cambiar(int id, EstadoPedido estado) { try { await Catalogo.CambiarEstadoAsync(id, estado); await Cargar(); } catch (InvalidOperationException ex) { mensaje=ex.Message; } } }
+<section class="pedidos-contenedor" aria-labelledby="titulo-listado-pedidos">
+    <h2 id="titulo-listado-pedidos">Pedidos recibidos</h2>
+    <p class="pedidos-ayuda">Consultá los pedidos y actualizá su estado.</p>
+    @if (cargando)
+    {
+        <LoadingSpinner Texto="Cargando pedidos..." />
+    }
+    else if (pedidos.Count == 0)
+    {
+        <p class="pedidos-vacio" role="status">Todavía no hay pedidos recibidos.</p>
+    }
+    else
+    {
+        @foreach (var p in pedidos)
+        {
+            <PedidoCard @key="p.Id" Pedido="p" OnCambiarEstado="estado => Cambiar(p.Id, estado)" />
+        }
+    }
+</section>
+@code {
+    private List<PedidoDto> pedidos = new();
+    private string? mensaje;
+    private bool cargando = true;
+
+    protected override async Task OnInitializedAsync() => await Cargar();
+    private async Task Cargar()
+    {
+        cargando = true;
+        try { pedidos = await Catalogo.PedidosAsync(); }
+        finally { cargando = false; }
+    }
+    private async Task Cambiar(int id, EstadoPedido estado)
+    {
+        try { await Catalogo.CambiarEstadoAsync(id, estado); await Cargar(); mensaje = null; }
+        catch (InvalidOperationException ex) { mensaje = ex.Message; }
+    }
+}
