@@ -1,3 +1,4 @@
+using System.Globalization;
 using Lavadero.Application.Interfaces;
 using Lavadero.Infrastructure.Data;
 using Lavadero.Infrastructure.Extensions;
@@ -8,6 +9,10 @@ using Lavadero.Web.Identity;
 using Lavadero.Web.State;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Identity;
+
+var culturaArgentina = CultureInfo.GetCultureInfo("es-AR");
+CultureInfo.DefaultThreadCurrentCulture = culturaArgentina;
+CultureInfo.DefaultThreadCurrentUICulture = culturaArgentina;
 
 var builder = WebApplication.CreateBuilder(args);
 
