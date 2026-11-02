@@ -47,7 +47,7 @@
     private int versionImagen;
     private bool cargandoImagen, guardando;
     protected override async Task OnInitializedAsync() => await Cargar();
-    async Task Cargar() => productos = await Catalogo.ProductosAsync(true);
+    async Task Cargar() => productos = await Catalogo.ProductosAsync(true, true);
     void InvalidarImagen() { versionImagen++; cargandoImagen = false; }
     void Nuevo() { InvalidarImagen(); modelo = new(); mensaje = null; }
     void Editar(ProductoDto p)

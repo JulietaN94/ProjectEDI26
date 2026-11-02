@@ -2,6 +2,7 @@
 @rendermode InteractiveServer
 @attribute [Authorize(Roles = "Administrador")]
 @inject ITurnoService TurnoService
+@inject IAppClock Clock
 
 <PageTitle>Historial | Administración</PageTitle>
 
@@ -163,28 +164,29 @@ else
     private const int TamanioPagina = 10;
     private bool _cargando = true;
     private string? _mensajeError;
-    private DateTime _primeraFechaRegistro = DateTime.Today;
+    private DateTime _primeraFechaRegistro;
 
     private string FechaMinimaHistorial =>
         _primeraFechaRegistro.ToString("yyyy-MM-dd");
 
     private string FechaMaximaHistorial =>
-        DateTime.Today.ToString("yyyy-MM-dd");
+        Clock.LocalToday.ToString("yyyy-MM-dd");
 
     protected override async Task OnInitializedAsync()
     {
+        _primeraFechaRegistro = Clock.LocalToday;
         try
         {
             var primeraFecha =
                 await TurnoService.ObtenerPrimeraFechaRegistroAsync();
 
             _primeraFechaRegistro =
-                (primeraFecha ?? DateTime.Today).Date;
+                (primeraFecha ?? Clock.LocalToday).Date;
         }
         catch
         {
             _primeraFechaRegistro =
-                DateTime.Today;
+                Clock.LocalToday;
         }
 
         await CargarAsync();
@@ -201,9 +203,9 @@ else
         }
 
         if (_desde.HasValue &&
-            _desde.Value.Date > DateTime.Today)
+            _desde.Value.Date > Clock.LocalToday)
         {
-            _desde = DateTime.Today;
+            _desde = Clock.LocalToday;
         }
 
         if (_hasta.HasValue &&
@@ -213,9 +215,9 @@ else
         }
 
         if (_hasta.HasValue &&
-            _hasta.Value.Date > DateTime.Today)
+            _hasta.Value.Date > Clock.LocalToday)
         {
-            _hasta = DateTime.Today;
+            _hasta = Clock.LocalToday;
         }
 
         if (_desde.HasValue &&

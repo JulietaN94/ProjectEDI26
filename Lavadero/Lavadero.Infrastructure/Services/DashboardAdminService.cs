@@ -12,13 +12,16 @@ public sealed class DashboardAdminService
 {
     private readonly IDbContextFactory<LavaderoDbContext> _factory;
     private readonly ILogger<DashboardAdminService> _logger;
+    private readonly IAppClock _clock;
 
     public DashboardAdminService(
         IDbContextFactory<LavaderoDbContext> factory,
-        ILogger<DashboardAdminService> logger)
+        ILogger<DashboardAdminService> logger,
+        IAppClock clock)
     {
         _factory = factory;
         _logger = logger;
+        _clock = clock;
     }
 
     public async Task<DashboardAdminDto> ObtenerResumenAsync()
@@ -28,9 +31,9 @@ public sealed class DashboardAdminService
             await using var context =
                 await _factory.CreateDbContextAsync();
 
-            var hoy = DateTime.Today;
+            var hoy = _clock.LocalToday;
             var manana = hoy.AddDays(1);
-            var ahora = DateTime.Now;
+            var ahora = _clock.LocalNow;
 
             var turnosHoy =
                 context.Turnos
@@ -93,13 +96,47 @@ public sealed class DashboardAdminService
                         x.Servicio.DuracionMinutos))
                     .ToListAsync();
 
+            var inicioDiaUtc = _clock.ToUtc(hoy);
+            var finDiaUtc = _clock.ToUtc(manana);
+
+            var pedidosHoy = await context.Pedidos
+                .AsNoTracking()
+                .CountAsync(x => x.FechaUtc >= inicioDiaUtc && x.FechaUtc < finDiaUtc);
+
+            var pedidosPendientes = await context.Pedidos
+                .AsNoTracking()
+                .CountAsync(x => x.Estado == Domain.Entities.EstadoPedido.Pendiente);
+
+            var pedidosRecientes = await context.Pedidos
+                .AsNoTracking()
+                .OrderByDescending(x => x.Id)
+                .Take(3)
+                .Select(x => new PedidoDto(
+                    x.Id,
+                    x.Nombre,
+                    x.Apellido,
+                    x.Celular,
+                    x.FechaUtc,
+                    x.Estado,
+                    x.Detalles
+                        .Select(d => new DetallePedidoDto(
+                            d.Codigo,
+                            d.Nombre,
+                            d.PrecioUnitario,
+                            d.Cantidad))
+                        .ToList()))
+                .ToListAsync();
+
             return new DashboardAdminDto(
                 totalHoy,
                 pendientes,
                 confirmados,
                 completados,
                 ingresosHoy,
-                proximos);
+                proximos,
+                pedidosHoy,
+                pedidosPendientes,
+                pedidosRecientes);
         }
         catch (Exception ex)
         {

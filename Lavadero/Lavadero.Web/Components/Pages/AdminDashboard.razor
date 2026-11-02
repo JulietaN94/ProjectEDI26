@@ -46,6 +46,16 @@ else if (_resumen is not null)
             <span>Ingresos de hoy</span>
             <strong>@_resumen.IngresosHoy.ToString("C0")</strong>
         </article>
+
+        <article class="stat-card">
+            <span>Pedidos hoy</span>
+            <strong>@_resumen.PedidosHoy</strong>
+        </article>
+
+        <article class="stat-card">
+            <span>Pedidos pendientes</span>
+            <strong>@_resumen.PedidosPendientes</strong>
+        </article>
     </section>
 
     <section aria-labelledby="proximos-turnos">
@@ -79,6 +89,30 @@ else if (_resumen is not null)
                          @key="turno.Id">
                         <TurnoCard Turno="turno" />
                     </div>
+                }
+            </div>
+        }
+    </section>
+
+    <section class="dashboard-section" aria-labelledby="pedidos-recientes">
+        <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+            <div>
+                <h2 id="pedidos-recientes" class="h4 mb-1">Pedidos recientes</h2>
+                <p class="text-secondary mb-0">Los últimos pedidos recibidos desde el catálogo.</p>
+            </div>
+            <a class="btn btn-outline-primary" href="/admin/pedidos">Ver todos</a>
+        </div>
+
+        @if (_resumen.PedidosRecientes.Count == 0)
+        {
+            <AlertMessage Mensaje="Todavía no hay pedidos recibidos." Tipo="info" />
+        }
+        else
+        {
+            <div class="dashboard-pedidos">
+                @foreach (var pedido in _resumen.PedidosRecientes)
+                {
+                    <PedidoCard @key="pedido.Id" Pedido="pedido" />
                 }
             </div>
         }

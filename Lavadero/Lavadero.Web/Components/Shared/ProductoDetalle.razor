@@ -1,0 +1,87 @@
+@using Lavadero.Application.DTOs
+@inject IJSRuntime JS
+@implements IAsyncDisposable
+
+<dialog class="detalle-producto" aria-labelledby="detalle-titulo" @ref="dialogo">
+    <button type="button" class="detalle-cerrar" aria-label="Cerrar detalle" @onclick="Cerrar">×</button>
+    <div class="detalle-imagen-contenedor">
+        @if (!string.IsNullOrWhiteSpace(Producto.ImagenContentType))
+        {
+            <img src="@Imagen" alt="@Producto.Nombre" />
+        }
+        else
+        {
+            <span>Sin imagen</span>
+        }
+    </div>
+    <div class="detalle-contenido">
+        <span class="detalle-codigo">Código: @Producto.Codigo</span>
+        <h2 id="detalle-titulo">@Producto.Nombre</h2>
+        @if (!string.IsNullOrWhiteSpace(Producto.Marca))
+        {
+            <p class="detalle-marca">Marca: @Producto.Marca</p>
+        }
+        <p class="detalle-descripcion">@(string.IsNullOrWhiteSpace(Producto.Descripcion) ? "Este producto no tiene una descripción cargada." : Producto.Descripcion)</p>
+        <strong class="detalle-precio">@Producto.PrecioVenta.ToString("C2")</strong>
+        <button type="button" class="btn btn-primary" @onclick="Agregar">Añadir al carrito</button>
+    </div>
+</dialog>
+
+@code {
+    [Parameter, EditorRequired] public ProductoDto Producto { get; set; } = default!;
+    [Parameter] public EventCallback OnAgregar { get; set; }
+    [Parameter] public EventCallback OnCerrar { get; set; }
+
+    private ElementReference dialogo;
+    private IJSObjectReference? modulo;
+    private IJSObjectReference? controlador;
+    private DotNetObjectReference<ProductoDetalle>? referenciaDotNet;
+
+    private string Imagen => Producto.Imagen is { Length: > 0 }
+        ? $"data:{Producto.ImagenContentType};base64,{Convert.ToBase64String(Producto.Imagen)}"
+        : $"/productos/{Producto.Id}/imagen";
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (!firstRender) return;
+        modulo = await JS.InvokeAsync<IJSObjectReference>("import", "./js/lavaderoInterop.js?v=20261102-2");
+        referenciaDotNet = DotNetObjectReference.Create(this);
+        controlador = await modulo.InvokeAsync<IJSObjectReference>(
+            "abrirDialogoProducto",
+            dialogo,
+            referenciaDotNet);
+    }
+
+    [JSInvokable]
+    public Task CerrarDesdeDialogo() => Cerrar();
+
+    private async Task Cerrar()
+    {
+        if (controlador is not null)
+            await controlador.InvokeVoidAsync("close");
+        await OnCerrar.InvokeAsync();
+    }
+
+    private Task Agregar() => OnAgregar.InvokeAsync();
+
+    public async ValueTask DisposeAsync()
+    {
+        try
+        {
+            if (controlador is not null)
+            {
+                await controlador.InvokeVoidAsync("dispose");
+                await controlador.DisposeAsync();
+            }
+            if (modulo is not null)
+                await modulo.DisposeAsync();
+        }
+        catch (JSDisconnectedException)
+        {
+        }
+        finally
+        {
+            referenciaDotNet?.Dispose();
+        }
+    }
+}

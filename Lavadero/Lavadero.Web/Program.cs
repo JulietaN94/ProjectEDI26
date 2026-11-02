@@ -141,6 +141,19 @@ app.MapGet(
     })
     .AllowAnonymous();
 
+app.MapGet(
+    "/productos/{id:int}/imagen",
+    async (int id, ICatalogoService catalogo, HttpContext context) =>
+    {
+        var imagen = await catalogo.ObtenerImagenProductoAsync(id);
+        if (imagen is null)
+            return Results.NotFound();
+
+        context.Response.Headers.CacheControl = "no-store";
+        return Results.File(imagen.Contenido, imagen.ContentType);
+    })
+    .AllowAnonymous();
+
 app.MapPost(
     "/branding/logo/upload",
     async (

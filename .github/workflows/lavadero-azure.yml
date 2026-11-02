@@ -20,6 +20,7 @@ concurrency:
 env:
   DOTNET_VERSION: "8.0.x"
   WEB_PROJECT: "Lavadero/Lavadero.Web/Lavadero.Web.csproj"
+  TEST_PROJECT: "Lavadero/Lavadero.Tests/Lavadero.Tests.csproj"
 
 jobs:
   build-and-deploy:
@@ -36,10 +37,17 @@ jobs:
           dotnet-version: ${{ env.DOTNET_VERSION }}
 
       - name: Restore
-        run: dotnet restore "${{ env.WEB_PROJECT }}"
+        run: |
+          dotnet restore "${{ env.WEB_PROJECT }}"
+          dotnet restore "${{ env.TEST_PROJECT }}"
 
       - name: Build
-        run: dotnet build "${{ env.WEB_PROJECT }}" --configuration Release --no-restore
+        run: |
+          dotnet build "${{ env.WEB_PROJECT }}" --configuration Release --no-restore
+          dotnet build "${{ env.TEST_PROJECT }}" --configuration Release --no-restore
+
+      - name: Test
+        run: dotnet test "${{ env.TEST_PROJECT }}" --configuration Release --no-build
 
       - name: Publish
         run: dotnet publish "${{ env.WEB_PROJECT }}" --configuration Release --no-restore --output "${{ github.workspace }}/publish"

@@ -29,6 +29,7 @@ concurrency:
 env:
   DOTNET_VERSION: "8.0.x"
   WEB_PROJECT: "Lavadero/Lavadero.Web/Lavadero.Web.csproj"
+  TEST_PROJECT: "Lavadero/Lavadero.Tests/Lavadero.Tests.csproj"
   PUBLISH_DIR: "${{ github.workspace }}/artifacts/lavadero"
 
 jobs:
@@ -49,7 +50,9 @@ jobs:
         run: dotnet --info
 
       - name: Restore
-        run: dotnet restore "${{ env.WEB_PROJECT }}"
+        run: |
+          dotnet restore "${{ env.WEB_PROJECT }}"
+          dotnet restore "${{ env.TEST_PROJECT }}"
 
       - name: Build Release
         run: >
@@ -58,9 +61,20 @@ jobs:
           --configuration Release
           --no-restore
 
-      # El usuario decidió no incorporar tests automatizados en esta etapa.
-      # El pipeline valida igualmente que el proyecto restaure, compile
-      # y pueda generar un paquete publicable.
+      - name: Build tests
+        run: >
+          dotnet build
+          "${{ env.TEST_PROJECT }}"
+          --configuration Release
+          --no-restore
+
+      - name: Test Release
+        run: >
+          dotnet test
+          "${{ env.TEST_PROJECT }}"
+          --configuration Release
+          --no-build
+
       - name: Publish Release
         run: >
           dotnet publish

@@ -1,6 +1,7 @@
 @page "/"
 @rendermode InteractiveServer
 @inject IServicioService ServicioService
+@inject ICatalogoService CatalogoService
 @inject NavigationManager Navigation
 
 <PageTitle>Inicio | Lavadero</PageTitle>
@@ -55,6 +56,38 @@
     </aside>
 </section>
 
+<section class="productos-destacados" aria-label="Productos destacados">
+    <PageHeader Titulo="Productos destacados"
+                Subtitulo="Los productos más elegidos por nuestros clientes." />
+
+    @if (_cargandoProductos)
+    {
+        <LoadingSpinner Texto="Cargando productos destacados..." />
+    }
+    else if (_errorProductos is not null)
+    {
+        <AlertMessage Mensaje="@_errorProductos" Tipo="danger" />
+    }
+    else if (_productosDestacados.Count == 0)
+    {
+        <AlertMessage Mensaje="Todavía no hay productos disponibles." Tipo="info" />
+    }
+    else
+    {
+        <div class="row g-3">
+            @foreach (var producto in _productosDestacados)
+            {
+                <div class="col-12 col-md-4" @key="producto.Id">
+                    <ProductoCard Producto="producto"
+                                  MostrarAgregar="false"
+                                  TextoDetalle="Ver en el catálogo"
+                                  OnVerDetalle="() => IrAlProducto(producto.Id)" />
+                </div>
+            }
+        </div>
+    }
+</section>
+
 <section id="servicios"
          style="scroll-margin-top: 90px;"
          aria-labelledby="titulo-servicios">
@@ -95,7 +128,10 @@
         Array.Empty<ServicioDto>();
 
     private bool _cargando = true;
+    private bool _cargandoProductos = true;
     private string? _error;
+    private string? _errorProductos;
+    private IReadOnlyList<ProductoDto> _productosDestacados = Array.Empty<ProductoDto>();
 
     protected override async Task OnInitializedAsync()
     {
@@ -114,11 +150,28 @@
         {
             _cargando = false;
         }
+
+        try
+        {
+            _productosDestacados = await CatalogoService.ProductosDestacadosAsync(3);
+        }
+        catch
+        {
+            _errorProductos = "No se pudieron cargar los productos destacados.";
+        }
+        finally
+        {
+            _cargandoProductos = false;
+        }
     }
 
     private void IrAReservar(int servicioId)
     {
         Navigation.NavigateTo(
-            $"/reservar?servicio={servicioId}");
+            $"/reservar?servicio={servicioId}",
+            forceLoad: true);
     }
+
+    private void IrAlProducto(int productoId) =>
+        Navigation.NavigateTo($"/productos?producto={productoId}", forceLoad: true);
 }

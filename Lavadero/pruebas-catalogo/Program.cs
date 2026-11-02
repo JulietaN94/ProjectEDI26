@@ -2,10 +2,12 @@ using Lavadero.Application.Models;
 using Lavadero.Domain.Entities;
 using Lavadero.Infrastructure.Data;
 using Lavadero.Infrastructure.Services;
+using Lavadero.Infrastructure.Time;
 using Microsoft.EntityFrameworkCore;
 
 var options = new DbContextOptionsBuilder<LavaderoDbContext>().UseSqlServer("Server=localhost;Database=LavaderoCatalogoPrueba;Trusted_Connection=True;TrustServerCertificate=True").Options;
-var service = new CatalogoService(new Factory(options));
+var clock = new ArgentinaAppClock(TimeProvider.System);
+var service = new CatalogoService(new Factory(options), clock);
 var producto = new GuardarProductoRequest { Codigo = "TEST-" + Guid.NewGuid().ToString("N"), Nombre = "Producto de prueba", PrecioVenta = 120.50m };
 await service.GuardarProductoAsync(producto);
 var id = await service.CrearPedidoAsync(new CrearPedidoRequest { Nombre = "Prueba", Apellido = "Local", Celular = "1123456789", Cantidades = new() { [producto.Id] = 2 } });
@@ -86,7 +88,7 @@ if ((await servicios.ObtenerPorIdAsync(servicioPrueba.Id))?.Precio != 150)
     throw new Exception("Se bloqueó la edición de otros campos.");
 Console.WriteLine("OK: duración editable sin turnos, protegida con turnos y otros campos editables.");
 
-var turnos = new TurnoService(new Factory(options), Microsoft.Extensions.Logging.Abstractions.NullLogger<TurnoService>.Instance);
+var turnos = new TurnoService(new Factory(options), Microsoft.Extensions.Logging.Abstractions.NullLogger<TurnoService>.Instance, clock);
 datosServicio.Nombre = "GRATIS-" + Guid.NewGuid().ToString("N");
 datosServicio.Precio = 0;
 datosServicio.DuracionMinutos = 30;

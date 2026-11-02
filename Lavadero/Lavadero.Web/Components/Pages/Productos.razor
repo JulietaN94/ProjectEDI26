@@ -6,6 +6,11 @@
 @using Lavadero.Application.Interfaces
 @inject ICatalogoService Catalogo
 
+@code {
+    [Parameter, SupplyParameterFromQuery(Name = "producto")]
+    public int? ProductoInicialId { get; set; }
+}
+
 <PageTitle>Productos</PageTitle>
 <PageHeader Titulo="Productos" Subtitulo="Elegí los productos que querés pedir." />
 
@@ -22,36 +27,44 @@
 
 @if (paso == 1)
 {
-    <section class="catalogo-contenedor" aria-labelledby="titulo-catalogo">
-        <h2 id="titulo-catalogo">Elegí tus productos</h2>
-        <p class="catalogo-ayuda">Indicá la cantidad de cada producto que quieras pedir.</p>
-        @if (cargando)
-        {
-            <LoadingSpinner Texto="Cargando productos..." />
-        }
-        else if (productos.Count == 0)
-        {
-            <p class="catalogo-vacio" role="status">Todavía no hay productos disponibles en el catálogo.</p>
-        }
-        else
-        {
-            <div class="row g-3">
-                @foreach (var p in productos)
-                {
-                    <div class="col-12 col-sm-6 col-lg-4" @key="p.Id">
-                        <ProductoCard Producto="p" Cantidad="@Cantidad(p.Id)" CantidadChanged="cantidad => CambiarCantidad(p.Id, cantidad)" />
-                    </div>
-                }
-            </div>
-            <div class="catalogo-pie">
-                <div>
-                    <strong>Total estimado: @Total.ToString("C2")</strong>
-                    @if (cantidades.Count == 0) { <p class="seleccion-vacia" role="status">Todavía no agregaste productos al pedido.</p> }
+    <div class="catalogo-layout">
+        <section class="catalogo-contenedor" aria-labelledby="titulo-catalogo">
+            <h2 id="titulo-catalogo">Elegí tus productos</h2>
+            <p class="catalogo-ayuda">Explorá el catálogo, consultá el detalle y añadí productos a tu carrito.</p>
+            @if (cargando)
+            {
+                <LoadingSpinner Texto="Cargando productos..." />
+            }
+            else if (productos.Count == 0)
+            {
+                <p class="catalogo-vacio" role="status">Todavía no hay productos disponibles en el catálogo.</p>
+            }
+            else
+            {
+                <div class="row g-3 catalogo-productos">
+                    @foreach (var p in productos)
+                    {
+                        <div class="col-12 col-sm-6 col-xl-4" @key="p.Id">
+                            <ProductoCard Producto="p"
+                                          OnAgregar="() => AgregarAlCarrito(p.Id)"
+                                          OnVerDetalle="() => MostrarDetalle(p)" />
+                        </div>
+                    }
                 </div>
-                <button type="button" class="btn btn-primary" disabled="@(cantidades.Count == 0)" @onclick="Continuar">Continuar con mis datos</button>
-            </div>
+            }
+        </section>
+
+        @if (!cargando && productos.Count > 0)
+        {
+            <section class="carrito-contenedor" aria-label="Carrito del pedido">
+                <CarritoPedido Productos="productos"
+                               Cantidades="cantidades"
+                               CantidadChanged="CambiarCantidad"
+                               Quitar="QuitarDelCarrito"
+                               Continuar="Continuar" />
+            </section>
         }
-    </section>
+    </div>
 }
 else
 {
@@ -80,6 +93,13 @@ else
     </section>
 }
 
+@if (productoSeleccionado is not null)
+{
+    <ProductoDetalle Producto="productoSeleccionado"
+                     OnAgregar="() => AgregarDesdeDetalle(productoSeleccionado.Id)"
+                     OnCerrar="CerrarDetalle" />
+}
+
 @code {
     private List<ProductoDto> productos = new();
     private readonly Dictionary<int, int> cantidades = new();
@@ -87,10 +107,36 @@ else
     private string? mensaje;
     private bool error, enviando, cargando = true;
     private int paso = 1;
-    protected override async Task OnInitializedAsync() { try { productos = await Catalogo.ProductosAsync(); } finally { cargando = false; } }
+    private ProductoDto? productoSeleccionado;
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            productos = await Catalogo.ProductosAsync();
+            productoSeleccionado = productos.FirstOrDefault(p => p.Id == ProductoInicialId);
+        }
+        finally { cargando = false; }
+    }
     private int Cantidad(int id) => cantidades.GetValueOrDefault(id);
     private decimal Total => productos.Sum(p => p.PrecioVenta * Cantidad(p.Id));
-    private void CambiarCantidad(int id, int cantidad) { if (cantidad is > 0 and <= 100) cantidades[id] = cantidad; else cantidades.Remove(id); }
+    private void AgregarAlCarrito(int id)
+    {
+        cantidades[id] = Math.Min(Cantidad(id) + 1, 100);
+        mensaje = null;
+    }
+    private void AgregarDesdeDetalle(int id)
+    {
+        AgregarAlCarrito(id);
+        productoSeleccionado = null;
+    }
+    private void MostrarDetalle(ProductoDto producto) => productoSeleccionado = producto;
+    private void CerrarDetalle() => productoSeleccionado = null;
+    private void CambiarCantidad(KeyValuePair<int, int> cambio)
+    {
+        if (cambio.Value is > 0 and <= 100) cantidades[cambio.Key] = cambio.Value;
+        else cantidades.Remove(cambio.Key);
+    }
+    private void QuitarDelCarrito(int id) => cantidades.Remove(id);
     private void Continuar() { if (cantidades.Count > 0) { paso = 2; mensaje = null; } }
     private void Volver() { paso = 1; mensaje = null; }
     private async Task Enviar()

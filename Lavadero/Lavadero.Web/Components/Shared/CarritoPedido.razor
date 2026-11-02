@@ -1,0 +1,64 @@
+@using Lavadero.Application.DTOs
+
+<aside class="carrito" aria-labelledby="titulo-carrito">
+    <div class="carrito-encabezado">
+        <div>
+            <h2 id="titulo-carrito">Tu carrito</h2>
+            <span>@Unidades producto@(Unidades == 1 ? "" : "s")</span>
+        </div>
+        <span class="carrito-icono" aria-hidden="true">🛒</span>
+    </div>
+
+    @if (Cantidades.Count == 0)
+    {
+        <p class="carrito-vacio" role="status">Tu carrito está vacío. Añadí un producto para comenzar.</p>
+    }
+    else
+    {
+        <ul class="carrito-lista">
+            @foreach (var producto in Seleccionados)
+            {
+                var cantidad = Cantidades[producto.Id];
+                <li @key="producto.Id">
+                    <div class="carrito-producto">
+                        <strong>@producto.Nombre</strong>
+                        <span>@producto.PrecioVenta.ToString("C2") c/u</span>
+                    </div>
+                    <div class="carrito-controles" aria-label="Cantidad de @producto.Nombre">
+                        <button type="button" title="Quitar una unidad" @onclick="() => Cambiar(producto.Id, cantidad - 1)">−</button>
+                        <input aria-label="Cantidad de @producto.Nombre" type="number" min="1" max="100" value="@cantidad" @onchange="e => CambiarDesdeInput(producto.Id, e)" />
+                        <button type="button" title="Agregar una unidad" disabled="@(cantidad >= 100)" @onclick="() => Cambiar(producto.Id, cantidad + 1)">+</button>
+                        <button type="button" class="carrito-quitar" title="Quitar del carrito" @onclick="() => Quitar.InvokeAsync(producto.Id)">×</button>
+                    </div>
+                    <strong class="carrito-subtotal">@((producto.PrecioVenta * cantidad).ToString("C2"))</strong>
+                </li>
+            }
+        </ul>
+        <div class="carrito-total">
+            <span>Total estimado</span>
+            <strong>@Total.ToString("C2")</strong>
+        </div>
+    }
+
+    <button type="button" class="btn btn-primary w-100" disabled="@(Cantidades.Count == 0)" @onclick="Continuar">Continuar con mis datos</button>
+</aside>
+
+@code {
+    [Parameter, EditorRequired] public IReadOnlyList<ProductoDto> Productos { get; set; } = [];
+    [Parameter, EditorRequired] public IReadOnlyDictionary<int, int> Cantidades { get; set; } = new Dictionary<int, int>();
+    [Parameter] public EventCallback<KeyValuePair<int, int>> CantidadChanged { get; set; }
+    [Parameter] public EventCallback<int> Quitar { get; set; }
+    [Parameter] public EventCallback Continuar { get; set; }
+
+    private IEnumerable<ProductoDto> Seleccionados => Productos.Where(p => Cantidades.ContainsKey(p.Id));
+    private int Unidades => Cantidades.Values.Sum();
+    private decimal Total => Seleccionados.Sum(p => p.PrecioVenta * Cantidades[p.Id]);
+
+    private Task Cambiar(int id, int cantidad) => cantidad <= 0
+        ? Quitar.InvokeAsync(id)
+        : CantidadChanged.InvokeAsync(new(id, Math.Min(cantidad, 100)));
+
+    private Task CambiarDesdeInput(int id, ChangeEventArgs e) => Cambiar(
+        id,
+        int.TryParse(e.Value?.ToString(), out var cantidad) ? cantidad : 1);
+}

@@ -1,4 +1,5 @@
 @inherits LayoutComponentBase
+@inject IAppClock Clock
 
 <div class="page-shell">
     <aside class="sidebar"
@@ -34,7 +35,7 @@
 
         <footer class="app-footer px-3 px-lg-4">
             <span>
-                Lavadero &copy; @DateTime.Now.Year
+                Lavadero &copy; @Clock.LocalNow.Year
             </span>
             <span>
                 Sistema de gestión de turnos
