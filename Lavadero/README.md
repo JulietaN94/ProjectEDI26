@@ -11,8 +11,8 @@ También incluye un catálogo público de productos, carrito de compra y recepci
 
 ## Aplicación publicada
 
-- Aplicación: <https://lavadero-edi26-2026.azurewebsites.net>
-- Estado de la base de datos: <https://lavadero-edi26-2026.azurewebsites.net/health>
+- Aplicación: <https://lavadero-edi26-2026-e2hmhwfydnd5fegx.brazilsouth-01.azurewebsites.net>
+- Estado de la base de datos: <https://lavadero-edi26-2026-e2hmhwfydnd5fegx.brazilsouth-01.azurewebsites.net/health>
 
 El despliegue se realiza automáticamente desde `main` mediante GitHub Actions. La disponibilidad de estas direcciones debe comprobarse después de cada despliegue.
 
