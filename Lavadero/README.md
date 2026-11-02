@@ -1,8 +1,30 @@
 # Lavadero
 
+[![Lavadero CI](https://github.com/JulietaN94/ProjectEDI26/actions/workflows/lavadero-ci.yml/badge.svg?branch=main)](https://github.com/JulietaN94/ProjectEDI26/actions/workflows/lavadero-ci.yml)
+[![Deploy Azure](https://github.com/JulietaN94/ProjectEDI26/actions/workflows/lavadero-azure.yml/badge.svg?branch=main)](https://github.com/JulietaN94/ProjectEDI26/actions/workflows/lavadero-azure.yml)
+
 Sistema web de gestión de turnos para un lavadero de autos, desarrollado como proyecto académico con C# y .NET 8.
 
 La aplicación permite que un cliente reserve un turno sin registrarse y que el administrador gestione servicios, horarios, turnos, configuración y datos del negocio.
+
+También incluye un catálogo público de productos, carrito de compra y recepción de pedidos sin registro ni control de stock.
+
+## Aplicación publicada
+
+- Aplicación: <https://lavadero-edi26-2026.azurewebsites.net>
+- Estado de la base de datos: <https://lavadero-edi26-2026.azurewebsites.net/health>
+
+El despliegue se realiza automáticamente desde `main` mediante GitHub Actions. La disponibilidad de estas direcciones debe comprobarse después de cada despliegue.
+
+## Capturas
+
+### Inicio y productos destacados
+
+![Inicio del lavadero en escritorio](docs/images/inicio-escritorio.png)
+
+### Catálogo y carrito en móvil
+
+![Catálogo responsive con acceso flotante al carrito](docs/images/catalogo-movil.png)
 
 ## Tecnologías
 
@@ -62,6 +84,9 @@ Más información en `docs/ARQUITECTURA.md`.
 - Confirmar una reserva mediante enlace seguro.
 - Cancelar una reserva mediante enlace seguro.
 - Acceso manual a WhatsApp desde la confirmación.
+- Consultar el catálogo y el detalle de cada producto.
+- Agregar productos al carrito y modificar cantidades.
+- Enviar pedidos informando solamente nombre, apellido y celular.
 
 ### Administrador
 
@@ -75,6 +100,9 @@ Más información en `docs/ARQUITECTURA.md`.
 - Cambio de datos de la cuenta.
 - Carga y eliminación del logo.
 - Modo claro y oscuro.
+- Gestión del catálogo de productos.
+- Consulta y actualización del estado de pedidos.
+- Pedidos recientes visibles en el dashboard.
 
 ## Estados de un turno
 
@@ -130,6 +158,9 @@ Turno
 HorarioAtencion
 ConfiguracionLavadero
 ApplicationUser
+Producto
+Pedido
+DetallePedido
 ```
 
 Migraciones actuales:
@@ -140,7 +171,11 @@ AgregarIdentityYConfiguracion
 AgregarLogoLavadero
 AgregarConfirmacionTurnos
 AgregarTokenCancelacionTurnos
+AgregarCatalogoPedidos
+AgregarDatosDemo
 ```
+
+La migración `AgregarDatosDemo` incorpora servicios y productos reproducibles para demostrar búsqueda, paginación, catálogo y carrito en una instalación nueva.
 
 ## Configuración local
 
@@ -189,6 +224,12 @@ Compilar:
 dotnet build
 ```
 
+Ejecutar las pruebas:
+
+```powershell
+dotnet test Lavadero.Tests/Lavadero.Tests.csproj
+```
+
 Ejecutar:
 
 ```powershell
@@ -212,6 +253,15 @@ La aplicación expone:
 ```
 
 El health check verifica el acceso a la base de datos.
+
+## Integración y despliegue continuo
+
+El repositorio contiene dos workflows:
+
+- `lavadero-ci.yml`: restaura, compila, ejecuta las pruebas y publica un artefacto en pushes y pull requests hacia `main` o `develop`.
+- `lavadero-azure.yml`: restaura, compila, ejecuta las pruebas, publica la aplicación y despliega Azure App Service en cada push a `main`.
+
+El perfil de publicación se almacena exclusivamente en el secret de GitHub `AZUREAPPSERVICE_PUBLISHPROFILE`.
 
 ## Seguridad implementada
 
@@ -245,12 +295,6 @@ Además:
 
 ## Estado del proyecto
 
-Actualmente están implementadas las funcionalidades centrales del sistema, autenticación administrativa, reservas, administración, confirmación y cancelación mediante enlaces seguros, configuración visual y endurecimiento de reglas de reserva.
+El proyecto incluye reservas, administración, autenticación, catálogo, carrito, pedidos, modo claro/oscuro, persistencia con EF Core, pruebas automatizadas y CI/CD para Azure.
 
-Pendiente para las próximas fases:
-
-- CI/CD.
-- despliegue público en Azure;
-- integración automática con WhatsApp Business API.
-
-La apertura manual de WhatsApp ya existe, pero todavía no se realiza envío automático mediante API.
+La apertura manual de WhatsApp está disponible; el envío automático mediante WhatsApp Business API no forma parte del alcance actual.

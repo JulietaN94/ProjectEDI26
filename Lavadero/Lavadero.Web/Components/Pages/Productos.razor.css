@@ -9,7 +9,12 @@
 .catalogo-layout { display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 1.25rem; align-items: start; }
 .catalogo-contenedor { min-width: 0; }
 .catalogo-productos { width: 100%; min-width: 0; margin-top: 1.25rem; }
-.carrito-contenedor { position: sticky; top: 80px; min-width: 0; max-height: calc(100vh - 96px); overflow-y: auto; padding: 1rem; border: 1px solid var(--catalogo-border); border-radius: 16px; background: var(--catalogo-bg); }
+.carrito-contenedor { position: sticky; top: 80px; min-width: 0; max-height: calc(100vh - 96px); overflow-y: auto; padding: 1rem; border: 1px solid var(--catalogo-border); border-radius: 16px; background: var(--catalogo-bg); scroll-margin-top: 1rem; }
+.carrito-flotante { position: fixed; right: max(1rem, env(safe-area-inset-right)); bottom: max(1rem, env(safe-area-inset-bottom)); z-index: 1020; display: none; width: 3.75rem; height: 3.75rem; align-items: center; justify-content: center; border: 2px solid rgba(255, 255, 255, .78); border-radius: 50%; background: #0d6efd; color: #fff; cursor: pointer; box-shadow: 0 .5rem 1.25rem rgba(0, 0, 0, .35); transition: transform .18s ease, background-color .18s ease, box-shadow .18s ease; }
+.carrito-flotante:hover { background: #0b5ed7; color: #fff; transform: translateY(-2px); box-shadow: 0 .65rem 1.5rem rgba(0, 0, 0, .42); }
+.carrito-flotante:focus-visible { outline: 3px solid var(--app-text); outline-offset: 3px; }
+.carrito-flotante-icono { font-size: 1.5rem; line-height: 1; }
+.carrito-flotante-cantidad { position: absolute; top: -.3rem; right: -.3rem; display: grid; min-width: 1.45rem; height: 1.45rem; padding: 0 .3rem; place-items: center; border: 2px solid var(--app-bg); border-radius: 999px; background: #dc3545; color: #fff; font-size: .72rem; font-weight: 700; line-height: 1; }
 .seleccion-vacia { margin: .35rem 0 0; }
 .pedido-resumen { margin: 1rem 0 1.5rem; }
 .pedido-acciones { display: flex; flex-wrap: wrap; gap: .75rem; margin-top: 1.5rem; }
@@ -17,4 +22,10 @@
 @media (max-width: 1199.98px) {
     .catalogo-layout { grid-template-columns: 1fr; }
     .carrito-contenedor { position: static; max-height: none; overflow-y: visible; }
+    .carrito-flotante { display: flex; }
+    .catalogo-layout { padding-bottom: 4.75rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .carrito-flotante { transition: none; }
 }

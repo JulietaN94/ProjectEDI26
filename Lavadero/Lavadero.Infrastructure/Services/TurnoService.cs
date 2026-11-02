@@ -716,7 +716,7 @@ public sealed class TurnoService : ITurnoService
             turno.FechaExpiracionConfirmacion.Value <= _clock.UtcNow)
             throw new InvalidOperationException("La reserva venció. Es necesario crear una nueva reserva en un horario disponible.");
 
-        if (!EsTransicionValida(
+        if (!EstadoTurnoTransiciones.EsValida(
                 turno.Estado,
                 nuevoEstado))
         {
@@ -1070,22 +1070,6 @@ public sealed class TurnoService : ITurnoService
                 "Intentá nuevamente.");
         }
     }
-
-    private static bool EsTransicionValida(
-        EstadoTurno actual,
-        EstadoTurno nuevo) =>
-        actual switch
-        {
-            EstadoTurno.Pendiente =>
-                nuevo is EstadoTurno.Confirmado
-                    or EstadoTurno.Cancelado,
-
-            EstadoTurno.Confirmado =>
-                nuevo is EstadoTurno.Completado
-                    or EstadoTurno.Cancelado,
-
-            _ => false
-        };
 
     private static void ValidarPaginacion(
         ref int pagina,

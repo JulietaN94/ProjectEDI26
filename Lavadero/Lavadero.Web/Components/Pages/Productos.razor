@@ -56,13 +56,22 @@
 
         @if (!cargando && productos.Count > 0)
         {
-            <section class="carrito-contenedor" aria-label="Carrito del pedido">
+            <section id="carrito-pedido" class="carrito-contenedor" aria-label="Carrito del pedido">
                 <CarritoPedido Productos="productos"
                                Cantidades="cantidades"
                                CantidadChanged="CambiarCantidad"
                                Quitar="QuitarDelCarrito"
                                Continuar="Continuar" />
             </section>
+
+            <button type="button"
+                    class="carrito-flotante"
+                    aria-controls="carrito-pedido"
+                    aria-label="Ver carrito: @UnidadesCarrito producto@(UnidadesCarrito == 1 ? "" : "s")"
+                    onclick="document.getElementById('carrito-pedido')?.scrollIntoView({ behavior: 'smooth', block: 'start' });">
+                <span class="carrito-flotante-icono" aria-hidden="true">🛒</span>
+                <span class="carrito-flotante-cantidad" aria-hidden="true">@UnidadesCarrito</span>
+            </button>
         }
     </div>
 }
@@ -118,6 +127,7 @@ else
         finally { cargando = false; }
     }
     private int Cantidad(int id) => cantidades.GetValueOrDefault(id);
+    private int UnidadesCarrito => cantidades.Values.Sum();
     private decimal Total => productos.Sum(p => p.PrecioVenta * Cantidad(p.Id));
     private void AgregarAlCarrito(int id)
     {

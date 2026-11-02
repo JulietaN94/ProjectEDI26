@@ -6,12 +6,48 @@ El formato toma como referencia Keep a Changelog y se utilizan commits con Conve
 
 ## [Unreleased]
 
-### Pendiente
+### Preparado
 
-- Configurar CI/CD.
-- Desplegar la aplicación en Azure.
-- Incorporar URL pública.
-- Integrar WhatsApp Business API para envío automático de enlaces.
+- Nuevo despliegue de producción desde `main`.
+
+## [1.1.0] - 2026-11-02
+
+### Agregado
+
+- Botón flotante del carrito para resoluciones móviles y tablets.
+- Contador reactivo de unidades en el acceso al carrito.
+- Datos de demostración versionados para servicios y productos.
+- Pruebas de reservas, pedidos, límites, transiciones de estado, CRUD, búsqueda y paginación.
+- Documentación XML del servicio de catálogo.
+- Badges y documentación de CI/CD en el README.
+
+### Cambiado
+
+- El despliegue automático de Azure se ejecuta desde `main`.
+- La política de transiciones de turnos se centralizó en el dominio.
+- El modelo de EF Core dejó de acoplar el campo de logo a un tipo exclusivo de SQL Server.
+
+### Corregido
+
+- El acceso flotante al carrito ya no activa el router ni navega al inicio.
+- El catálogo móvil reserva espacio para que el botón flotante no tape contenido.
+
+## [1.0.0] - 2026-10-23
+
+### Agregado
+
+- Catálogo público de productos con precio, marca, descripción e imagen opcional.
+- Carrito con cantidades, subtotales y total estimado.
+- Flujo de pedido en dos pasos sin registro previo del cliente.
+- Administración de productos y pedidos.
+- Estados de pedido con transiciones controladas.
+- Productos destacados en el inicio según cantidad pedida.
+- Migración `AgregarCatalogoPedidos`.
+
+### Mejorado
+
+- Componentes reutilizables para productos, detalle, carrito y pedidos.
+- Diseño responsive y soporte de modo claro/oscuro en el catálogo.
 
 ## [0.9.0] - 2026-09-10
 

@@ -333,6 +333,128 @@ namespace Lavadero.Infrastructure.Migrations
                         .IsUnique();
 
                     b.ToTable("Productos");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = -1001,
+                            Activo = true,
+                            Codigo = "DEMO-001",
+                            Descripcion = "Producto de demostración incluido para presentar el catálogo y el flujo de pedidos.",
+                            Marca = "BrilloMax",
+                            Nombre = "Shampoo neutro 500 ml",
+                            PrecioVenta = 8500m
+                        },
+                        new
+                        {
+                            Id = -1002,
+                            Activo = true,
+                            Codigo = "DEMO-002",
+                            Descripcion = "Producto de demostración incluido para presentar el catálogo y el flujo de pedidos.",
+                            Marca = "AutoCare",
+                            Nombre = "Cera líquida 500 ml",
+                            PrecioVenta = 12500m
+                        },
+                        new
+                        {
+                            Id = -1003,
+                            Activo = true,
+                            Codigo = "DEMO-003",
+                            Descripcion = "Producto de demostración incluido para presentar el catálogo y el flujo de pedidos.",
+                            Marca = "CleanPro",
+                            Nombre = "Limpiador de interiores",
+                            PrecioVenta = 7800m
+                        },
+                        new
+                        {
+                            Id = -1004,
+                            Activo = true,
+                            Codigo = "DEMO-004",
+                            Descripcion = "Producto de demostración incluido para presentar el catálogo y el flujo de pedidos.",
+                            Marca = "DetailLab",
+                            Nombre = "Revividor de neumáticos",
+                            PrecioVenta = 9900m
+                        },
+                        new
+                        {
+                            Id = -1005,
+                            Activo = true,
+                            Codigo = "DEMO-005",
+                            Descripcion = "Producto de demostración incluido para presentar el catálogo y el flujo de pedidos.",
+                            Marca = "Lavadero Test",
+                            Nombre = "Paño de microfibra",
+                            PrecioVenta = 4200m
+                        },
+                        new
+                        {
+                            Id = -1006,
+                            Activo = true,
+                            Codigo = "DEMO-006",
+                            Descripcion = "Producto de demostración incluido para presentar el catálogo y el flujo de pedidos.",
+                            Marca = "CleanPro",
+                            Nombre = "Limpiavidrios 500 ml",
+                            PrecioVenta = 6900m
+                        },
+                        new
+                        {
+                            Id = -1007,
+                            Activo = true,
+                            Codigo = "DEMO-007",
+                            Descripcion = "Producto de demostración incluido para presentar el catálogo y el flujo de pedidos.",
+                            Marca = "AutoCare",
+                            Nombre = "Cepillo para llantas",
+                            PrecioVenta = 11300m
+                        },
+                        new
+                        {
+                            Id = -1008,
+                            Activo = true,
+                            Codigo = "DEMO-008",
+                            Descripcion = "Producto de demostración incluido para presentar el catálogo y el flujo de pedidos.",
+                            Marca = "BrilloMax",
+                            Nombre = "Esponja de lavado",
+                            PrecioVenta = 3900m
+                        },
+                        new
+                        {
+                            Id = -1009,
+                            Activo = true,
+                            Codigo = "DEMO-009",
+                            Descripcion = "Producto de demostración incluido para presentar el catálogo y el flujo de pedidos.",
+                            Marca = "DetailLab",
+                            Nombre = "Sellador de pintura",
+                            PrecioVenta = 18500m
+                        },
+                        new
+                        {
+                            Id = -1010,
+                            Activo = true,
+                            Codigo = "DEMO-010",
+                            Descripcion = "Producto de demostración incluido para presentar el catálogo y el flujo de pedidos.",
+                            Marca = "Lavadero Test",
+                            Nombre = "Aromatizante interior",
+                            PrecioVenta = 5200m
+                        },
+                        new
+                        {
+                            Id = -1011,
+                            Activo = true,
+                            Codigo = "DEMO-011",
+                            Descripcion = "Producto de demostración incluido para presentar el catálogo y el flujo de pedidos.",
+                            Marca = "AutoCare",
+                            Nombre = "Kit de detailing básico",
+                            PrecioVenta = 29500m
+                        },
+                        new
+                        {
+                            Id = -1012,
+                            Activo = true,
+                            Codigo = "DEMO-012",
+                            Descripcion = "Producto de demostración incluido para presentar el catálogo y el flujo de pedidos.",
+                            Marca = "CleanPro",
+                            Nombre = "Desengrasante multiuso",
+                            PrecioVenta = 8900m
+                        });
                 });
 
             modelBuilder.Entity("Lavadero.Domain.Entities.Servicio", b =>
@@ -398,6 +520,69 @@ namespace Lavadero.Infrastructure.Migrations
                             DuracionMinutos = 90,
                             Nombre = "Lavado premium",
                             Precio = 25000m
+                        },
+                        new
+                        {
+                            Id = -101,
+                            Activo = true,
+                            Descripcion = "Limpieza exterior del compartimiento del motor.",
+                            DuracionMinutos = 45,
+                            Nombre = "Lavado de motor",
+                            Precio = 16000m
+                        },
+                        new
+                        {
+                            Id = -102,
+                            Activo = true,
+                            Descripcion = "Aplicación manual de cera protectora.",
+                            DuracionMinutos = 60,
+                            Nombre = "Encerado manual",
+                            Precio = 22000m
+                        },
+                        new
+                        {
+                            Id = -103,
+                            Activo = true,
+                            Descripcion = "Limpieza profunda de asientos y alfombras.",
+                            DuracionMinutos = 120,
+                            Nombre = "Limpieza de tapizados",
+                            Precio = 32000m
+                        },
+                        new
+                        {
+                            Id = -104,
+                            Activo = true,
+                            Descripcion = "Recuperación y protección de ópticas delanteras.",
+                            DuracionMinutos = 60,
+                            Nombre = "Pulido de ópticas",
+                            Precio = 19000m
+                        },
+                        new
+                        {
+                            Id = -105,
+                            Activo = true,
+                            Descripcion = "Protección acrílica para la pintura del vehículo.",
+                            DuracionMinutos = 150,
+                            Nombre = "Tratamiento acrílico",
+                            Precio = 48000m
+                        },
+                        new
+                        {
+                            Id = -106,
+                            Activo = true,
+                            Descripcion = "Remoción de contaminantes adheridos a la carrocería.",
+                            DuracionMinutos = 90,
+                            Nombre = "Descontaminado de pintura",
+                            Precio = 28000m
+                        },
+                        new
+                        {
+                            Id = -107,
+                            Activo = true,
+                            Descripcion = "Limpieza de bajos y chasis del vehículo.",
+                            DuracionMinutos = 60,
+                            Nombre = "Lavado de chasis",
+                            Precio = 20000m
                         });
                 });
 
