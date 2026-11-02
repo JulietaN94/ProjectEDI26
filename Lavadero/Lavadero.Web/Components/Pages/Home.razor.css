@@ -68,6 +68,14 @@ h1 {
     color: #d7deea;
 }
 
+.productos-destacados {
+    margin-bottom: 3rem;
+    padding: clamp(1rem, 3vw, 1.75rem);
+    border: 1px solid var(--catalogo-border);
+    border-radius: 16px;
+    background: var(--catalogo-bg);
+}
+
 @media (max-width: 767.98px) {
     .hero {
         grid-template-columns: 1fr;

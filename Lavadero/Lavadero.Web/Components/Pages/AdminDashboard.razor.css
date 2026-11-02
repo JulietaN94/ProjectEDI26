@@ -29,9 +29,31 @@
     grid-column: span 1;
 }
 
+.dashboard-section {
+    margin-top: 2.5rem;
+}
+
+.dashboard-pedidos {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
+    padding: 1rem;
+    border: 1px solid var(--catalogo-border);
+    border-radius: var(--app-radius);
+    background: var(--catalogo-bg);
+}
+
+.dashboard-pedidos ::deep .pedido-tarjeta {
+    margin-top: 0;
+}
+
 @media (max-width: 1199.98px) {
     .stats-grid {
         grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .dashboard-pedidos {
+        grid-template-columns: 1fr;
     }
 }
 

@@ -1,0 +1,11 @@
+.admin-productos-panel { background: var(--catalogo-bg); color: var(--app-text); border: 1px solid var(--catalogo-border); border-radius: 16px; padding: clamp(1rem, 3vw, 1.75rem); }
+.admin-productos-panel h2 { font-size: 1.25rem; font-weight: 700; }
+.panel-ayuda { color: var(--app-text-soft); }
+.formulario-acciones, .imagen-acciones { display: flex; align-items: center; flex-wrap: wrap; gap: .75rem; margin-top: 1rem; }
+.listado-productos { margin-top: 1.5rem; }
+.listado-vacio { background: var(--app-surface); border: 1px solid var(--app-border); border-radius: 10px; padding: 1rem; margin-bottom: 0; }
+.estado-producto { display: inline-block; border-radius: 999px; padding: .25rem .65rem; font-size: .8rem; font-weight: 600; }
+.estado-activo { background: var(--app-success-soft); color: var(--app-text); }
+.estado-inactivo { background: var(--app-surface-alt); color: var(--app-text-soft); }
+.table-responsive { background: var(--app-surface); border: 1px solid var(--app-border); border-radius: 10px; padding: .25rem .75rem; }
+.admin-productos-panel ::deep #producto-descripcion { resize: none; }

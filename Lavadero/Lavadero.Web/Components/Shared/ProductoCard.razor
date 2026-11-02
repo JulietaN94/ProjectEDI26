@@ -1,0 +1,38 @@
+@using Lavadero.Application.DTOs
+@using Lavadero.Application.Models
+@using Lavadero.Domain.Entities
+
+<article class="producto-tarjeta">
+    <button type="button" class="producto-seleccion" @onclick="VerDetalle" aria-label="Ver detalle de @Producto.Nombre">
+    @if (!string.IsNullOrWhiteSpace(Producto.ImagenContentType))
+    {
+        <img class="producto-imagen" alt="@Producto.Nombre" src="@Imagen" />
+    }
+    else
+    {
+        <div class="producto-sin-imagen" aria-hidden="true">Sin imagen</div>
+    }
+    <h3>@Producto.Nombre</h3>
+    @if (!string.IsNullOrWhiteSpace(Producto.Marca)) { <p class="producto-marca">@Producto.Marca</p> }
+    <strong class="producto-precio">@Producto.PrecioVenta.ToString("C2")</strong>
+    <span class="producto-ver">@TextoDetalle</span>
+    </button>
+    @if (MostrarAgregar)
+    {
+        <button type="button" class="btn btn-primary w-100" @onclick="Agregar">Añadir al carrito</button>
+    }
+</article>
+
+@code {
+    [Parameter, EditorRequired] public ProductoDto Producto { get; set; } = default!;
+    [Parameter] public EventCallback OnAgregar { get; set; }
+    [Parameter] public EventCallback OnVerDetalle { get; set; }
+    [Parameter] public bool MostrarAgregar { get; set; } = true;
+    [Parameter] public string TextoDetalle { get; set; } = "Ver detalle";
+
+    private string Imagen => Producto.Imagen is { Length: > 0 }
+        ? $"data:{Producto.ImagenContentType};base64,{Convert.ToBase64String(Producto.Imagen)}"
+        : $"/productos/{Producto.Id}/imagen";
+    private Task Agregar() => OnAgregar.InvokeAsync();
+    private Task VerDetalle() => OnVerDetalle.InvokeAsync();
+}

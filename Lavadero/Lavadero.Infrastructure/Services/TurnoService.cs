@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.Logging;
 using System.ComponentModel.DataAnnotations;
 using System.Security.Cryptography;
+using System.Threading.RateLimiting;
 
 namespace Lavadero.Infrastructure.Services;
 
@@ -17,16 +18,27 @@ public sealed class TurnoService : ITurnoService
 {
     private const int PasoMinutos = 30;
     private const int HorasValidezConfirmacion = 24;
+    private static readonly PartitionedRateLimiter<string> LimiteReservas =
+        PartitionedRateLimiter.Create<string, string>(telefono =>
+            RateLimitPartition.GetFixedWindowLimiter(telefono, _ => new FixedWindowRateLimiterOptions
+            {
+                PermitLimit = 3,
+                Window = TimeSpan.FromHours(1),
+                QueueLimit = 0
+            }));
 
     private readonly IDbContextFactory<LavaderoDbContext> _factory;
     private readonly ILogger<TurnoService> _logger;
+    private readonly IAppClock _clock;
 
     public TurnoService(
         IDbContextFactory<LavaderoDbContext> factory,
-        ILogger<TurnoService> logger)
+        ILogger<TurnoService> logger,
+        IAppClock clock)
     {
         _factory = factory;
         _logger = logger;
+        _clock = clock;
     }
 
     public async Task<TurnoDto> CrearReservaAsync(
@@ -39,6 +51,10 @@ public sealed class TurnoService : ITurnoService
 
         var telefono =
             NormalizarTelefono(request.Telefono);
+
+        using var permiso = await LimiteReservas.AcquireAsync(telefono);
+        if (!permiso.IsAcquired)
+            throw new InvalidOperationException("Se alcanzó el límite de intentos de reserva para este celular. Intentá nuevamente más tarde.");
 
         var nombreCompleto =
             request.NombreCompleto.Trim();
@@ -117,7 +133,7 @@ public sealed class TurnoService : ITurnoService
                 // Los clientes nuevos se guardan solamente con dígitos.
                 Telefono = telefono,
 
-                FechaAlta = DateTime.UtcNow
+                FechaAlta = _clock.UtcNow
             };
 
             context.Clientes.Add(cliente);
@@ -164,10 +180,10 @@ public sealed class TurnoService : ITurnoService
             Observaciones =
                 NormalizarOpcional(
                     request.Observaciones),
-            FechaCreacion = DateTime.UtcNow,
+            FechaCreacion = _clock.UtcNow,
             TokenConfirmacion = GenerarTokenSeguro(),
             FechaExpiracionConfirmacion =
-                DateTime.UtcNow.AddHours(
+                _clock.UtcNow.AddHours(
                     HorasValidezConfirmacion),
             FechaConfirmacion = null,
             TokenCancelacion = GenerarTokenSeguro()
@@ -197,7 +213,7 @@ public sealed class TurnoService : ITurnoService
             DateTime fecha)
     {
         var dia = fecha.Date;
-        var hoy = DateTime.Today;
+        var hoy = _clock.LocalToday;
 
         // Solo se permiten fechas desde hoy hasta el último día
         // del mes actual.
@@ -244,7 +260,10 @@ public sealed class TurnoService : ITurnoService
                 .Where(x =>
                     x.FechaHora >= dia &&
                     x.FechaHora < finDia &&
-                    x.Estado != EstadoTurno.Cancelado)
+                    x.Estado != EstadoTurno.Cancelado &&
+                    !(x.Estado == EstadoTurno.Pendiente &&
+                      x.FechaExpiracionConfirmacion.HasValue &&
+                      x.FechaExpiracionConfirmacion.Value <= _clock.UtcNow))
                 .ToListAsync();
 
         var disponibles = new List<TimeSpan>();
@@ -262,7 +281,7 @@ public sealed class TurnoService : ITurnoService
             var inicio = dia.Add(hora);
             var fin = inicio.Add(duracion);
 
-            if (inicio <= DateTime.Now)
+            if (inicio <= _clock.LocalNow)
             {
                 continue;
             }
@@ -311,9 +330,7 @@ public sealed class TurnoService : ITurnoService
                 x.Auto.Modelo,
                 x.Servicio.Id,
                 x.Servicio.Nombre,
-                x.PrecioServicio > 0
-                    ? x.PrecioServicio
-                    : x.Servicio.Precio,
+                x.PrecioServicio,
                 x.Servicio.DuracionMinutos))
             .FirstOrDefaultAsync();
     }
@@ -350,9 +367,7 @@ public sealed class TurnoService : ITurnoService
                 x.Auto.Modelo,
                 x.Servicio.Id,
                 x.Servicio.Nombre,
-                x.PrecioServicio > 0
-                    ? x.PrecioServicio
-                    : x.Servicio.Precio,
+                x.PrecioServicio,
                 x.Servicio.DuracionMinutos))
             .FirstOrDefaultAsync();
     }
@@ -403,9 +418,7 @@ public sealed class TurnoService : ITurnoService
                 x.Auto.Modelo,
                 x.Servicio.Id,
                 x.Servicio.Nombre,
-                x.PrecioServicio > 0
-                    ? x.PrecioServicio
-                    : x.Servicio.Precio,
+                x.PrecioServicio,
                 x.Servicio.DuracionMinutos))
             .FirstOrDefaultAsync();
     }
@@ -431,7 +444,7 @@ public sealed class TurnoService : ITurnoService
             ?? throw new KeyNotFoundException(
                 "El enlace de cancelación no es válido.");
 
-        var ahoraLocal = DateTime.Now;
+        var ahoraLocal = _clock.LocalNow;
 
         await using var context =
             await _factory.CreateDbContextAsync();
@@ -502,8 +515,8 @@ public sealed class TurnoService : ITurnoService
             ?? throw new KeyNotFoundException(
                 "El enlace de confirmación no es válido.");
 
-        var ahoraUtc = DateTime.UtcNow;
-        var ahoraLocal = DateTime.Now;
+        var ahoraUtc = _clock.UtcNow;
+        var ahoraLocal = _clock.LocalNow;
 
         await using var context =
             await _factory.CreateDbContextAsync();
@@ -630,7 +643,7 @@ public sealed class TurnoService : ITurnoService
         await using var context =
             await _factory.CreateDbContextAsync();
 
-        var ahora = DateTime.Now;
+        var ahora = _clock.LocalNow;
 
         var query =
             QueryTurnos(context)
@@ -697,6 +710,12 @@ public sealed class TurnoService : ITurnoService
 
         var estadoAnterior = turno.Estado;
 
+        if (turno.Estado == EstadoTurno.Pendiente &&
+            nuevoEstado == EstadoTurno.Confirmado &&
+            turno.FechaExpiracionConfirmacion.HasValue &&
+            turno.FechaExpiracionConfirmacion.Value <= _clock.UtcNow)
+            throw new InvalidOperationException("La reserva venció. Es necesario crear una nueva reserva en un horario disponible.");
+
         if (!EsTransicionValida(
                 turno.Estado,
                 nuevoEstado))
@@ -705,9 +724,15 @@ public sealed class TurnoService : ITurnoService
                 $"No se puede cambiar el turno de {turno.Estado} a {nuevoEstado}.");
         }
 
-        turno.Estado = nuevoEstado;
-
-        await context.SaveChangesAsync();
+        var ahoraUtc = _clock.UtcNow;
+        var actualizados = await context.Turnos
+            .Where(x => x.Id == turnoId && x.Estado == estadoAnterior &&
+                (nuevoEstado != EstadoTurno.Confirmado ||
+                 !x.FechaExpiracionConfirmacion.HasValue ||
+                 x.FechaExpiracionConfirmacion.Value > ahoraUtc))
+            .ExecuteUpdateAsync(setters => setters.SetProperty(x => x.Estado, nuevoEstado));
+        if (actualizados != 1)
+            throw new InvalidOperationException("La reserva venció o cambió de estado. Actualizá la lista e intentá nuevamente.");
 
         _logger.LogInformation(
             "Turno {TurnoId} cambió de {EstadoAnterior} a {EstadoNuevo}.",
@@ -721,10 +746,10 @@ public sealed class TurnoService : ITurnoService
             turnoId,
             EstadoTurno.Cancelado);
 
-    private static void ValidarVentanaReserva(
+    private void ValidarVentanaReserva(
         DateTime fechaHora)
     {
-        var ahora = DateTime.Now;
+        var ahora = _clock.LocalNow;
         var hoy = ahora.Date;
 
         if (fechaHora <= ahora)
@@ -827,9 +852,7 @@ public sealed class TurnoService : ITurnoService
                     x.Auto.Modelo,
                     x.Servicio.Id,
                     x.Servicio.Nombre,
-                    x.PrecioServicio > 0
-                        ? x.PrecioServicio
-                        : x.Servicio.Precio,
+                    x.PrecioServicio,
                     x.Servicio.DuracionMinutos))
                 .ToListAsync();
 
@@ -864,7 +887,7 @@ public sealed class TurnoService : ITurnoService
             turno.PrecioServicio,
             servicio.DuracionMinutos);
 
-    private static async Task
+    private async Task
         ValidarHorarioYDisponibilidadAsync(
             LavaderoDbContext context,
             DateTime fechaHora,
@@ -913,7 +936,10 @@ public sealed class TurnoService : ITurnoService
                 .Where(x =>
                     x.FechaHora >= inicioDia &&
                     x.FechaHora < finDia &&
-                    x.Estado != EstadoTurno.Cancelado)
+                    x.Estado != EstadoTurno.Cancelado &&
+                    !(x.Estado == EstadoTurno.Pendiente &&
+                      x.FechaExpiracionConfirmacion.HasValue &&
+                      x.FechaExpiracionConfirmacion.Value <= _clock.UtcNow))
                 .ToListAsync();
 
         var nuevoInicio =

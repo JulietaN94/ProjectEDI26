@@ -46,7 +46,7 @@
             _modulo =
                 await JS.InvokeAsync<IJSObjectReference>(
                     "import",
-                    "./js/lavaderoInterop.js");
+                    "./js/lavaderoInterop.js?v=20261102-2");
 
             _tema =
                 await _modulo.InvokeAsync<string>(

@@ -1,0 +1,47 @@
+@using Lavadero.Application.DTOs
+@using Lavadero.Application.Models
+@page "/admin/pedidos"
+@rendermode InteractiveServer
+@attribute [Authorize(Roles = "Administrador")]
+@using Lavadero.Domain.Entities
+@using Lavadero.Application.Interfaces
+@inject ICatalogoService Catalogo
+<PageTitle>Pedidos</PageTitle><PageHeader Titulo="Pedidos" Subtitulo="Últimos 200 pedidos recibidos." />
+@if (mensaje != null) { <div class="alert alert-info">@mensaje</div> }
+<section class="pedidos-contenedor" aria-labelledby="titulo-listado-pedidos">
+    <h2 id="titulo-listado-pedidos">Pedidos recibidos</h2>
+    <p class="pedidos-ayuda">Consultá los pedidos y actualizá su estado.</p>
+    @if (cargando)
+    {
+        <LoadingSpinner Texto="Cargando pedidos..." />
+    }
+    else if (pedidos.Count == 0)
+    {
+        <p class="pedidos-vacio" role="status">Todavía no hay pedidos recibidos.</p>
+    }
+    else
+    {
+        @foreach (var p in pedidos)
+        {
+            <PedidoCard @key="p.Id" Pedido="p" OnCambiarEstado="estado => Cambiar(p.Id, estado)" />
+        }
+    }
+</section>
+@code {
+    private List<PedidoDto> pedidos = new();
+    private string? mensaje;
+    private bool cargando = true;
+
+    protected override async Task OnInitializedAsync() => await Cargar();
+    private async Task Cargar()
+    {
+        cargando = true;
+        try { pedidos = await Catalogo.PedidosAsync(); }
+        finally { cargando = false; }
+    }
+    private async Task Cambiar(int id, EstadoPedido estado)
+    {
+        try { await Catalogo.CambiarEstadoAsync(id, estado); await Cargar(); mensaje = null; }
+        catch (InvalidOperationException ex) { mensaje = ex.Message; }
+    }
+}

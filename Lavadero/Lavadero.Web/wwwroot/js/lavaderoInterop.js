@@ -27,6 +27,30 @@ export function establecerTema(tema) {
         true);
 }
 
+export function abrirDialogoProducto(dialogo, referenciaDotNet) {
+    const cancelar = evento => {
+        evento.preventDefault();
+        referenciaDotNet.invokeMethodAsync("CerrarDesdeDialogo");
+    };
+
+    dialogo.addEventListener("cancel", cancelar);
+    dialogo.showModal();
+    dialogo.querySelector(".detalle-cerrar")?.focus();
+
+    const cerrar = () => {
+        if (dialogo.open)
+            dialogo.close();
+    };
+
+    return {
+        close: cerrar,
+        dispose: () => {
+            dialogo.removeEventListener("cancel", cancelar);
+            cerrar();
+        }
+    };
+}
+
 function aplicarTema(
     tema,
     guardar) {

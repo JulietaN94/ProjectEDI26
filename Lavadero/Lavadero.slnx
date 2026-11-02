@@ -2,5 +2,6 @@
   <Project Path="Lavadero.Application/Lavadero.Application.csproj" />
   <Project Path="Lavadero.Domain/Lavadero.Domain.csproj" />
   <Project Path="Lavadero.Infrastructure/Lavadero.Infrastructure.csproj" />
+  <Project Path="Lavadero.Tests/Lavadero.Tests.csproj" />
   <Project Path="Lavadero.Web/Lavadero.Web.csproj" />
 </Solution>

@@ -112,7 +112,7 @@
             _modulo ??=
                 await JS.InvokeAsync<IJSObjectReference>(
                     "import",
-                    "./js/lavaderoInterop.js");
+                    "./js/lavaderoInterop.js?v=20261102-2");
 
             await _modulo.InvokeVoidAsync(
                 "copiarAlPortapapeles",

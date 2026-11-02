@@ -6,4 +6,7 @@ public sealed record DashboardAdminDto(
     int ConfirmadosHoy,
     int CompletadosHoy,
     decimal IngresosHoy,
-    IReadOnlyList<TurnoDto> ProximosTurnos);
+    IReadOnlyList<TurnoDto> ProximosTurnos,
+    int PedidosHoy,
+    int PedidosPendientes,
+    IReadOnlyList<PedidoDto> PedidosRecientes);

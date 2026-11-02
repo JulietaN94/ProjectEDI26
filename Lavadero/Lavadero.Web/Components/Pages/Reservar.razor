@@ -5,6 +5,7 @@
 @inject IHorarioAtencionService HorarioAtencionService
 @inject IConfiguracionLavaderoService ConfiguracionService
 @inject ReservaState ReservaState
+@inject IAppClock Clock
 
 <PageTitle>Reservar turno | Lavadero</PageTitle>
 
@@ -75,7 +76,7 @@ else
 
                             <div class="month-heading">
                                 <div>
-                                    <strong>@NombreMes(DateTime.Today)</strong>
+                                    <strong>@NombreMes(Clock.LocalToday)</strong>
                                     <span>
                                         Solo podés reservar hasta el
                                         @UltimoDiaMes.ToString("dd/MM/yyyy").
@@ -156,7 +157,7 @@ else
                                                 class="time-slot @(seleccionada ? "selected" : "")"
                                                 aria-pressed="@seleccionada"
                                                 @onclick="() => SeleccionarHora(hora)">
-                                            @DateTime.Today.Add(hora).ToString("HH:mm")
+                                            @Clock.LocalToday.Add(hora).ToString("HH:mm")
                                         </button>
                                     }
                                 </div>
@@ -281,7 +282,7 @@ else
                         <strong>
                             @_fechaSeleccionada.Value.ToString("dd/MM/yyyy")
                             a las
-                            @DateTime.Today.Add(_horaSeleccionada.Value).ToString("HH:mm")
+                            @Clock.LocalToday.Add(_horaSeleccionada.Value).ToString("HH:mm")
                         </strong>
                     </div>
                 }
@@ -315,17 +316,17 @@ else
 
     private DateTime UltimoDiaMes =>
         new(
-            DateTime.Today.Year,
-            DateTime.Today.Month,
+            Clock.LocalToday.Year,
+            Clock.LocalToday.Month,
             DateTime.DaysInMonth(
-                DateTime.Today.Year,
-                DateTime.Today.Month));
+                Clock.LocalToday.Year,
+                Clock.LocalToday.Month));
 
     private IReadOnlyList<DateTime> DiasDisponibles
     {
         get
         {
-            var hoy = DateTime.Today;
+            var hoy = Clock.LocalToday;
             var ultimo = UltimoDiaMes;
 
             return Enumerable

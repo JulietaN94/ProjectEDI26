@@ -1,6 +1,7 @@
 using Lavadero.Application.Interfaces;
 using Lavadero.Infrastructure.Data;
 using Lavadero.Infrastructure.Services;
+using Lavadero.Infrastructure.Time;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -18,7 +19,10 @@ public static class DependencyInjection
                 sql => sql.MigrationsAssembly(
                     typeof(LavaderoDbContext).Assembly.FullName)));
 
+        services.AddSingleton(TimeProvider.System);
+        services.AddSingleton<IAppClock, ArgentinaAppClock>();
         services.AddScoped<IClienteService, ClienteService>();
+        services.AddScoped<ICatalogoService, CatalogoService>();
         services.AddScoped<IServicioService, ServicioService>();
         services.AddScoped<ITurnoService, TurnoService>();
         services.AddScoped<IHorarioAtencionService, HorarioAtencionService>();

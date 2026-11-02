@@ -1,0 +1,55 @@
+@using Lavadero.Application.DTOs
+@using Lavadero.Application.Models
+@using Lavadero.Domain.Entities
+
+<section class="pedido-tarjeta" aria-labelledby="@TituloId">
+    <div class="pedido-encabezado">
+        <div>
+            <h3 id="@TituloId">Pedido #@Pedido.Id</h3>
+            <p class="pedido-fecha">@Pedido.FechaUtc.ToString("dd/MM/yyyy HH:mm") UTC</p>
+        </div>
+        <span class="pedido-estado">@NombreEstado</span>
+    </div>
+    <div class="pedido-cliente">
+        <div><span class="pedido-etiqueta">Cliente</span><strong>@Pedido.Nombre @Pedido.Apellido</strong></div>
+        <div><span class="pedido-etiqueta">Celular</span><span>@Pedido.Celular</span></div>
+    </div>
+    <div class="pedido-productos">
+        <h4>Productos</h4>
+        <ul class="pedido-lista">
+            @foreach (var detalle in Pedido.Detalles)
+            {
+                <li>
+                    <div><strong>@detalle.Nombre</strong><span class="pedido-codigo">Código: @detalle.Codigo</span></div>
+                    <span class="pedido-cantidad">@detalle.Cantidad × @detalle.PrecioUnitario.ToString("C2")</span>
+                </li>
+            }
+        </ul>
+    </div>
+    <div class="pedido-pie">
+        <div class="pedido-total"><span>Total</span><strong>@Pedido.Detalles.Sum(d => d.PrecioUnitario * d.Cantidad).ToString("C2")</strong></div>
+        @if (OnCambiarEstado.HasDelegate && (Pedido.Estado is EstadoPedido.Pendiente or EstadoPedido.EnPreparacion))
+        {
+            <div class="pedido-acciones">
+                @if (Pedido.Estado == EstadoPedido.Pendiente)
+                {
+                    <button type="button" class="btn btn-primary" @onclick="() => CambiarEstado(EstadoPedido.EnPreparacion)">Poner en preparación</button>
+                }
+                @if (Pedido.Estado == EstadoPedido.EnPreparacion)
+                {
+                    <button type="button" class="btn btn-success" @onclick="() => CambiarEstado(EstadoPedido.Entregado)">Marcar como entregado</button>
+                }
+                <button type="button" class="btn btn-outline-danger" @onclick="() => CambiarEstado(EstadoPedido.Cancelado)">Cancelar</button>
+            </div>
+        }
+    </div>
+</section>
+
+@code {
+    [Parameter, EditorRequired] public PedidoDto Pedido { get; set; } = default!;
+    [Parameter] public EventCallback<EstadoPedido> OnCambiarEstado { get; set; }
+
+    private string TituloId => $"pedido-{Pedido.Id}";
+    private string NombreEstado => Pedido.Estado == EstadoPedido.EnPreparacion ? "En preparación" : Pedido.Estado.ToString();
+    private Task CambiarEstado(EstadoPedido estado) => OnCambiarEstado.InvokeAsync(estado);
+}

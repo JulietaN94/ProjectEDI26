@@ -16,6 +16,9 @@ public sealed class LavaderoDbContext
     }
 
     public DbSet<Cliente> Clientes => Set<Cliente>();
+    public DbSet<Producto> Productos => Set<Producto>();
+    public DbSet<Pedido> Pedidos => Set<Pedido>();
+    public DbSet<DetallePedido> DetallesPedido => Set<DetallePedido>();
     public DbSet<Auto> Autos => Set<Auto>();
     public DbSet<Servicio> Servicios => Set<Servicio>();
     public DbSet<Turno> Turnos => Set<Turno>();

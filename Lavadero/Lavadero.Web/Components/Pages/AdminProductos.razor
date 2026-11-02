@@ -1,0 +1,98 @@
+@using Lavadero.Application.DTOs
+@using Lavadero.Application.Models
+@page "/admin/productos"
+@rendermode InteractiveServer
+@attribute [Authorize(Roles = "Administrador")]
+@using Lavadero.Domain.Entities
+@using Lavadero.Application.Interfaces
+@inject ICatalogoService Catalogo
+<PageTitle>Administrar productos</PageTitle>
+<PageHeader Titulo="Productos" Subtitulo="Administrá el catálogo." />
+@if (mensaje != null) { <div class="alert alert-info" role="status">@mensaje</div> }
+<section class="admin-productos-panel" aria-labelledby="titulo-formulario">
+    <h2 id="titulo-formulario">@(modelo.Id == 0 ? "Nuevo producto" : "Editar producto")</h2>
+    <p class="panel-ayuda">Completá los datos para mostrar el producto en el catálogo.</p>
+    <EditForm Model="modelo" OnValidSubmit="Guardar">
+        <DataAnnotationsValidator /><ValidationSummary />
+        <div class="row g-3">
+            <div class="col-md-4"><label class="form-label" for="producto-codigo">Código</label><InputText id="producto-codigo" class="form-control" @bind-Value="modelo.Codigo" /><ValidationMessage For="() => modelo.Codigo" /></div>
+            <div class="col-md-4"><label class="form-label" for="producto-nombre">Nombre</label><InputText id="producto-nombre" class="form-control" @bind-Value="modelo.Nombre" /><ValidationMessage For="() => modelo.Nombre" /></div>
+            <div class="col-md-4"><label class="form-label" for="producto-marca">Marca</label><InputText id="producto-marca" class="form-control" @bind-Value="modelo.Marca" /></div>
+            <div class="col-md-6"><label class="form-label" for="producto-descripcion">Descripción</label><InputTextArea id="producto-descripcion" class="form-control" rows="3" @bind-Value="modelo.Descripcion" /></div>
+            <div class="col-sm-6 col-md-3"><label class="form-label" for="producto-precio">Precio de venta</label><InputNumber id="producto-precio" class="form-control" min="0" step="0.01" @bind-Value="modelo.PrecioVenta" /></div>
+            <div class="col-sm-6 col-md-3"><label class="form-label" for="producto-estado">Estado</label><InputSelect id="producto-estado" class="form-select" @bind-Value="modelo.Activo"><option value="true">Activo</option><option value="false">Inactivo</option></InputSelect></div>
+            <div class="col-12"><label class="form-label" for="producto-imagen">Imagen opcional</label><InputFile id="producto-imagen" class="form-control" OnChange="Imagen" accept="image/png,image/jpeg,image/webp" /><small class="panel-ayuda">PNG, JPEG o WebP, máximo 500 KB.</small>
+                @if (modelo.Imagen != null) { <div class="imagen-acciones"><span>Imagen cargada</span> <button type="button" class="btn btn-sm btn-outline-secondary" @onclick="QuitarImagen">Quitar imagen</button></div> }
+            </div>
+        </div>
+        <div class="formulario-acciones"><button class="btn btn-primary" disabled="@(cargandoImagen || guardando)">@(cargandoImagen ? "Cargando imagen..." : guardando ? "Guardando..." : "Guardar producto")</button> <button type="button" class="btn btn-outline-secondary" @onclick="Nuevo">Nuevo</button></div>
+    </EditForm>
+</section>
+<section class="admin-productos-panel listado-productos" aria-labelledby="titulo-listado">
+    <h2 id="titulo-listado">Catálogo de productos</h2>
+    <p class="panel-ayuda">Consultá y editá los productos cargados.</p>
+    @if (productos.Count == 0)
+    {
+        <p class="listado-vacio" role="status">Todavía no hay productos cargados.</p>
+    }
+    else
+    {
+        <div class="table-responsive"><table class="table align-middle mb-0"><thead><tr><th scope="col">Código</th><th scope="col">Producto</th><th scope="col">Precio</th><th scope="col">Estado</th><th scope="col"><span class="visually-hidden">Acciones</span></th></tr></thead><tbody>
+        @foreach (var p in productos) { <tr @key="p.Id"><td>@p.Codigo</td><td><strong>@p.Nombre</strong></td><td>@p.PrecioVenta.ToString("C2")</td><td><span class="estado-producto @(p.Activo ? "estado-activo" : "estado-inactivo")">@(p.Activo ? "Activo" : "Inactivo")</span></td><td class="text-end"><button class="btn btn-sm btn-outline-primary" @onclick="() => Editar(p)">Editar</button></td></tr> }
+        </tbody></table></div>
+    }
+</section>
+@code {
+    GuardarProductoRequest modelo = new(); List<ProductoDto> productos = new(); string? mensaje;
+    private int versionImagen;
+    private bool cargandoImagen, guardando;
+    protected override async Task OnInitializedAsync() => await Cargar();
+    async Task Cargar() => productos = await Catalogo.ProductosAsync(true, true);
+    void InvalidarImagen() { versionImagen++; cargandoImagen = false; }
+    void Nuevo() { InvalidarImagen(); modelo = new(); mensaje = null; }
+    void Editar(ProductoDto p)
+    {
+        InvalidarImagen();
+        mensaje = null;
+        modelo = new GuardarProductoRequest { Id=p.Id, Codigo=p.Codigo, Nombre=p.Nombre, Marca=p.Marca, Descripcion=p.Descripcion, PrecioVenta=p.PrecioVenta, Activo=p.Activo, Imagen=p.Imagen, ImagenContentType=p.ImagenContentType };
+    }
+    void QuitarImagen() { InvalidarImagen(); modelo.Imagen = null; modelo.ImagenContentType = null; }
+    async Task Imagen(InputFileChangeEventArgs e)
+    {
+        var destino = modelo;
+        var version = ++versionImagen;
+        cargandoImagen = true;
+        try
+        {
+            var archivo = e.File;
+            if (archivo.ContentType is not ("image/png" or "image/jpeg" or "image/webp") || archivo.Size > 500000)
+                throw new InvalidOperationException("Imagen inválida o demasiado grande.");
+            using var memoria = new MemoryStream();
+            await archivo.OpenReadStream(500000).CopyToAsync(memoria);
+            if (version != versionImagen || !ReferenceEquals(destino, modelo)) return;
+            destino.Imagen = memoria.ToArray();
+            destino.ImagenContentType = archivo.ContentType;
+            mensaje = null;
+        }
+        catch (Exception)
+        {
+            if (version == versionImagen) mensaje = "No se pudo cargar la imagen. Elegí un archivo PNG, JPEG o WebP de hasta 500 KB.";
+        }
+        finally { if (version == versionImagen) cargandoImagen = false; }
+    }
+    async Task Guardar()
+    {
+        if (guardando || cargandoImagen) return;
+        guardando = true;
+        var destino = modelo;
+        try
+        {
+            await Catalogo.GuardarProductoAsync(destino);
+            if (ReferenceEquals(destino, modelo)) Nuevo();
+            await Cargar();
+            mensaje = "Producto guardado.";
+        }
+        catch (InvalidOperationException ex) { mensaje = ex.Message; }
+        finally { guardando = false; }
+    }
+}
