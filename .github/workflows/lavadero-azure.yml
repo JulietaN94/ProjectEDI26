@@ -3,7 +3,7 @@ name: Lavadero Deploy Azure
 on:
   push:
     branches:
-      - develop
+      - main
     paths:
       - "Lavadero/**"
       - ".github/workflows/lavadero-azure.yml"

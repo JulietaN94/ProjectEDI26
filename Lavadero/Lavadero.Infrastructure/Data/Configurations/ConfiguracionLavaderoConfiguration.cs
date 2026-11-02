@@ -29,7 +29,9 @@ public sealed class ConfiguracionLavaderoConfiguration
         builder.Property(x => x.LogoContentType)
             .HasMaxLength(50);
 
-        builder.Property(x => x.LogoBase64)
-            .HasColumnType("nvarchar(max)");
+        // El proveedor relacional elige el tipo de texto sin longitud.
+        // En SQL Server se traduce a nvarchar(max) y permite ejecutar
+        // pruebas de integración con SQLite sin acoplar el modelo.
+        builder.Property(x => x.LogoBase64);
     }
 }
