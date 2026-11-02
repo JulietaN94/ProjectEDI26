@@ -69,7 +69,7 @@ else
                         <ValidationMessage For="() => _modelo.ServicioId" />
                     </fieldset>
 
-                    @if (_modelo.ServicioId > 0)
+                    @if (_modelo.ServicioId != 0)
                     {
                         <fieldset class="mb-4">
                             <legend>2. Elegí el día</legend>
@@ -377,7 +377,8 @@ else
             _whatsAppLavadero =
                 configuracion.WhatsApp;
 
-            if (ServicioDesdeQuery is > 0 &&
+            if (ServicioDesdeQuery is not null &&
+                ServicioDesdeQuery.Value != 0 &&
                 _servicios.Any(
                     x => x.Id == ServicioDesdeQuery.Value))
             {
@@ -420,7 +421,7 @@ else
     private async Task CargarHorariosAsync()
     {
         if (!_fechaSeleccionada.HasValue ||
-            _modelo.ServicioId <= 0)
+            _modelo.ServicioId == 0)
         {
             _horariosDisponibles =
                 Array.Empty<TimeSpan>();

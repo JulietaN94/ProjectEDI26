@@ -5,7 +5,7 @@ namespace Lavadero.Application.Models;
 /// <summary>
 /// Datos mínimos solicitados al cliente para reservar un turno.
 /// </summary>
-public sealed class CrearReservaRequest
+public sealed class CrearReservaRequest : IValidatableObject
 {
     [Required(ErrorMessage = "El nombre completo es obligatorio.")]
     [MaxLength(100, ErrorMessage = "El nombre no puede superar los 100 caracteres.")]
@@ -26,7 +26,6 @@ public sealed class CrearReservaRequest
     [MaxLength(50, ErrorMessage = "El modelo no puede superar los 50 caracteres.")]
     public string Modelo { get; set; } = string.Empty;
 
-    [Range(1, int.MaxValue, ErrorMessage = "Debe seleccionar un servicio.")]
     public int ServicioId { get; set; }
 
     [Required(ErrorMessage = "Debe seleccionar una fecha y hora.")]
@@ -34,4 +33,15 @@ public sealed class CrearReservaRequest
 
     [MaxLength(500, ErrorMessage = "Las observaciones no pueden superar los 500 caracteres.")]
     public string? Observaciones { get; set; }
+
+    public IEnumerable<ValidationResult> Validate(
+        ValidationContext validationContext)
+    {
+        if (ServicioId == 0)
+        {
+            yield return new ValidationResult(
+                "Debe seleccionar un servicio.",
+                [nameof(ServicioId)]);
+        }
+    }
 }

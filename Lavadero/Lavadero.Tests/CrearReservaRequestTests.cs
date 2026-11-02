@@ -30,6 +30,15 @@ public sealed class CrearReservaRequestTests
     }
 
     [Fact]
+    public void ServicioSembradoConIdNegativoEsValido()
+    {
+        var request = CrearValido();
+        request.ServicioId = -106;
+
+        Assert.Empty(Validar(request));
+    }
+
+    [Fact]
     public void ReservaCompletaEsValida()
     {
         Assert.Empty(Validar(CrearValido()));
