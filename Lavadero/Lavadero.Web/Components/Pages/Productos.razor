@@ -147,7 +147,17 @@ else
         else cantidades.Remove(cambio.Key);
     }
     private void QuitarDelCarrito(int id) => cantidades.Remove(id);
-    private void Continuar() { if (cantidades.Count > 0) { paso = 2; mensaje = null; } }
+    private void Continuar()
+    {
+        if (cantidades.Count > 0)
+        {
+            // El formulario valida este mismo modelo. Mantener las cantidades
+            // sincronizadas evita que valide un pedido vacío al enviarlo.
+            datos.Cantidades = new(cantidades);
+            paso = 2;
+            mensaje = null;
+        }
+    }
     private void Volver() { paso = 1; mensaje = null; }
     private async Task Enviar()
     {
